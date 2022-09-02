@@ -1,5 +1,4 @@
 import { Router, Context } from "https://deno.land/x/oak/mod.ts";
-
 import * as todoController from "../controllers/todo.ts";
 
 export const router: Router = new Router();
