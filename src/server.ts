@@ -5,20 +5,13 @@ import { oakCors } from "https://deno.land/x/cors/mod.ts";
 
 import { logger } from "./middleware/logger.ts";
 import { router } from "./routes/routes.ts";
-import { getMySqlClient } from "./config/db.ts";
 
 const app = new Application<Context>();
 const {
-  DB_HOSTNAME: hostname,
-  DB_PORT: dbPort,
-  DB: db,
-  DB_USER: username,
-  DB_PASS: password,
   PORT: port,
   LOG_REQUEST: useRequestLogger,
 } = config();
 
-await getMySqlClient(hostname, Number(dbPort), db, username, password);
 if (useRequestLogger) {
   app.use(logger);
 }
