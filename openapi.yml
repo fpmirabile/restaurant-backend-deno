@@ -93,6 +93,8 @@ paths:
             $ref: "#/definitions/UserModel"
         "400":
           description: "Invalid request"
+        "500":
+          description: "Something went wrong."
   /restaurant:
     get:
       tags:
@@ -385,6 +387,12 @@ definitions:
       password:
         type: "string"
         format: "string"
+  LoginSSO:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        format: "string"
   AuthToken:
     type: "object"
     properties:
@@ -404,6 +412,9 @@ definitions:
         type: "string"
         format: "string"
       password:
+        type: "string"
+        format: "string"
+      confirmPassword: 
         type: "string"
         format: "string"
   UserUpdateData:
@@ -506,6 +517,8 @@ definitions:
       suitableFor:
         type: "string"
         format: "string"
+
+
 externalDocs:
   description: "Swagger documentation"
   url: "http://swagger.io"
