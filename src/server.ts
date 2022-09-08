@@ -1,16 +1,16 @@
 import { Application, Context } from "https://deno.land/x/oak/mod.ts";
-import { config } from "https://deno.land/x/dotenv/mod.ts";
 import { green, yellow } from "https://deno.land/std/fmt/colors.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
 
 import { logger } from "./middleware/logger.ts";
 import { router } from "./routes/routes.ts";
+import { configureEnvVars } from "./config/env.ts";
 
 const app = new Application<Context>();
 const {
-  PORT: port,
-  LOG_REQUEST: useRequestLogger,
-} = config();
+  port,
+  useRequestLogger,
+} = configureEnvVars();
 
 if (useRequestLogger) {
   app.use(logger);
