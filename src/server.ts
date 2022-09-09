@@ -5,6 +5,7 @@ import { oakCors } from "https://deno.land/x/cors/mod.ts";
 import { logger } from "./middleware/logger.ts";
 import { router } from "./routes/routes.ts";
 import { configureEnvVars } from "./config/env.ts";
+import { getDatabaseConnector } from "./config/db.ts";
 
 const app = new Application<Context>();
 const {
@@ -15,6 +16,8 @@ const {
 if (useRequestLogger) {
   app.use(logger);
 }
+
+const _ = getDatabaseConnector();
 
 app.use(oakCors());
 app.use(router.routes());
