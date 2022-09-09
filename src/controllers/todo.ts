@@ -2,6 +2,7 @@ import { Context } from "https://deno.land/x/oak/mod.ts";
 import {
   helpers,
 } from "https://deno.land/x/oak/mod.ts";
+import { getUsuario } from "../service/UsuarioServices.ts";
 import { todos } from "../stubs/todo.ts";
 import { Todo } from "../types/todo.ts";
 
@@ -49,6 +50,17 @@ export const getTodoById = (ctx: Context) => {
   };
   ctx.response.status = 200;
 };
+
+export const getUsuarioPorId =async (ctx: Context) => {
+  
+  let usuario = await getUsuario();
+
+  ctx.response.body = {
+    success: true,
+    data: usuario,
+  };
+  ctx.response.status = 200;
+}
 
 export const updateTodoById = async () => { };
 export const deleteTodoById = () => { };
