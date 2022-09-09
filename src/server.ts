@@ -22,7 +22,7 @@ app.use(router.allowedMethods());
 app.addEventListener("listen", ({ secure, hostname, port }) => {
   const protocol = secure ? "https://" : "http://";
   const url = `${protocol}${hostname ?? "localhost"}:${port}`;
-    console.log("Listening on:" + url);
+  console.log("Listening on: " + url);
 });
 
 await app.listen({ port: Number(port) });

@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "https://raw.githubusercontent.com/joeldesante/denodb/master/mod.ts";
 
-export class Usuario extends Model {
+export class User extends Model {
     static table = 'USUARIOS';
     static timestamps = true;
   
