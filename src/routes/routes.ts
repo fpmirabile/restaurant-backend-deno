@@ -15,4 +15,5 @@ router
   .post("/todos", todoController.createTodo)
   .get("/todos/:id", todoController.getTodoById)
   .put("/todos/:id", todoController.updateTodoById)
-  .delete("/todos/:id", todoController.deleteTodoById);
+  .delete("/todos/:id", todoController.deleteTodoById)
+  .get("/usuario", todoController.getUsuarioPorId);

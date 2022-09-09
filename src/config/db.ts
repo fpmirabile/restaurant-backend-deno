@@ -53,5 +53,5 @@ export const getDatabaseConnector = () => {
 };
 
 const getAllModels = (): typeof Model[] => {
-  return [Models.TestModel];
+  return Object.values(Models).map(t => t);
 };
