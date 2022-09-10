@@ -4,7 +4,7 @@ info:
   title: "Morfando Inc. REST APIs"
   contact:
     email: "fpmirabile@gmail.com"
-host: "localhost:8000"
+host: "https://morfandoinc-demo.fly.dev/"
 tags:
 - name: "Auth"
   description: "JWT authentication"

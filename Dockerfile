@@ -8,4 +8,4 @@ COPY . .
 
 USER deno
 RUN deno cache ./src/server.ts
-CMD ["run", "--allow-read", "--allow-net", "--unstable", "src/server.ts"]
+CMD ["run", "--allow-read", "--allow-net", "--allow-env", "--unstable", "src/server.ts"]

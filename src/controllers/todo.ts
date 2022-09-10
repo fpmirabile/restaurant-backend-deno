@@ -1,8 +1,5 @@
-import { Context } from "https://deno.land/x/oak/mod.ts";
-import {
-  helpers,
-} from "https://deno.land/x/oak/mod.ts";
-import { getUsuario } from "../service/UsuarioServices.ts";
+import { Context, helpers } from "https://deno.land/x/oak/mod.ts";
+import { getUser } from "../service/user-service.ts";
 import { todos } from "../stubs/todo.ts";
 import { Todo } from "../types/todo.ts";
 
@@ -43,7 +40,7 @@ export const createTodo = async ({ request, response }: Context) => {
 
 export const getTodoById = (ctx: Context) => {
   const { id } = helpers.getQuery(ctx, { mergeParams: true });
-  const todo = todos.find(t => t.id === id);
+  const todo = todos.find((t) => t.id === id);
   ctx.response.body = {
     success: true,
     data: todo,
@@ -51,18 +48,15 @@ export const getTodoById = (ctx: Context) => {
   ctx.response.status = 200;
 };
 
-export const getUsuarioPorId =async (ctx: Context) => {
-  
-  let usuario = await getUsuario();
+export const getUserById = async (ctx: Context) => {
+  const user = await getUser();
 
   ctx.response.body = {
     success: true,
-    data: usuario,
+    data: user,
   };
   ctx.response.status = 200;
-}
+};
 
-export const updateTodoById = async () => { };
-export const deleteTodoById = () => { };
-
-
+export const updateTodoById = async () => {};
+export const deleteTodoById = () => {};

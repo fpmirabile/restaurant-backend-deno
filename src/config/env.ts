@@ -11,6 +11,7 @@ export const configureEnvVars = () => {
       dbPassword: Deno.env.get("DB_PASS") || "",
       port: Deno.env.get("PORT") || "",
       useRequestLogger: Deno.env.get("LOG_REQUEST") || "",
+      env,
     };
   }
 
@@ -22,6 +23,7 @@ export const configureEnvVars = () => {
     DB_PASS: dbPassword,
     PORT: port,
     LOG_REQUEST: useRequestLogger,
+    ENV: dev,
   } = config();
 
   return {
@@ -32,5 +34,6 @@ export const configureEnvVars = () => {
     dbPassword,
     port,
     useRequestLogger,
+    env: dev
   };
 };
