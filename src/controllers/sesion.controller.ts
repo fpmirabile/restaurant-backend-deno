@@ -1,4 +1,4 @@
-import { Context, helpers } from "https://deno.land/x/oak/mod.ts";
+import { Context } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 import { login } from "../service/user/partner.service.ts";
 
 export const loginUser = async ({ request, response }: Context) => {

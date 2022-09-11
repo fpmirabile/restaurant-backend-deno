@@ -1,4 +1,4 @@
-import { Context, helpers } from "https://deno.land/x/oak/mod.ts";
+import { Context, helpers } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 import { getUser } from "../service/user-service.ts";
 import { todos } from "../stubs/todo.ts";
 import { Todo } from "../types/todo.ts";

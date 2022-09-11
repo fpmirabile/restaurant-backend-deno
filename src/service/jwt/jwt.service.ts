@@ -10,8 +10,8 @@ export const createJWT = async (signObject: IJwtUnsigned): Promise<JwtSignedDTO>
         throw new Error();
       }
 
-    let jwt = await create({ alg: "HS512", typ: "JWT" }, { userId: signObject.userId, role: signObject.role }, jwtSecret)
-    let refreshToken = await create({ alg: "HS512", typ: "JWT" }, { userId: signObject.userId, role: signObject.role }, jwtSecret)
+    const jwt = await create({ alg: "HS512", typ: "JWT" }, { userId: signObject.userId, role: signObject.role }, jwtSecret)
+    const refreshToken = await create({ alg: "HS512", typ: "JWT" }, { userId: signObject.userId, role: signObject.role }, jwtSecret)
 
     return {token: jwt, refreshToken: refreshToken}
 
