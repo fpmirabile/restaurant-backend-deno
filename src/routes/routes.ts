@@ -1,5 +1,6 @@
 import { Router, Context } from "https://deno.land/x/oak/mod.ts";
 import * as todoController from "../controllers/todo.ts";
+import * as sesionController from "../controllers/sesion.controller.ts";
 
 export const router: Router = new Router();
 
@@ -14,4 +15,5 @@ router
   .get("/todos/:id", todoController.getTodoById)
   .put("/todos/:id", todoController.updateTodoById)
   .delete("/todos/:id", todoController.deleteTodoById)
-  .get("/usuario", todoController.getUserById);
+  .get("/usuario", todoController.getUserById)
+  .post("/sesion", sesionController.loginUser);

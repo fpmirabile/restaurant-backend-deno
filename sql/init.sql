@@ -1,7 +1,7 @@
-CREATE DATABASE `morfandoinc` ;
+CREATE DATABASE `morfando` ;
 
 
-CREATE TABLE `morfandoinc`.`USUARIOS` (
+CREATE TABLE `morfando`.`USUARIOS` (
   `usuario_id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   `apellido` VARCHAR(45) NOT NULL,
@@ -10,3 +10,21 @@ CREATE TABLE `morfandoinc`.`USUARIOS` (
   `identificador` VARCHAR(45) NOT NULL,
   `plataforma` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`usuario_id`));
+
+
+INSERT INTO `morfando`.`USUARIOS`
+(
+`nombre`,
+`apellido`,
+`foto`,
+`estado`,
+`identificador`,
+`plataforma`)
+VALUES
+(
+'Miguel',
+'Apellido',
+'urlfoto',
+'HABILITADO',
+'LASLDASHFASDPMGSDA',
+'ANDROID');
