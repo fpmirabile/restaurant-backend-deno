@@ -14,6 +14,8 @@ tags:
   description: "Restaurant entity"
 - name: "Menu"
   description: "Menu entity"
+- name: "Food"
+  description: "The food inside a menu"
 schemes:
 - "https"
 securityDefinitions:
@@ -460,12 +462,12 @@ paths:
   /restaurant/{restaurantId}/menu/{menuId}/food:
     post:
       tags:
-      - "Menu"
-      summary: "Saves a new menu for a specific restaurant, called by restaurant owner."
+      - "Food"
+      summary: "saves new food in a menu on a restaurant"
       security:
         - BearerAuth: []
-      description: "Saves a new menu for a restaurant by given id, called only by the restaurant owner."
-      operationId: "saveMenu"
+      description: "Saves new food object into a menu for a restaurant by given ids"
+      operationId: "saveFoodInMenu"
       produces:
       - "application/json"
       parameters:
@@ -490,7 +492,157 @@ paths:
         "200":
           description: "successful operation"
           schema:
-              $ref: "#/definitions/MenuModel"
+              $ref: "#/definitions/ItemModel"
+        "401":
+          description: "Unauthorized user"
+        "403":
+          description: "Forbidden"
+    get:
+      tags:
+      - "Food"  
+      summary: "Gets all restaurant menues"
+      security:
+        - BearerAuth: []
+      description: "Gets all restaurant food on a specific menu"
+      operationId: "getAllFoodInMenu"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "restaurantId"
+        in: "path"
+        description: "ID of the restaurant"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "menuId"
+        in: "path"
+        description: "ID of the menu"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+             $ref: "#/definitions/ItemModel"
+        "401":
+          description: "Unauthorized user"
+  /restaurant/{restaurantId}/menu/{menuId}/food/{foodId}:
+    get:
+      tags:
+      - "Food"  
+      summary: "Gets specific food in a menu"
+      security:
+        - BearerAuth: []
+      description: "Gets specific food in a menu"
+      operationId: "getFood"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "restaurantId"
+        in: "path"
+        description: "ID of the restaurant"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "menuId"
+        in: "path"
+        description: "ID of the menu"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "foodId"
+        in: "path"
+        description: "ID of the food"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+             $ref: "#/definitions/ItemModel"
+        "401":
+          description: "Unauthorized user"
+    put:
+      tags:
+      - "Food"
+      summary: "Updates food in a menu for a specific restaurant"
+      security:
+        - BearerAuth: []
+      description: "Updates food in a menu for a restaurant"
+      operationId: "updateFoodInMenu"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "restaurantId"
+        in: "path"
+        description: "ID of the restaurant"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "menuId"
+        in: "path"
+        description: "ID of the menu"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "foodId"
+        in: "path"
+        description: "ID of the food"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/NewItemModel"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+              $ref: "#/definitions/ItemModel"
+        "401":
+          description: "Unauthorized user"
+        "403":
+          description: "Forbidden"
+    delete:
+      tags:
+      - "Food"
+      summary: "Removes food for a menu"
+      security:
+        - BearerAuth: []
+      description: "Removes food for a menu"
+      operationId: "removeFood"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "restaurantId"
+        in: "path"
+        description: "ID of the restaurant"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "menuId"
+        in: "path"
+        description: "ID of the menu"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "foodId"
+        in: "path"
+        description: "ID of the food"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
         "401":
           description: "Unauthorized user"
         "403":
@@ -634,6 +786,12 @@ definitions:
         type: "array"
         items:
           type: "string"
+      openTime:
+        type: "string"
+        format: "string"
+      closeTime: 
+        type: "string"
+        format: "string"
   RestaurantModel:
     type: "object"
     properties:
@@ -716,10 +874,6 @@ definitions:
       suitableFor:
         type: "string"
         format: "string"
-      images:
-        type: "array"
-        items:
-          type: "string"
   ItemModel:
     type: "object"
     properties:
