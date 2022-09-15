@@ -1,10 +1,10 @@
 swagger: "2.0"
 info:
   version: "1.0.0"
-  title: "Morfando Inc. REST APIs"
+  title: "Morfando Inc."
   contact:
     email: "fpmirabile@gmail.com"
-host: "https://morfandoinc-demo.fly.dev/"
+host: "morfandoinc-demo.fly.dev/"
 tags:
 - name: "Auth"
   description: "JWT authentication"
@@ -15,7 +15,7 @@ tags:
 - name: "Menu"
   description: "Menu entity"
 schemes:
-- "http"
+- "https"
 securityDefinitions:
   BearerAuth:
     type: apiKey
@@ -95,6 +95,87 @@ paths:
           description: "Invalid request"
         "500":
           description: "Something went wrong."
+  /me:
+    get:
+      tags:
+      - "Users"
+      summary: "Get user information"
+      security:
+        - BearerAuth: []
+      description: "Get current user information from the database"
+      operationId: "getMe"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/UserModel"
+        "401":
+          description: "Unauthorized user"
+        "500":
+          description: "Something went wrong."
+  /likes:
+    get:
+      tags:
+      - "Users"
+      summary: "Get user's likes"
+      security:
+        - BearerAuth: []
+      description: "Get all restaurant likes from current user"
+      operationId: "getUserLikes"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/UserLikes"
+        "401":
+          description: "Unauthorized user"
+        "500":
+          description: "Something went wrong."
+    post:
+      tags:
+      - "Users"
+      summary: "Adds a new like"
+      security:
+        - BearerAuth: []
+      operationId: "savesNewLike"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid request"
+        "500":
+          description: "Something went wrong."
+  /likes/{likeId}:
+    delete:
+      tags:
+      - "Users"  
+      summary: Reemoves a like by id
+      security:
+        - BearerAuth: []
+      description: "Delete a like by Id"
+      operationId: "removeUserLike"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "likeId"
+        in: "path"
+        description: "Id of the like"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "204":
+          description: "successful operation"
+        "401":
+          description: "Unauthorized user"
+        "404":
+          description: "Like not found"
   /restaurant:
     get:
       tags:
@@ -115,6 +196,8 @@ paths:
               $ref: "#/definitions/RestaurantModel"
         "401":
           description: "Unauthorized user"
+        "403":
+          description: "Forbidden"
     post:
       tags:
       - "Restaurant"
@@ -130,12 +213,12 @@ paths:
         name: "body"
         required: true
         schema:
-          $ref: "#/definitions/RestaurantModel"
+          $ref: "#/definitions/NewRestaurantModel"
       responses:
         "200":
           description: "successful operation"
           schema:
-              $ref: "#/definitions/RestaurantModel"
+            $ref: "#/definitions/RestaurantModel"
         "401":
           description: "Unauthorized user"
   /restaurant/{restaurantId}:
@@ -186,7 +269,7 @@ paths:
         name: "body"
         required: true
         schema:
-          $ref: "#/definitions/RestaurantModel"
+          $ref: "#/definitions/NewRestaurantModel"
       responses:
         "200":
           description: "successful operation"
@@ -221,6 +304,32 @@ paths:
         "404":
           description: "Restaurant not found"
   /restaurant/{restaurantId}/menu:
+    get:
+      tags:
+      - "Menu"  
+      summary: "Gets all restaurant menues"
+      security:
+        - BearerAuth: []
+      description: "Gets a specific restaurant menues, called by owner only."
+      operationId: "getAllMenues"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "restaurantId"
+        in: "path"
+        description: "ID of the restaurant"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+             $ref: "#/definitions/MenuModel"
+        "401":
+          description: "Unauthorized user"
     post:
       tags:
       - "Menu"
@@ -242,7 +351,7 @@ paths:
         name: "body"
         required: true
         schema:
-          $ref: "#/definitions/MenuModel"
+          $ref: "#/definitions/NewMenuModel"
       responses:
         "200":
           description: "successful operation"
@@ -308,7 +417,7 @@ paths:
         name: "body"
         required: true
         schema:
-          $ref: "#/definitions/MenuModel"
+          $ref: "#/definitions/NewMenuModel"
       responses:
         "200":
           description: "successful operation"
@@ -348,6 +457,44 @@ paths:
           description: "Unauthorized user"
         "404":
           description: "Menu not found"
+  /restaurant/{restaurantId}/menu/{menuId}/food:
+    post:
+      tags:
+      - "Menu"
+      summary: "Saves a new menu for a specific restaurant, called by restaurant owner."
+      security:
+        - BearerAuth: []
+      description: "Saves a new menu for a restaurant by given id, called only by the restaurant owner."
+      operationId: "saveMenu"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "restaurantId"
+        in: "path"
+        description: "ID of the restaurant"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "menuId"
+        in: "path"
+        description: "ID of the menu"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/NewItemModel"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+              $ref: "#/definitions/MenuModel"
+        "401":
+          description: "Unauthorized user"
+        "403":
+          description: "Forbidden"
   /restaurant/near:
     get:
       tags:
@@ -386,10 +533,13 @@ definitions:
         format: "string"
       password:
         type: "string"
-        format: "string"
+        format: "password"
   LoginSSO:
     type: "object"
     properties:
+      idToken:
+        type: "string"
+        format: "password"
       email:
         type: "string"
         format: "string"
@@ -413,10 +563,10 @@ definitions:
         format: "string"
       password:
         type: "string"
-        format: "string"
+        format: "password"
       confirmPassword: 
         type: "string"
-        format: "string"
+        format: "password"
   UserUpdateData:
     type: "object"
     properties:
@@ -449,6 +599,41 @@ definitions:
       updatedAt:
         type: "string"
         format: "date-time"
+  NewRestaurantModel:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        format: "string"
+      street:
+        type: "string"
+        format: "string"
+      streetNumber:
+        type: "string"
+        format: "string"
+      neighborhood:
+        type: "string"
+        format: "string"
+      place:
+        type: "string"
+        format: "string"
+      state:
+        type: "string"
+        format: "string"
+      lat:
+        type: "number"
+        format: "float"
+      lon:
+        type: "number"
+        format: "float"
+      openDays:
+        type: "array"
+        items:
+          type: "string"
+      images:
+        type: "array"
+        items:
+          type: "string"
   RestaurantModel:
     type: "object"
     properties:
@@ -464,12 +649,24 @@ definitions:
       ownerId:
         type: "integer"
         format: "int32"
+      lat:
+        type: "number"
+        format: "float"
+      lon:
+        type: "number"
+        format: "float"
       createdAt:
         type: "string"
         format: "date-time"
       updatedAt:
         type: "string"
         format: "date-time"
+  NewMenuModel:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        format: "string"
   MenuModel:
     type: "object"
     properties:
@@ -480,6 +677,12 @@ definitions:
         type: "array"
         items:
           $ref: '#/definitions/CategoryModel'
+  NewCategoryModel:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        format: "string"
   CategoryModel:
     type: "object"
     properties:
@@ -493,6 +696,30 @@ definitions:
         type: "array"
         items:
           $ref: '#/definitions/ItemModel'
+  NewItemModel:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        format: "string"
+      price: 
+        type: "number"
+        format: "float"
+      images:
+        type: "array"
+        items:
+          type: "string"
+      ingredients:
+        type: "array"
+        items:
+          type: "string"
+      suitableFor:
+        type: "string"
+        format: "string"
+      images:
+        type: "array"
+        items:
+          type: "string"
   ItemModel:
     type: "object"
     properties:
@@ -509,7 +736,6 @@ definitions:
         type: "array"
         items:
           type: "string"
-      # TEMPORAL HAY QUE PENSARLO.
       ingredients:
         type: "array"
         items:
