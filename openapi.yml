@@ -178,7 +178,7 @@ paths:
           description: "Unauthorized user"
         "404":
           description: "Like not found"
-  /restaurant:
+  /restaurants:
     get:
       tags:
       - "Restaurant"
@@ -223,7 +223,7 @@ paths:
             $ref: "#/definitions/RestaurantModel"
         "401":
           description: "Unauthorized user"
-  /restaurant/{restaurantId}:
+  /restaurants/{restaurantId}:
     get:
       tags:
       - "Restaurant"
@@ -305,7 +305,7 @@ paths:
           description: "Unauthorized user"
         "404":
           description: "Restaurant not found"
-  /restaurant/{restaurantId}/menu:
+  /restaurants/{restaurantId}/menus:
     get:
       tags:
       - "Menu"  
@@ -361,7 +361,7 @@ paths:
               $ref: "#/definitions/MenuModel"
         "401":
           description: "Unauthorized user"
-  /restaurant/{restaurantId}/menu/{menuId}:
+  /restaurants/{restaurantId}/menus/{menuId}:
     get:
       tags:
       - "Menu"  
@@ -459,7 +459,7 @@ paths:
           description: "Unauthorized user"
         "404":
           description: "Menu not found"
-  /restaurant/{restaurantId}/menu/{menuId}/food:
+  /restaurants/{restaurantId}/menus/{menuId}/food:
     post:
       tags:
       - "Food"
@@ -529,7 +529,7 @@ paths:
              $ref: "#/definitions/ItemModel"
         "401":
           description: "Unauthorized user"
-  /restaurant/{restaurantId}/menu/{menuId}/food/{foodId}:
+  /restaurants/{restaurantId}/menus/{menuId}/foods/{foodId}:
     get:
       tags:
       - "Food"  
@@ -647,7 +647,7 @@ paths:
           description: "Unauthorized user"
         "403":
           description: "Forbidden"
-  /restaurant/near:
+  /restaurants/near:
     get:
       tags:
       - "Restaurant"
