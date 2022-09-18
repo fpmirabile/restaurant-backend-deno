@@ -1,17 +1,21 @@
 import { DataTypes, Model } from "https://raw.githubusercontent.com/joeldesante/denodb/master/mod.ts";
 
 export class User extends Model {
-    static table = 'USUARIOS';
+    static table = 'USERS';
     static timestamps = true;
   
     static fields = {
-      usuario_id: { primaryKey: true, autoIncrement: true },
-      nombre: DataTypes.STRING,
-      apellido: DataTypes.STRING,
-      foto: DataTypes.STRING,
-      estado: DataTypes.STRING,
-      identificador: DataTypes.STRING,
-      plataforma: DataTypes.STRING,
+      user_id: { primaryKey: true, autoIncrement: true, type: DataTypes.INTEGER },
+      email: {
+        type: DataTypes.STRING
+      },
+      password: DataTypes.STRING,
+      name: DataTypes.STRING,
+      surname: DataTypes.STRING,
+      status: DataTypes.STRING,
+      identifier: DataTypes.STRING,
+      photo: DataTypes.STRING,
+      role: DataTypes.STRING
     };
   
     static defaults = {

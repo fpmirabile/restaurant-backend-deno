@@ -4,7 +4,7 @@ info:
   title: "Morfando Inc."
   contact:
     email: "fpmirabile@gmail.com"
-host: "morfandoinc-demo.fly.dev/"
+host: "morfandoinc-demo.fly.dev"
 tags:
 - name: "Auth"
   description: "JWT authentication"
@@ -54,7 +54,7 @@ paths:
       tags:
       - "Auth"
       summary: "User login through SSO"
-      operationId: "login"
+      operationId: "loginSSO"
       consumes:
       - "application/json"
       produces:
@@ -117,6 +117,72 @@ paths:
           description: "Unauthorized user"
         "500":
           description: "Something went wrong."
+  /user:
+    delete:
+      tags:
+      - "Users"
+      summary: "Delete user"
+      security:
+        - BearerAuth: []
+      description: "Delete user from DataBase"
+      operationId: "deleteMe"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+        "401":
+          description: "Unauthorized user"
+        "500":
+          description: "Something went wrong."
+  /user/recovery:
+    post:
+      tags:
+      - "Users"
+      summary: "Password recovery"
+      security:
+        - BearerAuth: []
+      description: "Password recovery"
+      operationId: "recoverPassword"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/RecoverPassword"
+      responses:
+        "200":
+          description: "successful operation"
+        "401":
+          description: "Unauthorized user"
+        "500":
+          description: "Something went wrong."
+  /user/password:
+    put:
+      tags:
+      - "Users"
+      summary: "Save new Password from database"
+      security:
+        - BearerAuth: []
+      description: "Save new Password from database"
+      operationId: "submitPassword"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/ChangePassword"
+      responses:
+        "200":
+          description: "successful operation"
+        "401":
+          description: "Unauthorized user"
+        "500":
+          description: "Something went wrong."
   /likes:
     get:
       tags:
@@ -132,7 +198,7 @@ paths:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/UserLikes"
+            $ref: "#/definitions/RestaurantModel"
         "401":
           description: "Unauthorized user"
         "500":
@@ -897,6 +963,25 @@ definitions:
       suitableFor:
         type: "string"
         format: "string"
+  RecoverPassword:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        format: "string"
+  ChangePassword:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        format: "string"
+      password:
+        type: "string"
+        format: "string"
+      token:
+        type: "string"
+        format: "string"
+          
 
 
 externalDocs:
