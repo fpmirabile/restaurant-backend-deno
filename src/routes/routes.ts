@@ -1,5 +1,4 @@
 import { Router, Context } from "https://deno.land/x/oak@v11.1.0/mod.ts";
-import * as todoController from "../controllers/todo.ts";
 import * as sesionController from "../controllers/sesion.controller.ts";
 import { authenticated } from "../middleware/jwt.validator.ts";
 

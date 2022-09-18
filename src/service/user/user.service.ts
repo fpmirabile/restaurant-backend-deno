@@ -32,7 +32,7 @@ export const register = async (user:NewUser) => {
     throw new Error("Las contraseñas no coinciden");
    }
 
-   let userBD = await getClientBy(user.email, "CLIENT")
+   const userBD = await getClientBy(user.email, "CLIENT")
 
    if(userBD){
     throw new Error("Ya existe un usuario registrado con el email ingresado");
