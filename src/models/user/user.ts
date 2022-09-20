@@ -11,7 +11,6 @@ export class User extends Model {
       },
       password: DataTypes.STRING,
       name: DataTypes.STRING,
-      surname: DataTypes.STRING,
       status: DataTypes.STRING,
       identifier: DataTypes.STRING,
       photo: DataTypes.STRING,
@@ -21,4 +20,5 @@ export class User extends Model {
     static defaults = {
       flightDuration: 2.5,
     };
+
   }

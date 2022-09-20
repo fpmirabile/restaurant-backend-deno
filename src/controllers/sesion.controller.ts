@@ -1,30 +1,39 @@
 import { Context } from "https://deno.land/x/oak@v11.1.0/mod.ts";
+import { errorHandler } from "../middleware/errorHandler.ts";
 import { login, loginSSO, register } from "../service/user/user.service.ts";
 
 
-export const loginUser = async ({ request, response }: Context) => {
-    const body = await request.body().value;
+export const loginUser = async (ctx: Context) => {
+    const body = await ctx.request.body().value;
 
-    response.body = {
-      data: await login(body.email, body.password),
-    };
-    response.status = 200;
+    try{
+      ctx.response.body = {
+        data: await login(body.email, body.password),
+      };
+      ctx.response.status = 200;
+    }catch(e){
+      errorHandler(e, ctx)
+    }
+    
   };
 
-export const loginUserSSO = async ({ request, response }: Context) => {
-    const body = await request.body().value;
+export const loginUserSSO = async (ctx: Context) => {
+    const body = await ctx.request.body().value;
 
-    response.body = {
+    ctx.response.body = {
       data: await loginSSO(body.email, body.idToken),
     };
-    response.status = 200;
+    ctx.response.status = 200;
   };
 
-export const registerUser = async ({ request, response }: Context) => {
-    const body = await request.body().value;
+export const registerUser = async (ctx: Context) => {
+    const body = await ctx.request.body().value;
 
-    response.body = {
-      data: await register(body),
-    };
-    response.status = 200;
+    try{
+      await register(body)
+      
+      ctx.response.status = 200;
+    }catch(e){
+      errorHandler(e, ctx)
+    }
   };

@@ -1,4 +1,8 @@
+import { DifferentPasswordsError } from "../../error/user/DifferentPasswordsError.ts";
+import { InvalidCredentialsError } from "../../error/user/InvalidCredentialsError.ts";
+import { UserExistsError } from "../../error/user/UserExistsError.ts";
 import { NewUser } from "../../interfaces/user.interface.ts";
+import { UserBuilder } from "../../models/builder/UserBuilder.ts";
 import { User } from "../../models/index.ts";
 import { getClientBy, getUser, save } from "../../repositories/user/user.repository.ts";
 import { createJWT } from "../jwt/jwt.service.ts";
@@ -9,7 +13,7 @@ export const login = async (email:string, password:string) => {
     const loggedUser =  await getUser(email, password);
 
     if(!loggedUser){
-        throw new Error("Los datos ingresados son incorrectos");
+        throw new InvalidCredentialsError();
     }
 
     return await createJWT(loggedUser)
@@ -18,7 +22,7 @@ export const login = async (email:string, password:string) => {
 
 export const loginSSO = async (email:string, identifier:string) => {
    
-    //VALIDACION CONTRA GOOGLE
+    //todo VALIDACION CONTRA GOOGLE
 
     const loggedUser =  await getLoggedClient(email, identifier)
 
@@ -29,16 +33,22 @@ export const loginSSO = async (email:string, identifier:string) => {
 export const register = async (user:NewUser) => {
 
    if(user.password != user.confirmPassword){
-    throw new Error("Las contraseñas no coinciden");
+    throw new DifferentPasswordsError();
    }
 
    const userBD = await getClientBy(user.email, "CLIENT")
 
    if(userBD){
-    throw new Error("Ya existe un usuario registrado con el email ingresado");
+    throw new UserExistsError();
    }
 
-    await save(user)
+   const newUser = new UserBuilder()
+        .withNewUser(user)
+        .withRole("CLIENT")
+        .withStatus("OPERATIVO")
+        .build()
+
+    await save(newUser)
 
 };
 
