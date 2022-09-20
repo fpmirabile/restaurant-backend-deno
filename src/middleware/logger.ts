@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import { Context } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 
 export const logger = async (ctx: Context, next: () => any) => {

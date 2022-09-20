@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import { verify } from "https://deno.land/x/djwt@v2.2/mod.ts";
 import { Context } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 

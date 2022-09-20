@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import { Context } from "https://deno.land/x/oak@v11.1.0/mod.ts";
 import { errorHandler } from "../middleware/errorHandler.ts";
 import { login, loginSSO, register, deleteUser as deleteById } from "../service/user/user.service.ts";

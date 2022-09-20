@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import { User } from "../../models/user/user.ts";
 
 export const getUser = async (user:string, password:string):Promise<User> => {
