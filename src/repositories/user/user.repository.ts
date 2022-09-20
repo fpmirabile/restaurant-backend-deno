@@ -20,4 +20,9 @@ export const getClientBy = async (email:string, role:string):Promise<User> => {
     await User.create(user)
 
   };
+
+  export const deleteById = async (id: number) => {
+    await User.deleteById(id)
+
+  };
   

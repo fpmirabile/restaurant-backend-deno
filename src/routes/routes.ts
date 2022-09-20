@@ -1,5 +1,5 @@
 import { Router, Context } from "https://deno.land/x/oak@v11.1.0/mod.ts";
-import * as sesionController from "../controllers/sesion.controller.ts";
+import * as sesionController from "../controllers/user.controller.ts";
 import { authenticated } from "../middleware/jwt.validator.ts";
 
 export const router: Router = new Router();
@@ -15,7 +15,7 @@ router
   .post("/login", sesionController.loginUser) 
   .post("/login/sso", sesionController.loginUserSSO)
   .post("/register", sesionController.registerUser)
-  .delete("/user", authenticated, sesionController.loginUser)
+  .delete("/user", authenticated, sesionController.deleteUser)
   .post("/user/recovery", sesionController.loginUser)
   .put("/user/password", sesionController.loginUser)
   .put("/user", authenticated, sesionController.loginUser)

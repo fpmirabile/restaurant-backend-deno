@@ -1,0 +1,243 @@
+{
+	"info": {
+		"_postman_id": "4282db93-a421-46fa-84d3-ae66142d8cb7",
+		"name": "MorfandoInc Partner",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6902289"
+	},
+	"item": [
+		{
+			"name": "Registro pass invalida",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 406\"] = responseCode.code === 406;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Correct Message\"] = data.message === \"Las contraseñas ingresadas no coinciden\";\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Miguel Shevchuk\",\r\n    \"email\":\"{{EMAIL_TEST}}\",\r\n    \"password\":\"{{PASSWORD_TEST}}\",\r\n    \"confirmPassword\":\"Otra password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/register/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registro exitoso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Miguel Shevchuk\",\r\n    \"email\":\"{{EMAIL_TEST}}\",\r\n    \"password\":\"{{PASSWORD_TEST}}\",\r\n    \"confirmPassword\":\"{{PASSWORD_TEST}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/register/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login email invalido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 401\"] = responseCode.code === 401;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Correct Message\"] = data.message === \"Las credenciales ingresadas son invalidas\";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"email_test_invalido\",\r\n    \"password\":\"{{PASSWORD_TEST}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/login/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login pass invalida",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 401\"] = responseCode.code === 401;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Correct Message\"] = data.message === \"Las credenciales ingresadas son invalidas\";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"{{EMAIL_TEST}}\",\r\n    \"password\":\"Password invalida\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/login/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login Exitoso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"JWT\", data.token); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"{{EMAIL_TEST}}\",\r\n    \"password\":\"{{PASSWORD_TEST}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/login/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete cuenta",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/user",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

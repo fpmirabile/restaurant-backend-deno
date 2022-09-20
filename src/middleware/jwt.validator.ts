@@ -14,10 +14,10 @@ export const authenticated = async (ctx: Context, next: () => any) => {
     }
     
     const payload = await verify(authorization, jwtSecret, "HS512");
-    
     if (payload){
-            await next();
-            return;
+        (ctx.request as any).user = payload;
+        await next();
+        return;
     }
     
     ctx.response.status = 401;

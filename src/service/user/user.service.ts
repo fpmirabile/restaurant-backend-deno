@@ -4,7 +4,7 @@ import { UserExistsError } from "../../error/user/UserExistsError.ts";
 import { NewUser } from "../../interfaces/user.interface.ts";
 import { UserBuilder } from "../../models/builder/UserBuilder.ts";
 import { User } from "../../models/index.ts";
-import { getClientBy, getUser, save } from "../../repositories/user/user.repository.ts";
+import { deleteById, getClientBy, getUser, save } from "../../repositories/user/user.repository.ts";
 import { createJWT } from "../jwt/jwt.service.ts";
 
 
@@ -66,5 +66,9 @@ if(!loggedClient){
 
 return loggedClient
 
+}
+
+export const deleteUser = async (userId:number) => {
+    await deleteById(userId);
 }
   
