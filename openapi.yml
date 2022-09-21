@@ -3,21 +3,21 @@ info:
   version: "1.0.0"
   title: "Morfando Inc."
   contact:
-    email: "fpmirabile@gmail.com"
+    email: "contact@morfandoinc.com"
 host: "morfandoinc-demo.fly.dev"
 tags:
-- name: "Auth"
-  description: "JWT authentication"
-- name: "Users"
-  description: "User entity"
-- name: "Restaurant"
-  description: "Restaurant entity"
-- name: "Menu"
-  description: "Menu entity"
-- name: "Food"
-  description: "The food inside a menu"
+  - name: "Auth"
+    description: "JWT authentication"
+  - name: "Users"
+    description: "User entity"
+  - name: "Restaurant"
+    description: "Restaurant entity"
+  - name: "Menu"
+    description: "Menu entity"
+  - name: "Meal"
+    description: "The meal entity"
 schemes:
-- "https"
+  - "https"
 securityDefinitions:
   BearerAuth:
     type: apiKey
@@ -27,19 +27,19 @@ paths:
   /login:
     post:
       tags:
-      - "Auth"
-      summary: "User login through credentials"
+        - "Auth"
+      summary: "User login through credentials (email, password)"
       operationId: "login"
       consumes:
-      - "application/json"
+        - "application/json"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/LoginCredential"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/LoginCredential"
       responses:
         "200":
           description: "successful operation"
@@ -52,19 +52,19 @@ paths:
   /login/sso:
     post:
       tags:
-      - "Auth"
-      summary: "User login through SSO"
+        - "Auth"
+      summary: "User login through SSO (Google)"
       operationId: "loginSSO"
       consumes:
-      - "application/json"
+        - "application/json"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/LoginSSO"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/LoginSSO"
       responses:
         "200":
           description: "successful operation"
@@ -77,17 +77,17 @@ paths:
   /register:
     post:
       tags:
-      - "Auth"
-      summary: "Register new restaurant owner"
+        - "Auth"
+      summary: "This endpoint registers a new user to login through credentials. Will result in a restaurant owner user type."
       operationId: "register"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/UserRegistration"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/UserRegistration"
       responses:
         "200":
           description: "successful operation"
@@ -100,14 +100,14 @@ paths:
   /me:
     get:
       tags:
-      - "Users"
-      summary: "Get user information"
+        - "Users"
+      summary: "Get currently logged user information."
       security:
         - BearerAuth: []
-      description: "Get current user information from the database"
+      description: "Get currently logged user information data through JWT token data."
       operationId: "getMe"
       produces:
-      - "application/json"
+        - "application/json"
       responses:
         "200":
           description: "successful operation"
@@ -117,68 +117,72 @@ paths:
           description: "Unauthorized user"
         "500":
           description: "Something went wrong."
-  /user:
+  /users:
     delete:
       tags:
-      - "Users"
-      summary: "Delete user"
+        - "Users"
+      summary: "Removes an user access to the system"
       security:
         - BearerAuth: []
-      description: "Delete user from DataBase"
+      description: "Disables an user to access our system."
       operationId: "deleteMe"
       produces:
-      - "application/json"
+        - "application/json"
       responses:
-        "200":
+        "204":
           description: "successful operation"
         "401":
           description: "Unauthorized user"
         "500":
           description: "Something went wrong."
-  /user/recovery:
+  /users/recovery:
     post:
       tags:
-      - "Users"
-      summary: "Password recovery"
+        - "Users"
+      summary: "User requested to reset its password."
       security:
         - BearerAuth: []
-      description: "Password recovery"
+      description: "The user will receive an email with an app link. This link will take it to reset password flow."
       operationId: "recoverPassword"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/RecoverPassword"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/RecoverPassword"
       responses:
         "200":
           description: "successful operation"
+        "400":
+          description: "Request malformed"
         "401":
           description: "Unauthorized user"
         "500":
           description: "Something went wrong."
-  /user/password:
+  /users/password:
     put:
       tags:
-      - "Users"
-      summary: "Save new Password from database"
+        - "Users"
+      summary: "Allows to set a new password in the user's account."
       security:
         - BearerAuth: []
-      description: "Save new Password from database"
-      operationId: "submitPassword"
+      description: "Sets the new user's password after going through reset password flow."
+      operationId: "setUserPassword"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/ChangePassword"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/ChangePassword"
       responses:
-        "200":
+        "204":
           description: "successful operation"
+        "400":
+          description: "Request malformed"
         "401":
           description: "Unauthorized user"
         "500":
@@ -186,14 +190,14 @@ paths:
   /likes:
     get:
       tags:
-      - "Users"
-      summary: "Get user's likes"
+        - "Users"
+      summary: "Get user's favorites/liked restaurants"
       security:
         - BearerAuth: []
-      description: "Get all restaurant likes from current user"
+      description: "Get all favorite/liked restaurants from the currently logged user."
       operationId: "getUserLikes"
       produces:
-      - "application/json"
+        - "application/json"
       responses:
         "200":
           description: "successful operation"
@@ -205,38 +209,45 @@ paths:
           description: "Something went wrong."
     post:
       tags:
-      - "Users"
-      summary: "Adds a new like"
+        - "Users"
+      summary: "Saves a new favorite/liked restaurant for the currently logged user."
       security:
         - BearerAuth: []
+      description: "Saves a new record for a favorite/liked restaurants for the currently logged user."
       operationId: "savesNewLike"
       produces:
-      - "application/json"
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/CreateLike"
       responses:
         "200":
           description: "successful operation"
         "400":
-          description: "Invalid request"
+          description: "Request malformed"
         "500":
           description: "Something went wrong."
-  /likes/{likeId}:
+  /likes/{restaurantId}:
     delete:
       tags:
-      - "Users"  
-      summary: Reemoves a like by id
+        - "Users"
+      summary: Removes a favorite/liked restaurant for currently logged user.
       security:
         - BearerAuth: []
-      description: "Delete a like by Id"
+      description: "If the restaurantId exists in the currently logged user records it will be deleted from there. Otherwise it will return a 404."
       operationId: "removeUserLike"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "likeId"
-        in: "path"
-        description: "Id of the like"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "restaurantId"
+          in: "path"
+          description: "Id of the restaurant"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         "204":
           description: "successful operation"
@@ -247,14 +258,14 @@ paths:
   /restaurants:
     get:
       tags:
-      - "Restaurant"
+        - "Restaurant"
       summary: "Get all restaurants"
       security:
         - BearerAuth: []
-      description: "Get list of my (owner) restaurants."
+      description: "Get all of my created restaurants as an owner. If this endpoint is called by a 'client' user, it will return 403, forbidden."
       operationId: "getRestaurantList"
       produces:
-      - "application/json"
+        - "application/json"
       responses:
         "200":
           description: "successful operation"
@@ -268,20 +279,51 @@ paths:
           description: "Forbidden"
     post:
       tags:
-      - "Restaurant"
+        - "Restaurant"
       summary: "Saves a new restaraunt, called by restaurant owner."
       security:
         - BearerAuth: []
-      description: "Saves a new restaurant entity on the db, called only by the restaurant owner user type."
+      description: "Saves new restaurant for owner. If client user calls this endpoint will result in a 403, forbidden."
       operationId: "saveRestaurant"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/NewRestaurantModel"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/NewRestaurantModel"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/RestaurantModel"
+        "500":
+          description: "Something went wrong."
+        "400":
+          description: "Request malformed or data validation error."
+        "401":
+          description: "Unauthorized user"
+        "403":
+          description: "Forbidden"
+  /restaurants/{restaurantId}:
+    get:
+      tags:
+        - "Restaurant"
+      summary: "Gets a restaurant information"
+      security:
+        - BearerAuth: []
+      description: "Get detail information of a restaurant called by owner. If client user calls this endpoint will end in a 403, forbidden."
+      operationId: "getRestaurantById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "restaurantId"
+          in: "path"
+          description: "ID the restaurant return"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         "200":
           description: "successful operation"
@@ -289,203 +331,159 @@ paths:
             $ref: "#/definitions/RestaurantModel"
         "401":
           description: "Unauthorized user"
-  /restaurants/{restaurantId}:
-    get:
-      tags:
-      - "Restaurant"
-      summary: "Get restaurant by Id"
-      security:
-        - BearerAuth: []
-      description: "Get a restaurant by id, called only by owner of the restaurant"
-      operationId: "getRestaurantById"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "restaurantId"
-        in: "path"
-        description: "ID the restaurant return"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-              $ref: "#/definitions/RestaurantModel"
-        "401":
-          description: "Unauthorized user"
+        "403":
+          description: "Forbidden"
         "404":
           description: "Restaurant not found"
     put:
       tags:
-      - "Restaurant"
-      summary: "Update restaurant by restaurantId"
+        - "Restaurant"
+      summary: "Updates a restaurant properties"
       security:
         - BearerAuth: []
-      description: "Updates a restaurant by given restaurantId, called by owner only."
+      description: "Updates a restaurant fields for specific owner. If client user calls this endpoint will end in 403, forbidden."
       operationId: "updateRestaurant"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "restaurantId"
-        in: "path"
-        description: "ID of the restaurant to return"
-        required: true
-        type: "integer"
-        format: "int64"
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/NewRestaurantModel"
-      responses:
-        "200":
-          description: "successful operation"
+        - name: "restaurantId"
+          in: "path"
+          description: "ID of the restaurant to return"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          required: true
           schema:
-            $ref: "#/definitions/RestaurantModel"
+            $ref: "#/definitions/NewRestaurantModel"
+      responses:
+        "204":
+          description: "successful operation"
+        "400":
+          description: "Request malformed or data validation error."
         "401":
           description: "Unauthorized user"
+        "403":
+          description: "Forbidden"
         "404":
           description: "Restaurant not found"
     delete:
       tags:
-      - "Restaurant"  
-      summary: Delete a restaurant by restaurantId
+        - "Restaurant"
+      summary: "Deletes the restaurant of currently logged owner."
       security:
         - BearerAuth: []
-      description: "Delete a restaurant by Id, called by owner only."
+      description: "Delete a restaurant information from currently logged owner. If client calls this endpoint will end in 403, forbidden."
       operationId: "deleteRestaurant"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "restaurantId"
-        in: "path"
-        description: "ID of the restaurant to return"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "restaurantId"
+          in: "path"
+          description: "ID of the restaurant to return"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         "204":
           description: "successful operation"
         "401":
           description: "Unauthorized user"
+        "403":
+          description: "Forbidden"
         "404":
           description: "Restaurant not found"
   /restaurants/{restaurantId}/menus:
     get:
       tags:
-      - "Menu"  
-      summary: "Gets all restaurant menues"
+        - "Menu"
+      summary: "Gets all menues from a restaurant"
       security:
         - BearerAuth: []
-      description: "Gets a specific restaurant menues, called by owner only."
+      description: "Gets a restaurant menus for an owner user type."
       operationId: "getAllMenues"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "restaurantId"
-        in: "path"
-        description: "ID of the restaurant"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "restaurantId"
+          in: "path"
+          description: "ID of the restaurant"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         "200":
           description: "successful operation"
           schema:
             type: "array"
             items:
-             $ref: "#/definitions/MenuModel"
+              $ref: "#/definitions/MenuModel"
         "401":
           description: "Unauthorized user"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Restaurant not found"
     post:
       tags:
-      - "Menu"
-      summary: "Saves a new menu for a specific restaurant, called by restaurant owner."
+        - "Menu"
+      summary: "Saves a new menu into a restaurant."
       security:
         - BearerAuth: []
-      description: "Saves a new menu for a restaurant by given id, called only by the restaurant owner."
+      description: "Saves a new menu for a restaurant for an owner user type."
       operationId: "saveMenu"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "restaurantId"
-        in: "path"
-        description: "ID of the restaurant"
-        required: true
-        type: "integer"
-        format: "int64"
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/NewMenuModel"
+        - name: "restaurantId"
+          in: "path"
+          description: "ID of the restaurant"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/NewMenuModel"
       responses:
         "200":
           description: "successful operation"
           schema:
-              $ref: "#/definitions/MenuModel"
+            $ref: "#/definitions/MenuModel"
+        "400":
+          description: "Request malformed or data validation error."
         "401":
           description: "Unauthorized user"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Restaurant not found"
   /restaurants/{restaurantId}/menus/{menuId}:
     get:
       tags:
-      - "Menu"  
-      summary: "Gets a restaurant menu by id"
+        - "Menu"
+      summary: "Gets all menus from a restaurant."
       security:
         - BearerAuth: []
-      description: "Gets a specific restaurant menu, called by owner only."
+      description: "Gets all menus for a restaurant for an owner user type."
       operationId: "getMenuById"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "restaurantId"
-        in: "path"
-        description: "ID of the restaurant"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "menuId"
-        in: "path"
-        description: "ID of the menu"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-              $ref: "#/definitions/MenuModel"
-        "401":
-          description: "Unauthorized user"
-    put:
-      tags:
-      - "Menu"
-      summary: "Updates a restaurant menu"
-      security:
-        - BearerAuth: []
-      description: "Updates a restaurant menu by id, called by the owner."
-      operationId: "updateMenu"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "restaurantId"
-        in: "path"
-        description: "ID of the restaurant"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "menuId"
-        in: "path"
-        description: "ID of menu"
-        required: true
-        type: "integer"
-        format: "int64"
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/NewMenuModel"
+        - name: "restaurantId"
+          in: "path"
+          description: "ID of the restaurant"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "menuId"
+          in: "path"
+          description: "ID of the menu"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         "200":
           description: "successful operation"
@@ -493,246 +491,305 @@ paths:
             $ref: "#/definitions/MenuModel"
         "401":
           description: "Unauthorized user"
+        "403":
+          description: "Forbidden"
         "404":
-          description: "Restaurant not found"
-    delete:
+          description: "Restaurant or Menu not found"
+    put:
       tags:
-      - "Menu"  
-      summary: Delete a menu from a restaurant
+        - "Menu"
+      summary: "Updates a menu from a restaurant."
       security:
         - BearerAuth: []
-      description: "Delete a menu from a restaurant by Id, called by owner."
+      description: "Updates a menu from a restaurant for an owner user type."
+      operationId: "updateMenu"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "restaurantId"
+          in: "path"
+          description: "ID of the restaurant"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "menuId"
+          in: "path"
+          description: "ID of menu"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/NewMenuModel"
+      responses:
+        "204":
+          description: "successful operation"
+        "400":
+          description: "Request malformed or data validation error."
+        "401":
+          description: "Unauthorized user"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Restaurant or Menu not found"
+    delete:
+      tags:
+        - "Menu"
+      summary: "Deletes a menu from a restaurant."
+      security:
+        - BearerAuth: []
+      description: "Deletes a menu from a restaurant for an owner user type."
       operationId: "deleteMenu"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "restaurantId"
-        in: "path"
-        description: "ID of the restaurant"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "menuId"
-        in: "path"
-        description: "ID of the menu"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "restaurantId"
+          in: "path"
+          description: "ID of the restaurant"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "menuId"
+          in: "path"
+          description: "ID of the menu"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         "204":
           description: "successful operation"
         "401":
           description: "Unauthorized user"
+        "403":
+          description: "Forbidden"  
         "404":
           description: "Menu not found"
-  /restaurants/{restaurantId}/menus/{menuId}/food:
+  /restaurants/{restaurantId}/menus/{menuId}/meal:
     post:
       tags:
-      - "Food"
-      summary: "saves new food in a menu on a restaurant"
+        - "Meal"
+      summary: "Saves a new meal into a menu."
       security:
         - BearerAuth: []
-      description: "Saves new food object into a menu for a restaurant by given ids"
-      operationId: "saveFoodInMenu"
+      description: "Saves a new meal into a menu for for an owner user type."
+      operationId: "saveMealsInMenu"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "restaurantId"
-        in: "path"
-        description: "ID of the restaurant"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "menuId"
-        in: "path"
-        description: "ID of the menu"
-        required: true
-        type: "integer"
-        format: "int64"
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/NewItemModel"
+        - name: "restaurantId"
+          in: "path"
+          description: "ID of the restaurant"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "menuId"
+          in: "path"
+          description: "ID of the menu"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/NewMealModel"
       responses:
         "200":
           description: "successful operation"
           schema:
-              $ref: "#/definitions/ItemModel"
+            $ref: "#/definitions/MealModel"
+        "400":
+          description: "Request malformed or data validation error."
         "401":
           description: "Unauthorized user"
         "403":
           description: "Forbidden"
+        "404":
+          description: "Restaurant or menu not found"
     get:
       tags:
-      - "Food"  
-      summary: "Gets all restaurant menues"
+        - "Meal"
+      summary: "Gets all meals in a menu."
       security:
         - BearerAuth: []
-      description: "Gets all restaurant food on a specific menu"
-      operationId: "getAllFoodInMenu"
+      description: "Gets all meals in a menu for an owner user type."
+      operationId: "getAllMealsInMenu"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "restaurantId"
-        in: "path"
-        description: "ID of the restaurant"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "menuId"
-        in: "path"
-        description: "ID of the menu"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "restaurantId"
+          in: "path"
+          description: "ID of the restaurant"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "menuId"
+          in: "path"
+          description: "ID of the menu"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         "200":
           description: "successful operation"
           schema:
             type: "array"
             items:
-             $ref: "#/definitions/ItemModel"
+              $ref: "#/definitions/MealModel"
         "401":
           description: "Unauthorized user"
-  /restaurants/{restaurantId}/menus/{menuId}/foods/{foodId}:
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Restaurant or menu not found"
+  /restaurants/{restaurantId}/menus/{menuId}/meals/{mealId}:
     get:
       tags:
-      - "Food"  
-      summary: "Gets specific food in a menu"
+        - "Meal"
+      summary: "Gets a meal in a menu."
       security:
         - BearerAuth: []
-      description: "Gets specific food in a menu"
-      operationId: "getFood"
+      description: "Gets a meal in a menu for an owner user type."
+      operationId: "getMeal"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "restaurantId"
-        in: "path"
-        description: "ID of the restaurant"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "menuId"
-        in: "path"
-        description: "ID of the menu"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "foodId"
-        in: "path"
-        description: "ID of the food"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "restaurantId"
+          in: "path"
+          description: "ID of the restaurant"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "menuId"
+          in: "path"
+          description: "ID of the menu"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "mealId"
+          in: "path"
+          description: "ID of the meal"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         "200":
           description: "successful operation"
           schema:
             type: "array"
             items:
-             $ref: "#/definitions/ItemModel"
+              $ref: "#/definitions/MealModel"
         "401":
           description: "Unauthorized user"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "Restaurant, menu or meal not found"
     put:
       tags:
-      - "Food"
-      summary: "Updates food in a menu for a specific restaurant"
+        - "Meal"
+      summary: "Updates a meal in a menu."
       security:
         - BearerAuth: []
-      description: "Updates food in a menu for a restaurant"
-      operationId: "updateFoodInMenu"
+      description: "Updates a meal in a menu for an owner user type."
+      operationId: "updateMealInMenu"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "restaurantId"
-        in: "path"
-        description: "ID of the restaurant"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "menuId"
-        in: "path"
-        description: "ID of the menu"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "foodId"
-        in: "path"
-        description: "ID of the food"
-        required: true
-        type: "integer"
-        format: "int64"
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/NewItemModel"
+        - name: "restaurantId"
+          in: "path"
+          description: "ID of the restaurant"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "menuId"
+          in: "path"
+          description: "ID of the menu"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "mealId"
+          in: "path"
+          description: "ID of the food"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/NewMealModel"
       responses:
         "200":
           description: "successful operation"
           schema:
-              $ref: "#/definitions/ItemModel"
+            $ref: "#/definitions/MealModel"
         "401":
           description: "Unauthorized user"
         "403":
           description: "Forbidden"
+        "404":
+          description: "Restaurant, menu or meal not found"
     delete:
       tags:
-      - "Food"
-      summary: "Removes food for a menu"
+        - "Meal"
+      summary: "Removes a meal in a menu"
       security:
         - BearerAuth: []
-      description: "Removes food for a menu"
-      operationId: "removeFood"
+      description: "Removes a meal in a menu for owner user type."
+      operationId: "removeMeal"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "restaurantId"
-        in: "path"
-        description: "ID of the restaurant"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "menuId"
-        in: "path"
-        description: "ID of the menu"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "foodId"
-        in: "path"
-        description: "ID of the food"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "restaurantId"
+          in: "path"
+          description: "ID of the restaurant"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "menuId"
+          in: "path"
+          description: "ID of the menu"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "mealId"
+          in: "path"
+          description: "ID of the food"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
-        "200":
+        "204":
           description: "successful operation"
         "401":
           description: "Unauthorized user"
         "403":
           description: "Forbidden"
+        "404":
+          description: "Restaurant, menu or meal not found"
   /restaurants/near:
     get:
       tags:
-      - "Restaurant"
-      summary: "Get restaurants by user's position"
+        - "Restaurant"
+      summary: "Get restaurants by user's position through latitude and longitude."
       security:
         - BearerAuth: []
-      description: "Get a restaurant by a given position."
+      description: "Get a restaurant by a given position (latitude, longitude)."
       operationId: "getRestaurantByPosition"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: query
-        name: lat
-        type: string
-        description: latitude number of the current position
-      - in: query
-        name: lon
-        type: string
-        description: longitude number of the current position
+        - in: query
+          name: lat
+          type: string
+          description: "latitude number of the current position"
+        - in: query
+          name: lon
+          type: string
+          description: "longitude number of the current position"
       responses:
         "200":
           description: "successful operation"
@@ -782,7 +839,7 @@ definitions:
       password:
         type: "string"
         format: "password"
-      confirmPassword: 
+      confirmPassword:
         type: "string"
         format: "password"
   UserUpdateData:
@@ -855,7 +912,7 @@ definitions:
       openTime:
         type: "string"
         format: "string"
-      closeTime: 
+      closeTime:
         type: "string"
         format: "string"
   RestaurantModel:
@@ -900,7 +957,7 @@ definitions:
       categories:
         type: "array"
         items:
-          $ref: '#/definitions/CategoryModel'
+          $ref: "#/definitions/CategoryModel"
   NewCategoryModel:
     type: "object"
     properties:
@@ -919,14 +976,14 @@ definitions:
       items:
         type: "array"
         items:
-          $ref: '#/definitions/ItemModel'
-  NewItemModel:
+          $ref: "#/definitions/MealModel"
+  NewMealModel:
     type: "object"
     properties:
       name:
         type: "string"
         format: "string"
-      price: 
+      price:
         type: "number"
         format: "float"
       images:
@@ -940,7 +997,7 @@ definitions:
       suitableFor:
         type: "string"
         format: "string"
-  ItemModel:
+  MealModel:
     type: "object"
     properties:
       id:
@@ -949,7 +1006,7 @@ definitions:
       name:
         type: "string"
         format: "string"
-      price: 
+      price:
         type: "number"
         format: "float"
       images:
@@ -978,11 +1035,18 @@ definitions:
       password:
         type: "string"
         format: "string"
+      confirmPassword:
+        type: "string"
+        format: "string"
       token:
         type: "string"
         format: "string"
-          
-
+  CreateLike:
+    type: "object"
+    properties:
+      restaurantId:
+        type: "integer"
+        format: "int32"
 
 externalDocs:
   description: "Swagger documentation"
