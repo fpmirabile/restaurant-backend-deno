@@ -567,7 +567,7 @@ paths:
           description: "Forbidden"  
         "404":
           description: "Menu not found"
-  /restaurants/{restaurantId}/menus/{menuId}/meal:
+  /restaurants/{restaurantId}/menus/{menuId}/meals:
     post:
       tags:
         - "Meal"
