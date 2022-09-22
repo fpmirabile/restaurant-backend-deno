@@ -2,6 +2,7 @@ swagger: "2.0"
 info:
   version: "1.0.0"
   title: "Morfando Inc."
+  description: "APIs for Morfando Inc. Aplicaciones distribuidas 2C UADE 2022"
   contact:
     email: "contact@morfandoinc.com"
 host: "morfandoinc-demo.fly.dev"
@@ -722,10 +723,8 @@ paths:
           schema:
             $ref: "#/definitions/NewMealModel"
       responses:
-        "200":
+        "204":
           description: "successful operation"
-          schema:
-            $ref: "#/definitions/MealModel"
         "401":
           description: "Unauthorized user"
         "403":
