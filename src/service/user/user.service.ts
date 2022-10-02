@@ -1,10 +1,11 @@
+import { UserDTO } from "../../dto/user/UserDTO.ts";
 import { DifferentPasswordsError } from "../../error/user/DifferentPasswordsError.ts";
 import { InvalidCredentialsError } from "../../error/user/InvalidCredentialsError.ts";
 import { UserExistsError } from "../../error/user/UserExistsError.ts";
 import { NewUser } from "../../interfaces/user.interface.ts";
 import { UserBuilder } from "../../models/builder/UserBuilder.ts";
 import { User } from "../../models/index.ts";
-import { deleteById, getClientBy, getUser, save } from "../../repositories/user/user.repository.ts";
+import { deleteById, getClientBy, getUser, getUserById as getUserByIdRepository, save } from "../../repositories/user/user.repository.ts";
 import { createJWT } from "../jwt/jwt.service.ts";
 
 
@@ -24,7 +25,7 @@ export const loginSSO = async (email:string, identifier:string) => {
    
     //todo VALIDACION CONTRA GOOGLE
 
-    const loggedUser =  await getLoggedClient(email, identifier)
+    const loggedUser =  await getOrCreateLoggedClient(email, identifier)
 
     return await createJWT(loggedUser)
 
@@ -52,23 +53,33 @@ export const register = async (user:NewUser) => {
 
 };
 
-const getLoggedClient = async (email:string, identifier:string):Promise<User> => {
+const getOrCreateLoggedClient = async (email:string, identifier:string):Promise<User> => {
     
-let loggedClient:User = await getClientBy(email, "CLIENT")
+    let loggedClient:User = await getClientBy(email, "CLIENT")
 
-if(!loggedClient){
-    loggedClient = new User();
-    loggedClient.email = email
-    loggedClient.identifier = identifier
-    loggedClient.role = "CLIENT"
-    save(loggedClient)
-}
+    if(!loggedClient){
+        loggedClient = new User();
+        loggedClient.email = email
+        loggedClient.identifier = identifier
+        loggedClient.role = "CLIENT"
+        save(loggedClient)
+    }
 
-return loggedClient
+    return loggedClient
 
 }
 
 export const deleteUser = async (userId:number) => {
     await deleteById(userId);
+}
+
+export const getUserById = async (userId: number) => {
+    const user = await getUserByIdRepository(userId);
+
+    if(!user){
+        throw new InvalidCredentialsError();
+    }
+
+    return new UserDTO(user.user_id, user.name, user.email, user.status, user.role);
 }
   

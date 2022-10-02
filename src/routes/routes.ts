@@ -20,7 +20,7 @@ router
   .put("/user/password", sesionController.loginUser)
   .put("/user", authenticated, sesionController.loginUser)
 
-  .get("/me", authenticated, sesionController.loginUser)
+  .get("/me", authenticated, sesionController.getLoggedUser)
   .get("/likes", authenticated, sesionController.loginUser)
   .post("/likes", authenticated, sesionController.loginUser)
   .delete("/likes/:likeId", authenticated, sesionController.loginUser)

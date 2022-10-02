@@ -17,6 +17,13 @@ export const getClientBy = async (email:string, role:string):Promise<User> => {
 
   };
 
+  export const getUserById = async (userId:number):Promise<User> => {
+    return await User.select()
+        .where("user_id", userId)
+        .first();
+
+  };
+
   export const save = async (user: any) => {
     await User.create(user)
 

@@ -6,9 +6,7 @@ export class User extends Model {
   
     static fields = {
       user_id: { primaryKey: true, autoIncrement: true, type: DataTypes.INTEGER },
-      email: {
-        type: DataTypes.STRING
-      },
+      email: DataTypes.STRING,
       password: DataTypes.STRING,
       name: DataTypes.STRING,
       status: DataTypes.STRING,
