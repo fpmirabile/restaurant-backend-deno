@@ -1,4 +1,4 @@
-import { ErrorType } from "./ErrorMap.ts";
+import { ErrorType } from "./ErrorMap";
 
 export abstract class BaseError extends Error{
 

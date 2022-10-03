@@ -18,6 +18,7 @@ export const ErrorMap: MapError = {
     CONTRASEÑAS_DIFERENTES: new ErrorType("Las contraseñas ingresadas no coinciden"),
     JWT_SECRET: new ErrorType("Error de configuracion"),
     JWT_CREATE: new ErrorType("Error al generar el token"),
+    PERMISOS_INSUFICIENTES: new ErrorType("Usted no posee permisos para realizar esta accion", 401),
     USUARIO_INEXISTENTE: new ErrorType("Usuario Invalido", 401),
     USUARIO_EXISTENTE: new ErrorType("El email ya se encuentra en uso"),
     CLOUDINARY_ERROR: new ErrorType("Ocurrio un error al subir la imagen", 500),

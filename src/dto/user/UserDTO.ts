@@ -5,13 +5,13 @@ export class UserDTO{
     status:string;
     role:string;
 
-    constructor(id:string,
+    constructor(id:number,
         name:string,
         email:string,
         status:string,
         role:string){
 
-            this.id = parseInt(id)
+            this.id = id
             this.email = email
             this.name = name
             this.status = status
