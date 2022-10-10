@@ -17,6 +17,8 @@ const addRestaurant = (restaurant, userId) => __awaiter(void 0, void 0, void 0, 
     let userRepository = (0, typeorm_1.getRepository)(Models_1.User);
     const userBD = yield userRepository.findOne({ userId: userId });
     const restaurantRepository = (0, typeorm_1.getRepository)(Models_1.Restaurant);
+    //TODO Agregar FOTOS
+    //TODO Agregar Dias Apertura
     const newRestaurant = new RestaurantBuilder_1.RestaurantBuilder()
         .withNewRestaurant(restaurant)
         .withStatus("OPERATIVO")

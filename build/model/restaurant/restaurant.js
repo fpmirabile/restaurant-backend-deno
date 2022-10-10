@@ -90,6 +90,15 @@ __decorate([
     (0, typeorm_1.JoinColumn)({ name: 'user_id' }),
     __metadata("design:type", Models_1.User)
 ], Restaurant.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => Models_1.PhotoRestaurant, photo => photo.restaurant),
+    __metadata("design:type", Array)
+], Restaurant.prototype, "photos", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => Models_1.Especiality),
+    (0, typeorm_1.JoinColumn)({ name: 'especiality_id' }),
+    __metadata("design:type", Models_1.Especiality)
+], Restaurant.prototype, "especiality", void 0);
 Restaurant = __decorate([
     (0, typeorm_1.Entity)({
         name: 'RESTAURANTS'

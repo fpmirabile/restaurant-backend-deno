@@ -2,10 +2,10 @@ import { ConnectionOptions } from 'typeorm'
 import * as Models from '../model/Models'
 
 const configDev: ConnectionOptions = {
-  type: 'mysql',
+  type: 'postgres',
   host: process.env.BD_SEMINARIO_HOST || '192.168.230.129',
-  port: Number(process.env.BD_SEMINARIO_PORT) || 3306,
-  username: process.env.BD_SEMINARIO_USER || 'root',
+  port: Number(process.env.BD_SEMINARIO_PORT) || 5432,
+  username: process.env.BD_SEMINARIO_USER || 'postgres',
   password: process.env.BD_SEMINARIO_PASSWORD || 'admin',
   database: process.env.BD_SEMINARIO_DB || 'morfando',
   // host: process.env.BD_SEMINARIO_HOST || 'ec2-52-87-107-83.compute-1.amazonaws.com',
@@ -20,7 +20,7 @@ const configDev: ConnectionOptions = {
 }
 
 const configProd: ConnectionOptions = {
-  type: 'mysql',
+  type: 'postgres',
   url: process.env.DATABASE_URL,
   entities: Object.values(Models),
   synchronize: true,

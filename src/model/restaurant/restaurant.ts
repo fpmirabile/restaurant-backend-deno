@@ -4,9 +4,9 @@ import {
     Entity,
     ManyToOne,
     JoinColumn,
-    Unique
+    OneToMany
   } from 'typeorm'
-import { User } from '../Models'
+import { User, PhotoRestaurant, Especiality} from '../Models'
 
   @Entity({
     name : 'RESTAURANTS'
@@ -76,6 +76,13 @@ import { User } from '../Models'
     @ManyToOne(() => User)
     @JoinColumn({name: 'user_id'})
     user!: User
+
+    @OneToMany(() => PhotoRestaurant, photo => photo.restaurant)
+    photos!:PhotoRestaurant[]
+
+    @ManyToOne(() => Especiality)
+    @JoinColumn({name: 'especiality_id'})
+    especiality!: Especiality
 
   }
   
