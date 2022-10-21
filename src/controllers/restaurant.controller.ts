@@ -1,5 +1,5 @@
 import express from 'express'
-import { addRestaurant, getAllRestaurants } from "../service/restaurant/restaurant.service";
+import { addRestaurant, getAllRestaurants, getOneRestaurant } from "../service/restaurant/restaurant.service";
 
 export const addNewRest = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
@@ -16,6 +16,15 @@ export const addNewRest = async (req: express.Request, res: express.Response, ne
     try {
         const restaurants = await getAllRestaurants()
         return res.status(200).send(restaurants);
+    } catch (e) {
+      next(e)
+    }
+  };
+
+  export const getOne = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        const restaurant = await getOneRestaurant(parseInt(req.params.restaurantId))
+        return res.status(200).send(restaurant);
     } catch (e) {
       next(e)
     }

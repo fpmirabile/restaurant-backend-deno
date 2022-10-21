@@ -28,7 +28,7 @@ class Routes {
         
             .get("/restaurants", authenticated, restaurantController.getAll)
             .post("/restaurants", authenticatedPartner, restaurantController.addNewRest)
-            //.get("/restaurants/:restaurantId", authenticated, sesionController.loginUser)
+            .get("/restaurants/:restaurantId", authenticated, restaurantController.getOne)
             //.put("/restaurants/:restaurantId", authenticatedPartner, sesionController.loginUser)
             //.delete("/restaurants/:restaurantId", authenticatedPartner, sesionController.loginUser)
             //.get("/restaurants/near", authenticated, sesionController.loginUser)

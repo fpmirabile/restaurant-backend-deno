@@ -16,6 +16,7 @@ exports.ErrorMap = {
     PERMISOS_INSUFICIENTES: new ErrorType("Usted no posee permisos para realizar esta accion", 401),
     USUARIO_INEXISTENTE: new ErrorType("Usuario Invalido", 401),
     USUARIO_EXISTENTE: new ErrorType("El email ya se encuentra en uso"),
+    RESTAURANT_INEXISTENTE: new ErrorType("El restaurante no existe"),
     CLOUDINARY_ERROR: new ErrorType("Ocurrio un error al subir la imagen", 500),
 };
 //# sourceMappingURL=ErrorMap.js.map

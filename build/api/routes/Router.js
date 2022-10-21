@@ -45,8 +45,8 @@ class Routes {
             //.post("/likes", authenticated, sesionController.loginUser)
             //.delete("/likes/:likeId", authenticated, sesionController.loginUser)
             .get("/restaurants", auth_1.authenticated, restaurantController.getAll)
-            .post("/restaurants", auth_1.authenticatedPartner, restaurantController.addNewRest);
-        //.get("/restaurants/:restaurantId", authenticated, sesionController.loginUser)
+            .post("/restaurants", auth_1.authenticatedPartner, restaurantController.addNewRest)
+            .get("/restaurants/:restaurantId", auth_1.authenticated, restaurantController.getOne);
         //.put("/restaurants/:restaurantId", authenticatedPartner, sesionController.loginUser)
         //.delete("/restaurants/:restaurantId", authenticatedPartner, sesionController.loginUser)
         //.get("/restaurants/near", authenticated, sesionController.loginUser)

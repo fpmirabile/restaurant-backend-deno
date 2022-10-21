@@ -24,7 +24,7 @@ const UserExistsError_1 = require("../../error/user/UserExistsError");
 const UserDTO_1 = require("../../dto/user/UserDTO");
 const login = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
     let userRepository = (0, typeorm_1.getRepository)(Models_1.User);
-    const user = yield userRepository.findOne({ email: email });
+    const user = yield userRepository.findOne({ email: email, status: "OPERATIVO" });
     if (!user) {
         throw new InvalidCredentialsError_1.InvalidCredentialsError();
     }

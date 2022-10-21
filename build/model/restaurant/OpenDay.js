@@ -9,35 +9,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PhotoRestaurant = void 0;
+exports.OpenDay = void 0;
 const typeorm_1 = require("typeorm");
 const Models_1 = require("../Models");
-let PhotoRestaurant = class PhotoRestaurant {
-    constructor(url, restaurant) {
-        this.url = url;
+let OpenDay = class OpenDay {
+    constructor(day, restaurant) {
+        this.day = day;
         this.restaurant = restaurant;
     }
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)({ name: 'photo_restaurant_id' }),
+    (0, typeorm_1.PrimaryGeneratedColumn)({ name: 'open_day_id' }),
     __metadata("design:type", Number)
-], PhotoRestaurant.prototype, "photoRestaurantId", void 0);
+], OpenDay.prototype, "openDayId", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        name: 'url'
+        name: 'day'
     }),
     __metadata("design:type", String)
-], PhotoRestaurant.prototype, "url", void 0);
+], OpenDay.prototype, "day", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Models_1.Restaurant),
     (0, typeorm_1.JoinColumn)({ name: 'restaurant_id' }),
     __metadata("design:type", Models_1.Restaurant)
-], PhotoRestaurant.prototype, "restaurant", void 0);
-PhotoRestaurant = __decorate([
+], OpenDay.prototype, "restaurant", void 0);
+OpenDay = __decorate([
     (0, typeorm_1.Entity)({
-        name: 'PHOTOS_RESTAURANTS'
+        name: 'OPEN_DAYS'
     }),
     __metadata("design:paramtypes", [String, Models_1.Restaurant])
-], PhotoRestaurant);
-exports.PhotoRestaurant = PhotoRestaurant;
-//# sourceMappingURL=PhotoRestaurant.js.map
+], OpenDay);
+exports.OpenDay = OpenDay;
+//# sourceMappingURL=OpenDay.js.map

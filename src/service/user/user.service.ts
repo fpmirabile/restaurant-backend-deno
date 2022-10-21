@@ -14,7 +14,7 @@ import { UserDTO } from '../../dto/user/UserDTO';
 
 export const login = async (email:string, password:string) => {
     let userRepository = getRepository(User);
-    const user= await userRepository.findOne({email: email});
+    const user= await userRepository.findOne({email: email, status : "OPERATIVO"});
 
     if (!user) {
         throw new InvalidCredentialsError()

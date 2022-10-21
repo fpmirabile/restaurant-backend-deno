@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Restaurant = void 0;
 const typeorm_1 = require("typeorm");
 const Models_1 = require("../Models");
+const OpenDay_1 = require("./OpenDay");
 let Restaurant = class Restaurant {
 };
 __decorate([
@@ -94,6 +95,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => Models_1.PhotoRestaurant, photo => photo.restaurant),
     __metadata("design:type", Array)
 ], Restaurant.prototype, "photos", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => OpenDay_1.OpenDay, openDay => openDay.restaurant),
+    __metadata("design:type", Array)
+], Restaurant.prototype, "openDays", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Models_1.Especiality),
     (0, typeorm_1.JoinColumn)({ name: 'especiality_id' }),

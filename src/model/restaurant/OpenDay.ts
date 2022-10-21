@@ -9,24 +9,24 @@ import {
 import { Restaurant } from '../Models'
 
   @Entity({
-    name : 'PHOTOS_RESTAURANTS'
+    name : 'OPEN_DAYS'
   })
-  export class PhotoRestaurant {
+  export class OpenDay {
   
-    @PrimaryGeneratedColumn({name: 'photo_restaurant_id'})
-    photoRestaurantId!: number
+    @PrimaryGeneratedColumn({name: 'open_day_id'})
+    openDayId!: number
   
     @Column({
-        name: 'url'
+        name: 'day'
     })
-    url!: string
+    day!: string
  
     @ManyToOne(() => Restaurant)
     @JoinColumn({name: 'restaurant_id'})
     restaurant!: Restaurant
 
-    constructor(url:string, restaurant:Restaurant){
-      this.url =url
+    constructor(day:string, restaurant:Restaurant){
+      this.day =day
       this.restaurant = restaurant
     }
 

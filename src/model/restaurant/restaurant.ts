@@ -7,6 +7,7 @@ import {
     OneToMany
   } from 'typeorm'
 import { User, PhotoRestaurant, Especiality} from '../Models'
+import { OpenDay } from './OpenDay'
 
   @Entity({
     name : 'RESTAURANTS'
@@ -79,6 +80,9 @@ import { User, PhotoRestaurant, Especiality} from '../Models'
 
     @OneToMany(() => PhotoRestaurant, photo => photo.restaurant)
     photos!:PhotoRestaurant[]
+
+    @OneToMany(() => OpenDay, openDay => openDay.restaurant)
+    openDays!:OpenDay[]
 
     @ManyToOne(() => Especiality)
     @JoinColumn({name: 'especiality_id'})

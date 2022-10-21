@@ -1,5 +1,6 @@
 import { newRestaurant } from "../../interfaces/restaurant/restaurant.interface";
-import { Restaurant, User } from "../Models";
+import { PhotoRestaurant, Restaurant, User } from "../Models";
+import { OpenDay } from "../restaurant/OpenDay";
 
 export class RestaurantBuilder{
     restaurantId!: number;
@@ -17,6 +18,7 @@ export class RestaurantBuilder{
     images!:string[];
     status!:string;
     user:User;
+    urlsPhotos:string[];
 
 
     build = ():Restaurant => {
@@ -34,6 +36,7 @@ export class RestaurantBuilder{
         restaurant.closeTime = this.closeTime
         restaurant.status = this.status
         restaurant.user = this.user
+
         return restaurant
     }
 
@@ -61,4 +64,5 @@ export class RestaurantBuilder{
         this.user = user
         return this
     }
+    
 }

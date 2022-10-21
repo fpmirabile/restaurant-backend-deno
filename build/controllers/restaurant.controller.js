@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAll = exports.addNewRest = void 0;
+exports.getOne = exports.getAll = exports.addNewRest = void 0;
 const restaurant_service_1 = require("../service/restaurant/restaurant.service");
 const addNewRest = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -33,4 +33,14 @@ const getAll = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.getAll = getAll;
+const getOne = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const restaurant = yield (0, restaurant_service_1.getOneRestaurant)(parseInt(req.params.restaurantId));
+        return res.status(200).send(restaurant);
+    }
+    catch (e) {
+        next(e);
+    }
+});
+exports.getOne = getOne;
 //# sourceMappingURL=restaurant.controller.js.map
