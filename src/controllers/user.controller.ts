@@ -1,58 +1,56 @@
-// deno-lint-ignore-file
-import { Context } from "https://deno.land/x/oak@v11.1.0/mod.ts";
-import { errorHandler } from "../middleware/errorHandler.ts";
-import { login, loginSSO, register, deleteUser as deleteById, getUserById } from "../service/user/user.service.ts";
+import express from 'express'
+import { login, loginSSO, register, deleteUser as deleteById, getUserById } from "../service/user/user.service";
 
 
-export const loginUser = async (ctx: Context) => {
-    const body = await ctx.request.body().value;
-
-    try{
-      ctx.response.body = await login(body.email, body.password)
-      ctx.response.status = 200;
-    }catch(e){
-      errorHandler(e, ctx)
+export const loginUser = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        let body = req.body;
+        let jwt = await login(body.email, body.password)
+        return res.status(201).send(jwt)   
+    } catch (e) {
+      next(e)
     }
     
   };
 
-export const loginUserSSO = async (ctx: Context) => {
-    const body = await ctx.request.body().value;
-
-    ctx.response.body = await loginSSO(body.email, body.idToken)
-    ctx.response.status = 200;
-  };
-
-export const registerUser = async (ctx: Context) => {
-    const body = await ctx.request.body().value;
-
-    try{
-      await register(body)
-      
-      ctx.response.status = 200;
-    }catch(e){
-      errorHandler(e, ctx)
+export const loginUserSSO = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        let body = req.body;
+        let jwt = await loginSSO(body.email, body.idToken)
+        return res.status(201).send(jwt)   
+    } catch (e) {
+      next(e)
     }
   };
 
-  export const deleteUser = async (ctx: Context) => {
-    try{
-      const userId = (ctx.request as any).user.userId;      
-      await deleteById(userId);
-      ctx.response.status = 200;
-    }catch(e){
-      errorHandler(e, ctx)
+export const registerUser = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+
+    try {
+        let body = req.body;
+        await register(body)
+        return res.status(200).send();  
+    } catch (e) {
+      next(e)
+    }
+  };
+
+  export const deleteUser = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        const userId = (req as any).user.id
+        await deleteById(userId)
+        return res.status(200).send();
+    } catch (e) {
+      next(e)
     }
   };
 
 
-  export const getLoggedUser = async (ctx: Context) => {
-    try{
-      const userId = (ctx.request as any).user.userId;      
-      const user = await getUserById(userId);
-      ctx.response.status = 200;
-      ctx.response.body = user;
-    }catch(e){
-      errorHandler(e, ctx)
+  export const getLoggedUser = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        const userId = (req as any).user.id
+        const user = await getUserById(userId)
+        return res.status(200).send(user)
+    } catch (e) {
+      next(e)
     }
   };

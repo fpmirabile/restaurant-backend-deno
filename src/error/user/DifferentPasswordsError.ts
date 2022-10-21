@@ -1,5 +1,5 @@
-import { BaseError } from "../base.error.ts";
-import { ErrorMap } from "../ErrorMap.ts";
+import { BaseError } from "../base.error";
+import { ErrorMap } from "../ErrorMap";
 
 export class DifferentPasswordsError extends BaseError{
 

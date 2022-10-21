@@ -1,15 +1,31 @@
-// deno-lint-ignore-file
-import { Context } from "https://deno.land/x/oak@v11.1.0/mod.ts";
-import { errorHandler } from "../middleware/errorHandler.ts";
-import { addRestaurant } from "../service/restaurant/restaurant.service.ts";
+import express from 'express'
+import { addRestaurant, getAllRestaurants, getOneRestaurant } from "../service/restaurant/restaurant.service";
 
-export const addNewRest = async (ctx: Context) => {
-    const body = await ctx.request.body().value;
+export const addNewRest = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        const user = (req as any).user.id
+        const body = req.body;
+        await addRestaurant(body, user)
+        return res.status(200).send();  
+    } catch (e) {
+      next(e)
+    }
+  };
 
-    try{
-      await addRestaurant(body)
-      ctx.response.status = 200;
-    }catch(e){
-      errorHandler(e, ctx)
+  export const getAll = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        const restaurants = await getAllRestaurants()
+        return res.status(200).send(restaurants);
+    } catch (e) {
+      next(e)
+    }
+  };
+
+  export const getOne = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        const restaurant = await getOneRestaurant(parseInt(req.params.restaurantId))
+        return res.status(200).send(restaurant);
+    } catch (e) {
+      next(e)
     }
   };
