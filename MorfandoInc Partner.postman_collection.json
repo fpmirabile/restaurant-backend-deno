@@ -86,6 +86,46 @@
 			"response": []
 		},
 		{
+			"name": "Registro email en uso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 406\"] = responseCode.code === 406;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Correct Message\"] = data.message === \"El email ya se encuentra en uso\";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Miguel Shevchuk\",\r\n    \"email\":\"{{EMAIL_TEST}}\",\r\n    \"password\":\"{{PASSWORD_TEST}}\",\r\n    \"confirmPassword\":\"{{PASSWORD_TEST}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/register/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "login email invalido",
 			"event": [
 				{
@@ -172,7 +212,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+							"tests[\"Status code is 201\"] = responseCode.code === 201;\r",
 							"var data = JSON.parse(responseBody);\r",
 							"postman.setEnvironmentVariable(\"JWT\", data.token); "
 						],
@@ -206,6 +246,668 @@
 			"response": []
 		},
 		{
+			"name": "getMe Exitoso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Id Correcto\"] = data.id != null;\r",
+							"tests[\"Nombre correcto\"] = data.name === \"Miguel Shevchuk\";\r",
+							"tests[\"Email correcto\"] = data.email === \"email_prueba@tuVieja.com\";\r",
+							"tests[\"Rol correcto\"] = data.role === \"PARTNER\";\r",
+							"tests[\"Estado correcto\"] = data.status === \"OPERATIVO\";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/me",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Restaurante Exitoso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"La maja\",\r\n  \"street\": \"Boulogne Sur Mer\",\r\n  \"streetNumber\": \"1524\",\r\n  \"neighborhood\": \"Adrogue\",\r\n  \"place\": \"Adrogue\",\r\n  \"state\": \"Argentina\",\r\n  \"lat\": -34.7969236,\r\n  \"lon\": -58.3920443,\r\n  \"openDays\": [\r\n    \"Lunes\",\r\n    \"Martes\",\r\n    \"Miercoles\",\r\n    \"Jueves\",\r\n    \"Viernes\",\r\n    \"Sabado\",\r\n    \"Domingo\"\r\n  ],\r\n  \"openTime\": \"20:00\",\r\n  \"closeTime\": \"3:00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/restaurants",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar restaurante",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"La maja\",\r\n  \"street\": \"Boulogne Sur Merrr\",\r\n  \"streetNumber\": \"1524\",\r\n  \"neighborhood\": \"Adrogue\",\r\n  \"place\": \"Adrogue\",\r\n  \"state\": \"Argentina\",\r\n  \"lat\": -34.7969236,\r\n  \"lon\": -58.3920443,\r\n  \"openDays\": [\r\n    \"Lunes\",\r\n    \"Martes\",\r\n    \"Miercoles\",\r\n    \"Jueves\",\r\n    \"Viernes\",\r\n    \"Sabado\",\r\n    \"Domingo\"\r\n  ],\r\n  \"openTime\": \"20:00\",\r\n  \"closeTime\": \"3:00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/restaurants/1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get One Restaurant Editado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Correct Id\"] = data.id === 1;\r",
+							"tests[\"Correct name\"] = data.name === \"La maja\";\r",
+							"tests[\"Correct address\"] = data.address === \"Boulogne Sur Merrr 1524\";\r",
+							"tests[\"Correct owner\"] = data.ownerId === 1;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAll Restaurantes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar restaurante para dejarlo bien",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"La maja\",\r\n  \"street\": \"Boulogne Sur Mer\",\r\n  \"streetNumber\": \"1524\",\r\n  \"neighborhood\": \"Adrogue\",\r\n  \"place\": \"Adrogue\",\r\n  \"state\": \"Argentina\",\r\n  \"lat\": -34.7969236,\r\n  \"lon\": -58.3920443,\r\n  \"openDays\": [\r\n    \"Lunes\",\r\n    \"Martes\",\r\n    \"Miercoles\",\r\n    \"Jueves\",\r\n    \"Viernes\",\r\n    \"Sabado\",\r\n    \"Domingo\"\r\n  ],\r\n  \"openTime\": \"20:00\",\r\n  \"closeTime\": \"3:00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/restaurants/1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get One Restaurant",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Correct Id\"] = data.id === 1;\r",
+							"tests[\"Correct name\"] = data.name === \"La maja\";\r",
+							"tests[\"Correct address\"] = data.address === \"Boulogne Sur Mer 1524\";\r",
+							"tests[\"Correct owner\"] = data.ownerId === 1;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Restaurante Inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 406;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Correct message\"] = data.message === \"El restaurante no existe\";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/0",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar categoria",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Nombre Prueba\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/restaurants/1/categories",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"1",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar categoria",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Nombre Prueba Editado\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/restaurants/1/categories/1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"1",
+						"categories",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOne categoria Editada",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Correct Id\"] = data.id === 1;\r",
+							"tests[\"Correct name\"] = data.name === \"Nombre Prueba Editado\";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/1/categories/1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"1",
+						"categories",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar categoria",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Nombre Prueba\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/restaurants/1/categories/1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"1",
+						"categories",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOne categoria",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Correct Id\"] = data.id === 1;\r",
+							"tests[\"Correct name\"] = data.name === \"Nombre Prueba\";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/1/categories/1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"1",
+						"categories",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar categoria Inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 406;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Correct message\"] = data.message === \"La categoria no existe\";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Nombre Prueba\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/restaurants/1/categories/0",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"1",
+						"categories",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOne categoria inexistente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 406;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Correct message\"] = data.message === \"La categoria no existe\";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/1/categories/0",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"1",
+						"categories",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAll categorias",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/1/categories",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"1",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Delete cuenta",
 			"event": [
 				{
@@ -228,12 +930,12 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/user",
+					"raw": "{{URL}}/users",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"user"
+						"users"
 					]
 				}
 			},

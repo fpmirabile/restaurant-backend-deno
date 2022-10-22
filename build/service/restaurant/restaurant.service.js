@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOneRestaurant = exports.getAllRestaurants = exports.addRestaurant = void 0;
+exports.deleteRestaurant = exports.getOneRestaurant = exports.getAllRestaurants = exports.editRestaurant = exports.addRestaurant = void 0;
 const typeorm_1 = require("typeorm");
 const RestaurantNotExistsError_1 = require("../../error/restaurant/RestaurantNotExistsError");
 const RestaurantBuilder_1 = require("../../model/builder/RestaurantBuilder");
@@ -32,6 +32,29 @@ const addRestaurant = (restaurant, userId) => __awaiter(void 0, void 0, void 0, 
     saveOpenDays(restaurant.openDays, restaurantBD);
 });
 exports.addRestaurant = addRestaurant;
+const editRestaurant = (restaurantId, restaurant, userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const restaurantRepository = (0, typeorm_1.getRepository)(Models_1.Restaurant);
+    let restaurantBD = yield restaurantRepository.findOne({ restaurantId: restaurantId, user: { userId: userId } });
+    if (!restaurantBD) {
+        throw new RestaurantNotExistsError_1.RestaurantNotExistsError();
+    }
+    const newRestaurant = new RestaurantBuilder_1.RestaurantBuilder()
+        .withRestaurant(restaurantBD)
+        .withNewRestaurant(restaurant)
+        .build();
+    yield restaurantRepository.save(newRestaurant);
+    if (restaurant.images) {
+        let photoRepository = (0, typeorm_1.getRepository)(Models_1.PhotoRestaurant);
+        photoRepository.delete({ restaurant: { restaurantId: restaurantId } });
+        savePhotosUrls(restaurant.images, restaurantBD);
+    }
+    if (restaurant.openDays) {
+        let OpenDayRepository = (0, typeorm_1.getRepository)(Models_1.OpenDay);
+        OpenDayRepository.delete({ restaurant: { restaurantId: restaurantId } });
+        saveOpenDays(restaurant.openDays, restaurantBD);
+    }
+});
+exports.editRestaurant = editRestaurant;
 const savePhotosUrls = (photos, restaurant) => __awaiter(void 0, void 0, void 0, function* () {
     if (photos) {
         let photoRepository = (0, typeorm_1.getRepository)(Models_1.PhotoRestaurant);
@@ -81,4 +104,17 @@ const getOneRestaurant = (restaurantId) => __awaiter(void 0, void 0, void 0, fun
     };
 });
 exports.getOneRestaurant = getOneRestaurant;
+const deleteRestaurant = (restaurantId, userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const restaurantRepository = (0, typeorm_1.getRepository)(Models_1.Restaurant);
+    let restaurantBD = yield restaurantRepository.findOne({ restaurantId: restaurantId, user: { userId: userId } });
+    if (!restaurantBD) {
+        throw new RestaurantNotExistsError_1.RestaurantNotExistsError();
+    }
+    const newRestaurant = new RestaurantBuilder_1.RestaurantBuilder()
+        .withRestaurant(restaurantBD)
+        .withStatus("ELIMINADO")
+        .build();
+    yield restaurantRepository.save(newRestaurant);
+});
+exports.deleteRestaurant = deleteRestaurant;
 //# sourceMappingURL=restaurant.service.js.map

@@ -9,47 +9,47 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOne = exports.getAll = exports.deleteRest = exports.editRest = exports.addNewRest = void 0;
-const restaurant_service_1 = require("../service/restaurant/restaurant.service");
-const addNewRest = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getOne = exports.getAll = exports.deleteCat = exports.edit = exports.add = void 0;
+const category_service_1 = require("../service/menu/category.service");
+const add = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = req.user.id;
         const body = req.body;
-        yield (0, restaurant_service_1.addRestaurant)(body, user);
+        yield (0, category_service_1.addCategory)(parseInt(req.params.restaurantId), body.name, user);
         return res.status(200).send();
     }
     catch (e) {
         next(e);
     }
 });
-exports.addNewRest = addNewRest;
-const editRest = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.add = add;
+const edit = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = req.user.id;
         const body = req.body;
-        yield (0, restaurant_service_1.editRestaurant)(parseInt(req.params.restaurantId), body, user);
+        yield (0, category_service_1.editCategory)(parseInt(req.params.restaurantId), parseInt(req.params.categoryId), body.name, user);
         return res.status(200).send();
     }
     catch (e) {
         next(e);
     }
 });
-exports.editRest = editRest;
-const deleteRest = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.edit = edit;
+const deleteCat = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = req.user.id;
-        yield (0, restaurant_service_1.deleteRestaurant)(parseInt(req.params.restaurantId), user);
+        yield (0, category_service_1.deleteCategory)(parseInt(req.params.restaurantId), parseInt(req.params.categoryId), user);
         return res.status(200).send();
     }
     catch (e) {
         next(e);
     }
 });
-exports.deleteRest = deleteRest;
+exports.deleteCat = deleteCat;
 const getAll = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const restaurants = yield (0, restaurant_service_1.getAllRestaurants)();
-        return res.status(200).send(restaurants);
+        const categories = yield (0, category_service_1.getCategories)(parseInt(req.params.restaurantId));
+        return res.status(200).send(categories);
     }
     catch (e) {
         next(e);
@@ -58,12 +58,12 @@ const getAll = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
 exports.getAll = getAll;
 const getOne = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const restaurant = yield (0, restaurant_service_1.getOneRestaurant)(parseInt(req.params.restaurantId));
-        return res.status(200).send(restaurant);
+        const category = yield (0, category_service_1.getCategory)(parseInt(req.params.restaurantId), parseInt(req.params.categoryId));
+        return res.status(200).send(category);
     }
     catch (e) {
         next(e);
     }
 });
 exports.getOne = getOne;
-//# sourceMappingURL=restaurant.controller.js.map
+//# sourceMappingURL=category.controller.js.map

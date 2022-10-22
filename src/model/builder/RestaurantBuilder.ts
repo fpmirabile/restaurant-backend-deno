@@ -1,6 +1,5 @@
 import { newRestaurant } from "../../interfaces/restaurant/restaurant.interface";
-import { PhotoRestaurant, Restaurant, User } from "../Models";
-import { OpenDay } from "../restaurant/OpenDay";
+import { Restaurant, User } from "../Models";
 
 export class RestaurantBuilder{
     restaurantId!: number;
@@ -41,16 +40,55 @@ export class RestaurantBuilder{
     }
 
     withNewRestaurant = (newRestaurant:newRestaurant) => {
-        this.name = newRestaurant.name
-        this.street = newRestaurant.street
-        this.streetNumber = newRestaurant.streetNumber
-        this.neighborhood = newRestaurant.neighborhood
-        this.place = newRestaurant.place
-        this.state = newRestaurant.state
-        this.lat = newRestaurant.lat
-        this.lon = newRestaurant.lon
-        this.openTime = newRestaurant.openTime
-        this.closeTime = newRestaurant.closeTime
+        if(newRestaurant.name){
+            this.name = newRestaurant.name
+        }
+        if(newRestaurant.street){
+            this.street = newRestaurant.street
+        }
+        if(newRestaurant.streetNumber){
+            this.streetNumber = newRestaurant.streetNumber
+        }
+        if(newRestaurant.neighborhood){
+            this.neighborhood = newRestaurant.neighborhood
+        }
+        if(newRestaurant.place){
+            this.place = newRestaurant.place
+        }
+        if(newRestaurant.state){
+            this.state = newRestaurant.state
+        }
+        if(newRestaurant.lat){
+            this.lat = newRestaurant.lat
+        }
+        if(newRestaurant.lon){
+            this.lon = newRestaurant.lon
+        }
+        if(newRestaurant.openTime){
+            this.openTime = newRestaurant.openTime
+        }
+        if(newRestaurant.closeTime){
+            this.closeTime = newRestaurant.closeTime
+        }
+        
+
+        return this
+    }
+
+    withRestaurant = (restaurant:Restaurant) => {
+        this.name = restaurant.name
+        this.street = restaurant.street
+        this.streetNumber = restaurant.streetNumber
+        this.neighborhood = restaurant.neighborhood
+        this.place = restaurant.place
+        this.state = restaurant.state
+        this.lat = restaurant.lat
+        this.lon = restaurant.lon
+        this.openTime = restaurant.openTime
+        this.closeTime = restaurant.closeTime
+        this.restaurantId = restaurant.restaurantId
+        this.user = restaurant.user
+        this.status = restaurant.status
 
         return this
     }

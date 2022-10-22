@@ -1,4 +1,3 @@
-import { concat } from "lodash";
 import { getRepository } from "typeorm";
 import { RestaurantNotExistsError } from "../../error/restaurant/RestaurantNotExistsError";
 import { newRestaurant } from "../../interfaces/restaurant/restaurant.interface";
@@ -27,21 +26,31 @@ export const addRestaurant = async (restaurant:newRestaurant, userId:number) => 
 
  export const editRestaurant = async (restaurantId:number, restaurant:newRestaurant, userId:number) => {
 
-    let userRepository = getRepository(User);
-    const userBD = await userRepository.findOne({userId: userId});
     const restaurantRepository = getRepository(Restaurant)
-    let restaurantBD = restaurantRepository.findOne({restaurantId : restaurantId})
+    let restaurantBD = await restaurantRepository.findOne({restaurantId : restaurantId, user: {userId : userId}})
  
+    if(!restaurantBD){
+        throw new RestaurantNotExistsError()
+    }
+
     const newRestaurant = new RestaurantBuilder()
-         .withNewRestaurant(restaurant)
-         .withStatus("OPERATIVO")
-         .withUser(userBD)
-         .build()
+        .withRestaurant(restaurantBD)
+        .withNewRestaurant(restaurant)
+        .build()
  
     await restaurantRepository.save(newRestaurant)
 
-    //savePhotosUrls(restaurant.images, restaurantBD)
-    //saveOpenDays(restaurant.openDays, restaurantBD)
+    if(restaurant.images){
+        let photoRepository = getRepository(PhotoRestaurant);
+        photoRepository.delete({restaurant : {restaurantId : restaurantId} })
+        savePhotosUrls(restaurant.images, restaurantBD)
+    }
+
+    if(restaurant.openDays){
+        let OpenDayRepository = getRepository(OpenDay);
+        OpenDayRepository.delete({restaurant : {restaurantId : restaurantId} })
+        saveOpenDays(restaurant.openDays, restaurantBD)
+    }
  
  };
 
@@ -106,4 +115,22 @@ export const addRestaurant = async (restaurant:newRestaurant, userId:number) => 
         lon: restaurant.lon
     }
  
+ };
+
+ export const deleteRestaurant = async (restaurantId:number, userId:number) => {
+
+    const restaurantRepository = getRepository(Restaurant)
+    let restaurantBD = await restaurantRepository.findOne({restaurantId : restaurantId, user: {userId : userId}})
+ 
+    if(!restaurantBD){
+        throw new RestaurantNotExistsError()
+    }
+
+    const newRestaurant = new RestaurantBuilder()
+        .withRestaurant(restaurantBD)
+        .withStatus("ELIMINADO")
+        .build()
+ 
+    await restaurantRepository.save(newRestaurant)
+
  };

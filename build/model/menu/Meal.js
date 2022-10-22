@@ -34,19 +34,19 @@ __decorate([
     (0, typeorm_1.Column)({
         name: 'suitable_vegan'
     }),
-    __metadata("design:type", String)
+    __metadata("design:type", Boolean)
 ], Meal.prototype, "suitableVegan", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         name: 'suitable_celiac'
     }),
-    __metadata("design:type", String)
+    __metadata("design:type", Boolean)
 ], Meal.prototype, "suitableCeliac", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Models_1.Menu),
-    (0, typeorm_1.JoinColumn)({ name: 'menu_id' }),
-    __metadata("design:type", Models_1.Menu)
-], Meal.prototype, "menu", void 0);
+    (0, typeorm_1.ManyToOne)(() => Models_1.Category),
+    (0, typeorm_1.JoinColumn)({ name: 'category_id' }),
+    __metadata("design:type", Models_1.Category)
+], Meal.prototype, "category", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => Models_1.PhotoMeal, image => image.meal),
     __metadata("design:type", Array)

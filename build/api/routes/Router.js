@@ -25,6 +25,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const userController = __importStar(require("../../controllers/user.controller"));
 const restaurantController = __importStar(require("../../controllers/restaurant.controller"));
+const categoryController = __importStar(require("../../controllers/category.controller"));
 const auth_1 = require("../middleware/auth");
 class Routes {
     constructor() {
@@ -46,21 +47,21 @@ class Routes {
             //.delete("/likes/:likeId", authenticated, sesionController.loginUser)
             .get("/restaurants", auth_1.authenticated, restaurantController.getAll)
             .post("/restaurants", auth_1.authenticatedPartner, restaurantController.addNewRest)
-            .get("/restaurants/:restaurantId", auth_1.authenticated, restaurantController.getOne);
-        //.put("/restaurants/:restaurantId", authenticatedPartner, sesionController.loginUser)
-        //.delete("/restaurants/:restaurantId", authenticatedPartner, sesionController.loginUser)
-        //.get("/restaurants/near", authenticated, sesionController.loginUser)
-        //.post("/restaurants/score", authenticatedClient, sesionController.loginUser)
-        //.get("/restaurants/:restaurantId/menus", authenticated, sesionController.loginUser)
-        //.post("/restaurants/:restaurantId/menus", authenticatedPartner, sesionController.loginUser)
-        //.get("/restaurants/:restaurantId/menus/:menuId", authenticated, sesionController.loginUser)
-        //.put("/restaurants/:restaurantId/menus/:menuId", authenticatedPartner, sesionController.loginUser)
-        //.delete("/restaurants/:restaurantId/menus/:menuId", authenticatedPartner, sesionController.loginUser)
-        //.post("/restaurants/:restaurantId/menus/:menuId/food", authenticatedPartner, sesionController.loginUser)
-        //.get("/restaurants/:restaurantId/menus/:menuId/food", authenticated, sesionController.loginUser)
-        //.get("/restaurants/:restaurantId/menus/:menuId/foods/:foodId", authenticated, sesionController.loginUser)
-        //.put("/restaurants/:restaurantId/menus/:menuId/foods/:foodId", authenticatedPartner, sesionController.loginUser)
-        //.delete("/restaurants/:restaurantId/menus/:menuId/foods/:foodId", authenticatedPartner, sesionController.loginUser)
+            .get("/restaurants/:restaurantId", auth_1.authenticated, restaurantController.getOne)
+            .put("/restaurants/:restaurantId", auth_1.authenticatedPartner, restaurantController.editRest)
+            .delete("/restaurants/:restaurantId", auth_1.authenticatedPartner, restaurantController.deleteRest)
+            //.get("/restaurants/near", authenticated, sesionController.loginUser)
+            //.post("/restaurants/score", authenticatedClient, sesionController.loginUser)
+            .get("/restaurants/:restaurantId/categories", auth_1.authenticated, categoryController.getAll)
+            .post("/restaurants/:restaurantId/categories", auth_1.authenticatedPartner, categoryController.add)
+            .get("/restaurants/:restaurantId/categories/:categoryId", auth_1.authenticated, categoryController.getOne)
+            .put("/restaurants/:restaurantId/categories/:categoryId", auth_1.authenticatedPartner, categoryController.edit)
+            .delete("/restaurants/:restaurantId/categories/:categoryId", auth_1.authenticatedPartner, categoryController.deleteCat);
+        //.post("/restaurants/:restaurantId/categories/:categoryId/meals", authenticatedPartner, sesionController.loginUser)
+        //.get("/restaurants/:restaurantId/categories/:categoryId/meals", authenticated, sesionController.loginUser)
+        //.get("/restaurants/:restaurantId/categories/:categoryId/meals/:mealId", authenticated, sesionController.loginUser)
+        //.put("/restaurants/:restaurantId/categories/:categoryId/meals/:mealId", authenticatedPartner, sesionController.loginUser)
+        //.delete("/restaurants/:restaurantId/categories/:categoryId/meals/:mealId", authenticatedPartner, sesionController.loginUser)
     }
 }
 const Router = new Routes();
