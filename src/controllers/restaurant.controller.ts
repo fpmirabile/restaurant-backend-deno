@@ -1,11 +1,32 @@
 import express from 'express'
-import { addRestaurant, getAllRestaurants, getOneRestaurant } from "../service/restaurant/restaurant.service";
+import { addRestaurant, deleteRestaurant, editRestaurant, getAllRestaurants, getOneRestaurant } from "../service/restaurant/restaurant.service";
 
 export const addNewRest = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const user = (req as any).user.id
         const body = req.body;
         await addRestaurant(body, user)
+        return res.status(200).send();  
+    } catch (e) {
+      next(e)
+    }
+  };
+
+export const editRest = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        const user = (req as any).user.id
+        const body = req.body;
+        await editRestaurant(parseInt(req.params.restaurantId), body, user)
+        return res.status(200).send();  
+    } catch (e) {
+      next(e)
+    }
+  };
+
+export const deleteRest = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        const user = (req as any).user.id
+        await deleteRestaurant(parseInt(req.params.restaurantId), user)
         return res.status(200).send();  
     } catch (e) {
       next(e)

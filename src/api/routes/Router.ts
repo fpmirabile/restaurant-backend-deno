@@ -1,6 +1,7 @@
 import express from 'express'
 import * as userController from "../../controllers/user.controller";
 import * as restaurantController from "../../controllers/restaurant.controller";
+import * as categoryController from "../../controllers/category.controller";
 import { authenticated, authenticatedPartner } from '../middleware/auth';
 
 class Routes {
@@ -29,23 +30,23 @@ class Routes {
             .get("/restaurants", authenticated, restaurantController.getAll)
             .post("/restaurants", authenticatedPartner, restaurantController.addNewRest)
             .get("/restaurants/:restaurantId", authenticated, restaurantController.getOne)
-            //.put("/restaurants/:restaurantId", authenticatedPartner, sesionController.loginUser)
-            //.delete("/restaurants/:restaurantId", authenticatedPartner, sesionController.loginUser)
+            .put("/restaurants/:restaurantId", authenticatedPartner, restaurantController.editRest)
+            .delete("/restaurants/:restaurantId", authenticatedPartner, restaurantController.deleteRest)
             //.get("/restaurants/near", authenticated, sesionController.loginUser)
         
             //.post("/restaurants/score", authenticatedClient, sesionController.loginUser)
         
-            //.get("/restaurants/:restaurantId/menus", authenticated, sesionController.loginUser)
-            //.post("/restaurants/:restaurantId/menus", authenticatedPartner, sesionController.loginUser)
-            //.get("/restaurants/:restaurantId/menus/:menuId", authenticated, sesionController.loginUser)
-            //.put("/restaurants/:restaurantId/menus/:menuId", authenticatedPartner, sesionController.loginUser)
-            //.delete("/restaurants/:restaurantId/menus/:menuId", authenticatedPartner, sesionController.loginUser)
+            .get("/restaurants/:restaurantId/categories", authenticated, categoryController.getAll)
+            .post("/restaurants/:restaurantId/categories", authenticatedPartner, categoryController.add)
+            .get("/restaurants/:restaurantId/categories/:categoryId", authenticated, categoryController.getOne)
+            .put("/restaurants/:restaurantId/categories/:categoryId", authenticatedPartner, categoryController.edit)
+            .delete("/restaurants/:restaurantId/categories/:categoryId", authenticatedPartner, categoryController.deleteCat)
         
-            //.post("/restaurants/:restaurantId/menus/:menuId/food", authenticatedPartner, sesionController.loginUser)
-            //.get("/restaurants/:restaurantId/menus/:menuId/food", authenticated, sesionController.loginUser)
-            //.get("/restaurants/:restaurantId/menus/:menuId/foods/:foodId", authenticated, sesionController.loginUser)
-            //.put("/restaurants/:restaurantId/menus/:menuId/foods/:foodId", authenticatedPartner, sesionController.loginUser)
-            //.delete("/restaurants/:restaurantId/menus/:menuId/foods/:foodId", authenticatedPartner, sesionController.loginUser)
+            //.post("/restaurants/:restaurantId/categories/:categoryId/meals", authenticatedPartner, sesionController.loginUser)
+            //.get("/restaurants/:restaurantId/categories/:categoryId/meals", authenticated, sesionController.loginUser)
+            //.get("/restaurants/:restaurantId/categories/:categoryId/meals/:mealId", authenticated, sesionController.loginUser)
+            //.put("/restaurants/:restaurantId/categories/:categoryId/meals/:mealId", authenticatedPartner, sesionController.loginUser)
+            //.delete("/restaurants/:restaurantId/categories/:categoryId/meals/:mealId", authenticatedPartner, sesionController.loginUser)
     }
 
 }

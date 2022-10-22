@@ -6,7 +6,7 @@ import {
     JoinColumn,
     OneToMany
   } from 'typeorm'
-import { Ingredient, Menu, PhotoMeal } from '../Models'
+import { Category, Ingredient, PhotoMeal } from '../Models'
 
   @Entity({
     name : 'MEALS'
@@ -29,16 +29,16 @@ import { Ingredient, Menu, PhotoMeal } from '../Models'
     @Column({
         name: 'suitable_vegan'
     })
-    suitableVegan!: string
+    suitableVegan!: boolean
 
     @Column({
         name: 'suitable_celiac'
     })
-    suitableCeliac!: string
+    suitableCeliac!: boolean
  
-    @ManyToOne(() => Menu)
-    @JoinColumn({name: 'menu_id'})
-    menu!: Menu
+    @ManyToOne(() => Category)
+    @JoinColumn({name: 'category_id'})
+    category!: Category
 
     @OneToMany(() => PhotoMeal, image => image.meal)
     images!:PhotoMeal[]

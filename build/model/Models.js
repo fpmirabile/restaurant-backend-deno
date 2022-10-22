@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OpenDay = exports.PhotoRestaurant = exports.Ingredient = exports.PhotoMeal = exports.Meal = exports.Menu = exports.Especiality = exports.Restaurant = exports.User = void 0;
+exports.OpenDay = exports.PhotoRestaurant = exports.Ingredient = exports.PhotoMeal = exports.Meal = exports.Category = exports.Especiality = exports.Restaurant = exports.User = void 0;
 var User_1 = require("./user/User");
 Object.defineProperty(exports, "User", { enumerable: true, get: function () { return User_1.User; } });
 var restaurant_1 = require("./restaurant/restaurant");
 Object.defineProperty(exports, "Restaurant", { enumerable: true, get: function () { return restaurant_1.Restaurant; } });
 var Especiality_1 = require("./restaurant/Especiality");
 Object.defineProperty(exports, "Especiality", { enumerable: true, get: function () { return Especiality_1.Especiality; } });
-var Menu_1 = require("./menu/Menu");
-Object.defineProperty(exports, "Menu", { enumerable: true, get: function () { return Menu_1.Menu; } });
+var Category_1 = require("./menu/Category");
+Object.defineProperty(exports, "Category", { enumerable: true, get: function () { return Category_1.Category; } });
 var Meal_1 = require("./menu/Meal");
 Object.defineProperty(exports, "Meal", { enumerable: true, get: function () { return Meal_1.Meal; } });
 var PhotoMeal_1 = require("./menu/PhotoMeal");
