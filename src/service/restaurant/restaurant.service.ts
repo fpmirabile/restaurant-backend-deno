@@ -1,7 +1,7 @@
 import { AppDataSource } from "../../config/database";
 import { RestaurantNotExistsError } from "../../error/restaurant/RestaurantNotExistsError";
 import { newRestaurant } from "../../interfaces/restaurant/restaurant.interface";
-import { RestaurantBuilder } from "../../model/builder/RestaurantBuilder";
+import { RestaurantBuilder } from "../../model/builder/restaurant.builder";
 import { OpenDay, PhotoRestaurant, Restaurant, User } from "../../model/models";
 import cloudinaryService from "../cloudinary/CloudinaryService";
 
