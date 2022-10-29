@@ -8,12 +8,12 @@ import {
   } from 'typeorm'
 
   @Entity({
-    name : 'ESPECIALITIES'
+    name : 'SPECIALITIES'
   })
-  export class Especiality {
+  export class Speciality {
   
-    @PrimaryGeneratedColumn({name: 'especiality_id'})
-    especialityId!: number
+    @PrimaryGeneratedColumn({name: 'speciality_id'})
+    specialityId!: number
   
     @Column({
         name: 'name'

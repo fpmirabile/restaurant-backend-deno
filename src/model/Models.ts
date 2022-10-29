@@ -1,6 +1,6 @@
 export {User} from './user/User'
 export {Restaurant} from './restaurant/restaurant'
-export {Especiality} from './restaurant/Especiality'
+export {Speciality} from './restaurant/speciality'
 export {Category} from './menu/Category'
 export {Meal} from './menu/Meal'
 export {PhotoMeal} from './menu/PhotoMeal'

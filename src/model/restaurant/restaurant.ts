@@ -6,7 +6,7 @@ import {
     JoinColumn,
     OneToMany
   } from 'typeorm'
-import { User, PhotoRestaurant, Especiality} from '../Models'
+import { User, PhotoRestaurant, Speciality} from '../Models'
 import { OpenDay } from './OpenDay'
 
   @Entity({
@@ -84,9 +84,9 @@ import { OpenDay } from './OpenDay'
     @OneToMany(() => OpenDay, openDay => openDay.restaurant)
     openDays!:OpenDay[]
 
-    @ManyToOne(() => Especiality)
+    @ManyToOne(() => Speciality)
     @JoinColumn({name: 'especiality_id'})
-    especiality!: Especiality
+    speciality!: Speciality
 
   }
   
