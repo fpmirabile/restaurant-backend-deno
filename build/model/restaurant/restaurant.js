@@ -100,10 +100,10 @@ __decorate([
     __metadata("design:type", Array)
 ], Restaurant.prototype, "openDays", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Models_1.Especiality),
+    (0, typeorm_1.ManyToOne)(() => Models_1.Speciality),
     (0, typeorm_1.JoinColumn)({ name: 'especiality_id' }),
-    __metadata("design:type", Models_1.Especiality)
-], Restaurant.prototype, "especiality", void 0);
+    __metadata("design:type", Models_1.Speciality)
+], Restaurant.prototype, "speciality", void 0);
 Restaurant = __decorate([
     (0, typeorm_1.Entity)({
         name: 'RESTAURANTS'
