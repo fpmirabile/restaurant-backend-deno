@@ -1,5 +1,5 @@
 import { newMeal } from "../../interfaces/restaurant/meal.interface";
-import { Meal, Category, PhotoMeal, Ingredient } from "../../model/Models";
+import { Meal, Category, PhotoMeal, Ingredient } from "../../model/models";
 import { MealBuilder } from "../../model/builder/meal.builder";
 import { CategoryNotExistsError } from "../../error/restaurant/CategoryNotExistsError";
 import { MealExistsError } from "../../error/restaurant/MealExistsError";
