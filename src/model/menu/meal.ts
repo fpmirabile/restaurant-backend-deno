@@ -16,6 +16,8 @@ export class Meal {
 
   @Column({
     name: "price",
+    nullable:true,
+    type:"float"
   })
   price: number;
 
