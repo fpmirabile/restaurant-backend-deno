@@ -7,8 +7,10 @@ class CategoryDTO {
         this.items = [];
         this.id = category.categoryId;
         this.name = category.name;
-        for (let i = 0; i < category.meals.length; i++) {
-            this.items[i] = new meal_dto_1.MealDTO(category.meals[i]);
+        if (category.meals) {
+            for (let i = 0; i < category.meals.length; i++) {
+                this.items[i] = new meal_dto_1.MealDTO(category.meals[i]);
+            }
         }
     }
 }

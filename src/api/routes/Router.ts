@@ -2,6 +2,7 @@ import express from 'express'
 import * as userController from "../../controllers/user.controller";
 import * as restaurantController from "../../controllers/restaurant.controller";
 import * as categoryController from "../../controllers/category.controller";
+import * as mealController from "../../controllers/meal.controller";
 import { authenticated, authenticatedPartner } from '../middleware/auth';
 
 class Routes {
@@ -42,11 +43,11 @@ class Routes {
             .put("/restaurants/:restaurantId/categories/:categoryId", authenticatedPartner, categoryController.edit)
             .delete("/restaurants/:restaurantId/categories/:categoryId", authenticatedPartner, categoryController.deleteCat)
         
-            //.post("/restaurants/:restaurantId/categories/:categoryId/meals", authenticatedPartner, sesionController.loginUser)
-            //.get("/restaurants/:restaurantId/categories/:categoryId/meals", authenticated, sesionController.loginUser)
-            //.get("/restaurants/:restaurantId/categories/:categoryId/meals/:mealId", authenticated, sesionController.loginUser)
-            //.put("/restaurants/:restaurantId/categories/:categoryId/meals/:mealId", authenticatedPartner, sesionController.loginUser)
-            //.delete("/restaurants/:restaurantId/categories/:categoryId/meals/:mealId", authenticatedPartner, sesionController.loginUser)
+            .post("/restaurants/categories/:categoryId/meals", authenticatedPartner, mealController.add)
+            .get("/restaurants/categories/:categoryId/meals", authenticated, mealController.getAll)
+            .get("/restaurants/categories/meals/:mealId", authenticated, mealController.getOne)
+            .put("/restaurants/categories/meals/:mealId", authenticatedPartner, mealController.edit)
+            .delete("/restaurants/categories/meals/:mealId", authenticatedPartner, mealController.deleteM)
     }
 
 }

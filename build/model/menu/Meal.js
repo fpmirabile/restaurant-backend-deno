@@ -26,7 +26,8 @@ __decorate([
 ], Meal.prototype, "name", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        name: 'price'
+        name: 'price',
+        type: 'float'
     }),
     __metadata("design:type", Number)
 ], Meal.prototype, "price", void 0);
@@ -43,6 +44,12 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Meal.prototype, "suitableCeliac", void 0);
 __decorate([
+    (0, typeorm_1.Column)({
+        name: 'status'
+    }),
+    __metadata("design:type", String)
+], Meal.prototype, "status", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => Models_1.Category),
     (0, typeorm_1.JoinColumn)({ name: 'category_id' }),
     __metadata("design:type", Models_1.Category)
@@ -58,7 +65,8 @@ __decorate([
 Meal = __decorate([
     (0, typeorm_1.Entity)({
         name: 'MEALS'
-    })
+    }),
+    (0, typeorm_1.Unique)(["name", "category"])
 ], Meal);
 exports.Meal = Meal;
 //# sourceMappingURL=Meal.js.map

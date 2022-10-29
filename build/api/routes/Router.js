@@ -26,6 +26,7 @@ const express_1 = __importDefault(require("express"));
 const userController = __importStar(require("../../controllers/user.controller"));
 const restaurantController = __importStar(require("../../controllers/restaurant.controller"));
 const categoryController = __importStar(require("../../controllers/category.controller"));
+const mealController = __importStar(require("../../controllers/meal.controller"));
 const auth_1 = require("../middleware/auth");
 class Routes {
     constructor() {
@@ -56,12 +57,12 @@ class Routes {
             .post("/restaurants/:restaurantId/categories", auth_1.authenticatedPartner, categoryController.add)
             .get("/restaurants/:restaurantId/categories/:categoryId", auth_1.authenticated, categoryController.getOne)
             .put("/restaurants/:restaurantId/categories/:categoryId", auth_1.authenticatedPartner, categoryController.edit)
-            .delete("/restaurants/:restaurantId/categories/:categoryId", auth_1.authenticatedPartner, categoryController.deleteCat);
-        //.post("/restaurants/:restaurantId/categories/:categoryId/meals", authenticatedPartner, sesionController.loginUser)
-        //.get("/restaurants/:restaurantId/categories/:categoryId/meals", authenticated, sesionController.loginUser)
-        //.get("/restaurants/:restaurantId/categories/:categoryId/meals/:mealId", authenticated, sesionController.loginUser)
-        //.put("/restaurants/:restaurantId/categories/:categoryId/meals/:mealId", authenticatedPartner, sesionController.loginUser)
-        //.delete("/restaurants/:restaurantId/categories/:categoryId/meals/:mealId", authenticatedPartner, sesionController.loginUser)
+            .delete("/restaurants/:restaurantId/categories/:categoryId", auth_1.authenticatedPartner, categoryController.deleteCat)
+            .post("/restaurants/categories/:categoryId/meals", auth_1.authenticatedPartner, mealController.add)
+            .get("/restaurants/categories/:categoryId/meals", auth_1.authenticated, mealController.getAll)
+            .get("/restaurants/categories/meals/:mealId", auth_1.authenticated, mealController.getOne)
+            .put("/restaurants/categories/meals/:mealId", auth_1.authenticatedPartner, mealController.edit)
+            .delete("/restaurants/categories/meals/:mealId", auth_1.authenticatedPartner, mealController.deleteM);
     }
 }
 const Router = new Routes();

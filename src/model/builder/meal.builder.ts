@@ -1,4 +1,4 @@
-import { Meal, User } from "../Models";
+import { Category, Meal } from "../Models";
 import { newMeal } from "../../interfaces/restaurant/meal.interface";
 
 export class MealBuilder{
@@ -8,8 +8,7 @@ export class MealBuilder{
     suitableVegan!:boolean
     suitableCeliac!:boolean
     status!:string
-    ingredients!:string[]
-    images!:string[]
+    category!:Category
 
 
     build = ():Meal => {
@@ -19,6 +18,8 @@ export class MealBuilder{
         meal.price = this.price
         meal.suitableVegan = this.suitableVegan
         meal.suitableCeliac = this.suitableCeliac
+        meal.status = this.status
+        meal.category = this.category
         return meal
     }
 
@@ -37,12 +38,18 @@ export class MealBuilder{
         this.suitableVegan = meal.suitableVegan
         this.suitableCeliac = meal.suitableCeliac
         this.mealId = meal.mealId
+        this.category = meal.category
 
         return this
     }
 
     withStatus = (status:string) => {
         this.status = status
+        return this
+    }
+
+    withCategory = (category:Category) => {
+        this.category = category
         return this
     }
 

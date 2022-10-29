@@ -12,7 +12,7 @@ import { Category, Ingredient, PhotoMeal } from '../Models'
   @Entity({
     name : 'MEALS'
   })
-  @Unique(["name", "category_id"])
+  @Unique(["name", "category"])
   export class Meal {
   
     @PrimaryGeneratedColumn({name: 'meal_id'})
@@ -24,7 +24,8 @@ import { Category, Ingredient, PhotoMeal } from '../Models'
     name!: string
 
     @Column({
-        name: 'price'
+        name: 'price',
+        type:'float'
     })
     price!: number
 

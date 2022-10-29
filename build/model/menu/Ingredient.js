@@ -13,6 +13,10 @@ exports.Ingredient = void 0;
 const typeorm_1 = require("typeorm");
 const Models_1 = require("../Models");
 let Ingredient = class Ingredient {
+    constructor(name, meal) {
+        this.name = name;
+        this.meal = meal;
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)({ name: 'ingredient_id' }),
@@ -32,7 +36,8 @@ __decorate([
 Ingredient = __decorate([
     (0, typeorm_1.Entity)({
         name: 'INGREDIENTS'
-    })
+    }),
+    __metadata("design:paramtypes", [String, Models_1.Meal])
 ], Ingredient);
 exports.Ingredient = Ingredient;
 //# sourceMappingURL=Ingredient.js.map

@@ -10,11 +10,15 @@ class MealDTO {
         this.price = meal.price;
         this.suitableVegan = meal.suitableVegan;
         this.suitableCeliac = meal.suitableCeliac;
-        for (let i = 0; i < meal.ingredients.length; i++) {
-            this.ingredients[i] = meal.ingredients[i].name;
+        if (meal.ingredients) {
+            for (let i = 0; i < meal.ingredients.length; i++) {
+                this.ingredients[i] = meal.ingredients[i].name;
+            }
         }
-        for (let i = 0; i < meal.images.length; i++) {
-            this.images[i] = meal.images[i].url;
+        if (meal.images) {
+            for (let i = 0; i < meal.images.length; i++) {
+                this.images[i] = meal.images[i].url;
+            }
         }
     }
 }

@@ -18,6 +18,8 @@ exports.ErrorMap = {
     USUARIO_EXISTENTE: new ErrorType("El email ya se encuentra en uso"),
     RESTAURANT_INEXISTENTE: new ErrorType("El restaurante no existe"),
     CATEGORIA_INEXISTENTE: new ErrorType("La categoria no existe"),
+    PLATO_EXISTENTE: new ErrorType("El plato que intenta agregar, ya existe"),
+    PLATO_NO_EXISTENTE: new ErrorType("El plato seleccionado no existe"),
     CLOUDINARY_ERROR: new ErrorType("Ocurrio un error al subir la imagen", 500),
 };
 //# sourceMappingURL=ErrorMap.js.map

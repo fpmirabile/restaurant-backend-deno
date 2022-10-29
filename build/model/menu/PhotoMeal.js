@@ -13,6 +13,10 @@ exports.PhotoMeal = void 0;
 const typeorm_1 = require("typeorm");
 const Models_1 = require("../Models");
 let PhotoMeal = class PhotoMeal {
+    constructor(url, meal) {
+        this.url = url;
+        this.meal = meal;
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)({ name: 'photo_meal_id' }),
@@ -32,7 +36,8 @@ __decorate([
 PhotoMeal = __decorate([
     (0, typeorm_1.Entity)({
         name: 'PHOTOS_MEALS'
-    })
+    }),
+    __metadata("design:paramtypes", [String, Models_1.Meal])
 ], PhotoMeal);
 exports.PhotoMeal = PhotoMeal;
 //# sourceMappingURL=PhotoMeal.js.map

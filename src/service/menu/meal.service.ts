@@ -8,10 +8,16 @@ import cloudinaryService from "../cloudinary/CloudinaryService";
 import { MealNotExistsError } from "../../error/restaurant/MealNotExistsError";
 import { MealDTO } from "../../dto/menu/meal.dto";
 
-export const addMeal = async (restaurantId:number, categoryId:number, newMeal:newMeal, userId:number) => {
+export const addMeal = async (categoryId:number, newMeal:newMeal, userId:number) => {
 
     const categoryRepository = getRepository(Category)
-    let category = await categoryRepository.findOne({categoryId : categoryId, restaurant:{user:{userId:userId}}})
+    
+    const category = await categoryRepository.createQueryBuilder('c')
+        .innerJoinAndSelect('c.restaurant', 'r')
+        .innerJoinAndSelect('r.user', 'u')
+        .where("u.userId = :userId", {userId : userId})
+        .andWhere("c.categoryId = :categoryId", {categoryId : categoryId})
+        .getOne()
 
     if(!category){
         throw new CategoryNotExistsError()
@@ -27,6 +33,7 @@ export const addMeal = async (restaurantId:number, categoryId:number, newMeal:ne
     let meal = new MealBuilder()
         .withNewMeal(newMeal)
         .withStatus("OPERATIVO")
+        .withCategory(category)
         .build()
 
     meal = await mealRepository.save(meal)
@@ -61,8 +68,17 @@ const savePhotosUrls = async (photos : string[], meal: Meal) => {
  export const editMeal = async (mealId:number, newMeal:newMeal, userId:number) => {
 
     const mealRepository = getRepository(Meal)
-    let mealBD = await mealRepository.findOne({mealId : mealId, status:"OPERATIVO", category:{restaurant:{user:{userId:userId}}}})
- 
+    //let mealBD = await mealRepository.findOne({mealId : mealId, status:"OPERATIVO", category:{restaurant:{user:{userId:userId}}}})
+    const mealBD = await mealRepository.createQueryBuilder('m')
+        .innerJoinAndSelect('m.category', 'c')
+        .innerJoinAndSelect('c.restaurant', 'r')
+        .innerJoinAndSelect('r.user', 'u')
+        .where("u.userId = :userId", {userId : userId})
+        .andWhere("m.status = :status", {status : "OPERATIVO"})
+        .andWhere("m.mealId = :mealId", {mealId : mealId})
+        .getOne()
+
+
     if(!mealBD){
         throw new MealNotExistsError()
     }
