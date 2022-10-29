@@ -25,5 +25,10 @@ import { Meal } from '../Models'
     @JoinColumn({name: 'meal_id'})
     meal!: Meal
 
+    constructor(url:string, meal:Meal){
+      this.url =url
+      this.meal = meal
+    }
+
   }
   
