@@ -878,7 +878,15 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"var id = 0\r",
+							"for(i=0;i<data.length; i++){\r",
+							"    if(data[i].id>id){\r",
+							"        id = data[i].id\r",
+							"    }\r",
+							"}\r",
+							"postman.setEnvironmentVariable(\"NEW_CATEGORY\", id); "
 						],
 						"type": "text/javascript"
 					}
@@ -902,6 +910,231 @@
 						"restaurants",
 						"1",
 						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar plato",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Fideos con tuco\",\r\n    \"price\": 1500.56,\r\n    \"images\": [],\r\n    \"ingredients\": [\r\n        \"Fideos\",\r\n        \"Tuco\"\r\n    ],\r\n    \"suitableVegan\": true,\r\n    \"suitableCeliac\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/restaurants/categories/{{NEW_CATEGORY}}/meals",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"categories",
+						"{{NEW_CATEGORY}}",
+						"meals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar plato con Nombre existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 406\"] = responseCode.code === 406;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Correct message\"] = data.message === \"El plato que intenta agregar, ya existe\";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Fideos con tuco\",\r\n    \"price\": 1500.56,\r\n    \"images\": [],\r\n    \"ingredients\": [\r\n        \"Fideos\",\r\n        \"Tuco\"\r\n    ],\r\n    \"suitableVegan\": true,\r\n    \"suitableCeliac\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/restaurants/categories/1/meals",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"categories",
+						"1",
+						"meals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar plato",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Fideos con tuco\",\r\n    \"price\": 1500.56,\r\n    \"images\": [],\r\n    \"ingredients\": [\r\n        \"Fideos\",\r\n        \"Carne\"\r\n    ],\r\n    \"suitableVegan\": false,\r\n    \"suitableCeliac\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/restaurants/categories/meals/3",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"categories",
+						"meals",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Platos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"var id = 0\r",
+							"for(i=0;i<data.length; i++){\r",
+							"    if(data[i].id>id){\r",
+							"        id = data[i].id\r",
+							"    }\r",
+							"}\r",
+							"postman.setEnvironmentVariable(\"NEW_MEAL\", id); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/categories/{{NEW_CATEGORY}}/meals",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"categories",
+						"{{NEW_CATEGORY}}",
+						"meals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get new Plato",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"var new_id = postman.getEnvironmentVariable(\"NEW_MEAL\")\r",
+							"tests[\"NEW MEAL_ID\"] = data.id == new_id;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/categories/meals/{{NEW_MEAL}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"categories",
+						"meals",
+						"{{NEW_MEAL}}"
 					]
 				}
 			},
