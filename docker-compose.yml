@@ -1,8 +1,9 @@
 version: '3.1'
 
 services:
-  deno:
+  restapi:
     build: .
+    command: npm start
     ports:
       - "8000:${PORT}"
     volumes:
@@ -11,24 +12,30 @@ services:
       - db
     
   db:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password --init-file /data/application/init.sql
+    image: postgres:latest
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASS}
-      MYSQL_DATABASE: ${DB}
-    ports:
-      - 3306:3306
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
     restart: always
+    ports:
+      - 7000:5432
+    volumes: 
+      - db:/var/lib/postgresql/data
+      
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
     volumes:
-      - ./sql/init.sql:/data/application/init.sql
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+      - pgadmin-data:/var/lib/pgadmin
 
   swagger_ui:
     container_name: swagger_ui_service
@@ -39,3 +46,8 @@ services:
       - ./openapi.yml:/openapi.yml
     environment:
       SWAGGER_JSON: /openapi.yml
+
+volumes:
+  db:
+  local_pgdata:
+  pgadmin-data:

@@ -2,9 +2,6 @@ import {
     PrimaryGeneratedColumn,
     Column,
     Entity,
-    ManyToOne,
-    JoinColumn,
-    Unique
   } from 'typeorm'
 
   @Entity({
@@ -18,7 +15,7 @@ import {
     @Column({
         name: 'name'
     })
-    name!: string
+    name: string
 
   }
   

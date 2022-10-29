@@ -1,4 +1,4 @@
-import { Category } from "../../model/Models";
+import { Category } from "../../model/models";
 import { MealDTO } from "./meal.dto";
 
 export class CategoryDTO{

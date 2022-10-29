@@ -1,136 +1,146 @@
-import { getRepository } from "typeorm";
+import { AppDataSource } from "../../config/database";
 import { RestaurantNotExistsError } from "../../error/restaurant/RestaurantNotExistsError";
 import { newRestaurant } from "../../interfaces/restaurant/restaurant.interface";
 import { RestaurantBuilder } from "../../model/builder/RestaurantBuilder";
-import { OpenDay, PhotoRestaurant, Restaurant, User } from "../../model/Models";
+import { OpenDay, PhotoRestaurant, Restaurant, User } from "../../model/models";
 import cloudinaryService from "../cloudinary/CloudinaryService";
 
-export const addRestaurant = async (restaurant:newRestaurant, userId:number) => {
+export const addRestaurant = async (
+  restaurant: newRestaurant,
+  userId: number
+) => {
+  let userRepository = AppDataSource.getRepository(User);
+  const userBD = await userRepository.findOne({ where: { userId: userId } });
+  const restaurantRepository = AppDataSource.getRepository(Restaurant);
 
-    let userRepository = getRepository(User);
-    const userBD = await userRepository.findOne({userId: userId});
-    const restaurantRepository = getRepository(Restaurant)
- 
-    const newRestaurant = new RestaurantBuilder()
-         .withNewRestaurant(restaurant)
-         .withStatus("OPERATIVO")
-         .withUser(userBD)
-         .build()
- 
-    const restaurantBD = await restaurantRepository.save(newRestaurant)
+  const newRestaurant = new RestaurantBuilder()
+    .withNewRestaurant(restaurant)
+    .withStatus("OPERATIVO")
+    .withUser(userBD)
+    .build();
 
-    savePhotosUrls(restaurant.images, restaurantBD)
-    saveOpenDays(restaurant.openDays, restaurantBD)
- 
- };
+  const restaurantBD = await restaurantRepository.save(newRestaurant);
 
- export const editRestaurant = async (restaurantId:number, restaurant:newRestaurant, userId:number) => {
+  savePhotosUrls(restaurant.images, restaurantBD);
+  saveOpenDays(restaurant.openDays, restaurantBD);
+};
 
-    const restaurantRepository = getRepository(Restaurant)
-    let restaurantBD = await restaurantRepository.findOne({restaurantId : restaurantId, user: {userId : userId}})
- 
-    if(!restaurantBD){
-        throw new RestaurantNotExistsError()
+export const editRestaurant = async (
+  restaurantId: number,
+  restaurant: newRestaurant,
+  userId: number
+) => {
+  const restaurantRepository = AppDataSource.getRepository(Restaurant);
+  let restaurantBD = await restaurantRepository.findOne({
+    where: {
+      restaurantId: restaurantId,
+      user: { userId: userId },
+    },
+  });
+
+  if (!restaurantBD) {
+    throw new RestaurantNotExistsError();
+  }
+
+  const newRestaurant = new RestaurantBuilder()
+    .withRestaurant(restaurantBD)
+    .withNewRestaurant(restaurant)
+    .build();
+
+  await restaurantRepository.save(newRestaurant);
+
+  if (restaurant.images) {
+    let photoRepository = AppDataSource.getRepository(PhotoRestaurant);
+    photoRepository.delete({ restaurant: { restaurantId: restaurantId } });
+    savePhotosUrls(restaurant.images, restaurantBD);
+  }
+
+  if (restaurant.openDays) {
+    let OpenDayRepository = AppDataSource.getRepository(OpenDay);
+    OpenDayRepository.delete({ restaurant: { restaurantId: restaurantId } });
+    saveOpenDays(restaurant.openDays, restaurantBD);
+  }
+};
+
+const savePhotosUrls = async (photos: string[], restaurant: Restaurant) => {
+  if (photos) {
+    let photoRepository = AppDataSource.getRepository(PhotoRestaurant);
+
+    for (let i = 0; i < photos.length; i++) {
+      let url = await cloudinaryService.uploadImage(photos[i]);
+      photoRepository.save(new PhotoRestaurant(url, restaurant));
     }
+  }
+};
 
-    const newRestaurant = new RestaurantBuilder()
-        .withRestaurant(restaurantBD)
-        .withNewRestaurant(restaurant)
-        .build()
- 
-    await restaurantRepository.save(newRestaurant)
+const saveOpenDays = (openDays: string[], restaurant: Restaurant) => {
+  if (openDays) {
+    let OpenDayRepository = AppDataSource.getRepository(OpenDay);
 
-    if(restaurant.images){
-        let photoRepository = getRepository(PhotoRestaurant);
-        photoRepository.delete({restaurant : {restaurantId : restaurantId} })
-        savePhotosUrls(restaurant.images, restaurantBD)
+    for (let i = 0; i < openDays.length; i++) {
+      OpenDayRepository.save(new OpenDay(openDays[i], restaurant));
     }
+  }
+};
 
-    if(restaurant.openDays){
-        let OpenDayRepository = getRepository(OpenDay);
-        OpenDayRepository.delete({restaurant : {restaurantId : restaurantId} })
-        saveOpenDays(restaurant.openDays, restaurantBD)
-    }
- 
- };
+export const getAllRestaurants = async () => {
+  const restaurantRepository = AppDataSource.getRepository(Restaurant);
 
- const savePhotosUrls = async (photos : string[], restaurant: Restaurant) => {
-    
-    if(photos){
-        let photoRepository = getRepository(PhotoRestaurant);
+  return await restaurantRepository
+    .createQueryBuilder("r")
+    .select("r.restaurantId", "id")
+    .addSelect("r.name", "name")
+    .addSelect("CONCAT(r.street, ' ', r.streetNumber)", "address")
+    .addSelect("u.userId", "ownerId")
+    .addSelect("r.lat", "lat")
+    .addSelect("r.lon", "lon")
+    .innerJoin("r.user", "u")
+    .getRawMany();
+};
 
-        for(let i=0; i < photos.length; i++){
-            let url = await cloudinaryService.uploadImage(photos[i])
-            photoRepository.save(new PhotoRestaurant(url, restaurant))
-        }
-    }
- }
+export const getOneRestaurant = async (restaurantId: number) => {
+  const restaurantRepository = AppDataSource.getRepository(Restaurant);
 
- const saveOpenDays = (openDays : string[], restaurant: Restaurant) => {
-    
-    if(openDays){
-        let OpenDayRepository = getRepository(OpenDay);
+  const restaurant = await restaurantRepository
+    .createQueryBuilder("r")
+    .innerJoinAndSelect("r.user", "u")
+    .where("r.restaurantId = :restaurantId", { restaurantId: restaurantId })
+    .getOne();
 
-        for(let i=0; i < openDays.length; i++){
-            OpenDayRepository.save(new OpenDay(openDays[i], restaurant))
-        }
-    }
- }
+  if (!restaurant || restaurant === undefined) {
+    throw new RestaurantNotExistsError();
+  }
 
- export const getAllRestaurants = async () => {
+  return {
+    id: restaurant.restaurantId,
+    name: restaurant.name,
+    address: restaurant.street + " " + restaurant.streetNumber,
+    ownerId: restaurant.user.userId,
+    lat: restaurant.lat,
+    lon: restaurant.lon,
+  };
+};
 
-    const restaurantRepository = getRepository(Restaurant)
+export const deleteRestaurant = async (
+  restaurantId: number,
+  userId: number
+) => {
+  const restaurantRepository = AppDataSource.getRepository(Restaurant);
+  let restaurantBD = await restaurantRepository.findOne({
+    where: {
+      restaurantId: restaurantId,
+      user: { userId: userId },
+    },
+  });
 
-    return await restaurantRepository.createQueryBuilder('r')
-        .select('r.restaurantId', "id")
-        .addSelect('r.name', "name")
-        .addSelect("CONCAT(r.street, ' ', r.streetNumber)", "address")
-        .addSelect('u.userId', "ownerId")
-        .addSelect('r.lat', "lat")
-        .addSelect('r.lon', "lon")
-        .innerJoin('r.user', 'u')
-        .getRawMany()
- 
- };
+  if (!restaurantBD) {
+    throw new RestaurantNotExistsError();
+  }
 
- export const getOneRestaurant = async (restaurantId:number) => {
+  const newRestaurant = new RestaurantBuilder()
+    .withRestaurant(restaurantBD)
+    .withStatus("ELIMINADO")
+    .build();
 
-    const restaurantRepository = getRepository(Restaurant)
-
-    const restaurant = await restaurantRepository.createQueryBuilder('r')
-        .innerJoinAndSelect('r.user', 'u')
-        .where("r.restaurantId = :restaurantId", {restaurantId : restaurantId})
-        .getOne()
-
-    if(!restaurant || restaurant === undefined){
-        throw new RestaurantNotExistsError();
-    }
-
-    return {
-        id: restaurant.restaurantId,
-        name: restaurant.name,
-        address: restaurant.street + " " + restaurant.streetNumber,
-        ownerId: restaurant.user.userId,
-        lat: restaurant.lat,
-        lon: restaurant.lon
-    }
- 
- };
-
- export const deleteRestaurant = async (restaurantId:number, userId:number) => {
-
-    const restaurantRepository = getRepository(Restaurant)
-    let restaurantBD = await restaurantRepository.findOne({restaurantId : restaurantId, user: {userId : userId}})
- 
-    if(!restaurantBD){
-        throw new RestaurantNotExistsError()
-    }
-
-    const newRestaurant = new RestaurantBuilder()
-        .withRestaurant(restaurantBD)
-        .withStatus("ELIMINADO")
-        .build()
- 
-    await restaurantRepository.save(newRestaurant)
-
- };
+  await restaurantRepository.save(newRestaurant);
+};

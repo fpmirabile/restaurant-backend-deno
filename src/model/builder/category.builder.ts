@@ -1,4 +1,4 @@
-import { Category, Restaurant, User } from "../Models";
+import { Category, Restaurant, User } from "../models";
 
 export class CategoryBuilder{
     categoryId:number

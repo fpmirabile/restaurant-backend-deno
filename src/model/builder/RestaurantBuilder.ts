@@ -1,5 +1,5 @@
 import { newRestaurant } from "../../interfaces/restaurant/restaurant.interface";
-import { Restaurant, User } from "../Models";
+import { Restaurant, User } from "../models";
 
 export class RestaurantBuilder{
     restaurantId!: number;

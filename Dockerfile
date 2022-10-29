@@ -1,11 +1,10 @@
-FROM denoland/deno:latest
+FROM node:latest 
 
 EXPOSE 8000
 
-RUN mkdir -p /usr/app
-WORKDIR /usr/app
-COPY . .
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY . /usr/src/app
 
-USER deno
-RUN deno cache ./src/server.ts
-CMD ["run", "--allow-read", "--allow-net", "--allow-env", "--unstable", "src/server.ts"]
+RUN npm install
+CMD ["npm", "start"] 

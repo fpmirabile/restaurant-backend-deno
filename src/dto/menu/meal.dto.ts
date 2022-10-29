@@ -1,4 +1,4 @@
-import { Meal } from "../../model/Models";
+import { Meal } from "../../model/models";
 
 export class MealDTO{
     id:number;

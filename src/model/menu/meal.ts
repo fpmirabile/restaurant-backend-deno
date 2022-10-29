@@ -1,60 +1,46 @@
-import {
-    PrimaryGeneratedColumn,
-    Column,
-    Entity,
-    ManyToOne,
-    JoinColumn,
-    OneToMany,
-    Unique
-  } from 'typeorm'
-import { Category, Ingredient, PhotoMeal } from '../Models'
+import { PrimaryGeneratedColumn, Column, Entity, Unique, ManyToOne, JoinColumn, OneToMany } from "typeorm";
+import { Category, Ingredient, PhotoMeal } from "../models";
 
-  @Entity({
-    name : 'MEALS'
+@Entity({
+  name: "MEALS",
+})
+@Unique(["name", "category"])
+export class Meal {
+  @PrimaryGeneratedColumn({ name: "meal_id" })
+  mealId: number;
+
+  @Column({
+    name: "name",
   })
-  @Unique(["name", "category"])
-  export class Meal {
-  
-    @PrimaryGeneratedColumn({name: 'meal_id'})
-    mealId!: number
-  
-    @Column({
-        name: 'name'
-    })
-    name!: string
+  name: string;
 
-    @Column({
-        name: 'price',
-        type:'float'
-    })
-    price!: number
+  @Column({
+    name: "price",
+  })
+  price: number;
 
-    @Column({
-        name: 'suitable_vegan'
-    })
-    suitableVegan!: boolean
+  @Column({
+    name: "suitable_vegan",
+  })
+  suitableVegan: boolean;
 
-    @Column({
-        name: 'suitable_celiac'
-    })
-    suitableCeliac!: boolean
+  @Column({
+    name: "suitable_celiac",
+  })
+  suitableCeliac: boolean;
 
-    @Column({
-        name: 'status'
-    })
-    status!: string
- 
-    @ManyToOne(() => Category)
-    @JoinColumn({name: 'category_id'})
-    category!: Category
+  @Column({
+    name: "status",
+  })
+  status: string;
 
-    @OneToMany(() => PhotoMeal, image => image.meal)
-    images!:PhotoMeal[]
+  @ManyToOne(() => Category)
+  @JoinColumn({ name: "category_id" })
+  category: Category;
 
-    @OneToMany(() => Ingredient, ingredient => ingredient.meal)
-    ingredients!:Ingredient[]
+  @OneToMany(() => PhotoMeal, (image) => image.meal)
+  images: PhotoMeal[];
 
-    
-
-  }
-  
+  @OneToMany(() => Ingredient, (ingredient) => ingredient.meal)
+  ingredients: Ingredient[];
+}

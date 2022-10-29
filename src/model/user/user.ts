@@ -2,57 +2,51 @@ import {
   PrimaryGeneratedColumn,
   Column,
   Entity,
-  ManyToOne,
-  JoinColumn,
-  Unique
-} from 'typeorm'
+  Unique,
+} from "typeorm";
 
 @Entity({
-  name : 'USERS'
+  name: "USERS",
 })
 @Unique(["email"])
 export class User {
-
-  @PrimaryGeneratedColumn({name: 'user_id'})
-  userId!: number
-
-  @Column({
-      name: 'password'
-  })
-  password!: string
-
+  @PrimaryGeneratedColumn({ name: "user_id" })
+  userId: number;
 
   @Column({
-      name: 'email'
+    name: "password",
   })
-  email!: string
+  password: string;
 
   @Column({
-      name: 'name'
+    name: "email",
   })
-  name!: string
+  email: string;
 
   @Column({
-      name: 'status'
+    name: "name",
   })
-  status!: string
+  name: string;
 
   @Column({
-      name: 'identifier',
-      nullable:true
+    name: "status",
   })
-  identifier!: string
+  status: string;
 
   @Column({
-      name: 'photo',
-      nullable:true
+    name: "identifier",
+    nullable: true,
   })
-  photo!: string
+  identifier: string;
 
   @Column({
-      name: 'role'
+    name: "photo",
+    nullable: true,
   })
-  role!: string
+  photo: string;
 
-
+  @Column({
+    name: "role",
+  })
+  role: string;
 }

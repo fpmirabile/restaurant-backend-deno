@@ -1,4 +1,4 @@
-import { Category, Meal } from "../Models";
+import { Category, Meal } from "../models";
 import { newMeal } from "../../interfaces/restaurant/meal.interface";
 
 export class MealBuilder{

@@ -1,5 +1,5 @@
 import { NewUser } from "../../interfaces/user/user.interface";
-import { User } from "../Models";
+import { User } from "../models";
 
 export class UserBuilder{
     userId!: number;
