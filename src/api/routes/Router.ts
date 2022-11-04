@@ -30,7 +30,7 @@ class Routes {
         
             .get("/restaurants", authenticated, restaurantController.getAll)
             .post("/restaurants", authenticatedPartner, restaurantController.addNewRest)
-            .get("/restaurants/:restaurantId", authenticated, restaurantController.getOne)
+            .get("/restaurants/:restaurantId", authenticatedPartner, restaurantController.getOne)
             .put("/restaurants/:restaurantId", authenticatedPartner, restaurantController.editRest)
             .delete("/restaurants/:restaurantId", authenticatedPartner, restaurantController.deleteRest)
             //.get("/restaurants/near", authenticated, sesionController.loginUser)

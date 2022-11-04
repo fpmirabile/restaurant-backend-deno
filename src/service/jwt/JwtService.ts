@@ -6,7 +6,7 @@ import { JWTCreateError } from '../../error/auth/JWTCreateError'
 import { JwtSignedDTO } from '../../dto/user/JwtSignedDTO'
 
 
-export const jwtSecret: string | undefined = process.env.JWT_SECRET || 'Me cago en la concha de tu madre'
+export const jwtSecret: string | undefined = process.env.JWT_SECRET || 'Una API KEY de ejemplo'
 const tokenExpirationInSeconds = 86400 // 24 HOURS
 
 class JwtService {

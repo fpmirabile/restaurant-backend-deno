@@ -7,3 +7,4 @@ export { PhotoMeal } from "./menu/photoMeal";
 export { Ingredient } from "./menu/ingredient";
 export { PhotoRestaurant } from "./restaurant/photoRestaurant";
 export { OpenDay } from "./restaurant/openDay";
+export { Log } from "./log/log";

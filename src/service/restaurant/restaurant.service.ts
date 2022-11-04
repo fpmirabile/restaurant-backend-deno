@@ -83,7 +83,7 @@ const saveOpenDays = (openDays: string[], restaurant: Restaurant) => {
   }
 };
 
-export const getAllRestaurants = async () => {
+export const getAllRestaurants = async (userId:number) => {
   const restaurantRepository = AppDataSource.getRepository(Restaurant);
 
   return await restaurantRepository
@@ -95,6 +95,7 @@ export const getAllRestaurants = async () => {
     .addSelect("r.lat", "lat")
     .addSelect("r.lon", "lon")
     .innerJoin("r.user", "u")
+    .where("u.userId = :userId", {userId: userId})
     .getRawMany();
 };
 

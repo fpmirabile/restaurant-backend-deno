@@ -14,7 +14,7 @@ export const login = async (email: string, password: string) => {
   let userRepository = AppDataSource.getRepository(User);
   const user = await userRepository.findOne({
     where: {
-      email: email,
+      email: email.toLowerCase(),
       status: "OPERATIVO",
     },
   });

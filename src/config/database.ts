@@ -16,7 +16,7 @@ export const initDatabase = () => {
     password: process.env.DB_PASS || "admin",
     database: process.env.DB_NAME || "morfando",
     synchronize: true,
-    logging: true,
+    logging: false,
     entities: Object.values(Models),
   });
 

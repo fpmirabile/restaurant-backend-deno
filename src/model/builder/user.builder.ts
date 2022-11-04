@@ -15,7 +15,7 @@ export class UserBuilder{
     build = ():User => {
         const user = new User()
         user.userId = this.userId
-        user.email = this.email
+        user.email = this.email.toLowerCase()
         user.password = this.password
         user.name = this.name
         user.status = this.status
