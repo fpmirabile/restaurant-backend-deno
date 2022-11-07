@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { OAuth2Client } from "google-auth-library";
 import { AppDataSource } from "../../config/database";
 import { InvalidCredentialsError } from "../../error/user/InvalidCredentialsError";
 import { IJwtUnsigned } from "../../interfaces/jwt/IJwtUnsigned";
@@ -39,13 +40,22 @@ export const login = async (email: string, password: string) => {
   return await jwtService.createJWT(signObject);
 };
 
-export const loginSSO = async (email: string, identifier: string) => {
-  let userRepository = AppDataSource.getRepository(User);
-  //todo VALIDACION CONTRA GOOGLE
+export const loginSSO = async (userEmail: string, idToken: string) => {
+  const userRepository = AppDataSource.getRepository(User);
+  const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+  const ticket = await client.verifyIdToken({
+    idToken,
+    audience: process.env.GOOGLE_CLIENT_ID,
+  });
 
-  const user = await getOrCreateLoggedClient(email, identifier);
+  const { email, email_verified, sub, name, family_name } = ticket.getPayload();
+  if (!sub || !email || !email_verified || userEmail !== email) {
+    throw new InvalidCredentialsError();
+  }
+  console.log(email, email_verified, sub);
+  const user = await getOrCreateLoggedClient(email, idToken, name, family_name);
 
-  let signObject: IJwtUnsigned = {
+  const signObject: IJwtUnsigned = {
     userId: user.userId,
     name: user.name,
     status: user.status,
@@ -92,7 +102,12 @@ export const register = async (user: NewUser) => {
   }
 };
 
-const getOrCreateLoggedClient = async (email: string, identifier: string) => {
+const getOrCreateLoggedClient = async (
+  email: string,
+  identifier: string,
+  name: string,
+  lastName: string
+) => {
   let userRepository = AppDataSource.getRepository(User);
 
   let loggedClient = await userRepository.findOne({
@@ -108,6 +123,8 @@ const getOrCreateLoggedClient = async (email: string, identifier: string) => {
       .withEmail(email)
       .withIdentifier(identifier)
       .withRole("CLIENT")
+      .withName(name + " " + lastName)
+      .withStatus("OPERATIVO")
       .build();
     await userRepository.save(loggedClient);
   } else {
