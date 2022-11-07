@@ -59,10 +59,17 @@ export const addStars = async (
   ) => {
     let commentRepository = AppDataSource.getRepository(Comment);
 
-    return commentRepository.createQueryBuilder("c")
-      .select("c.comment", "comment")
+    const result = [] 
+
+    let comments =  await commentRepository.createQueryBuilder("c")
       .innerJoinAndSelect("c.restaurant", "r")
       .where("r.restaurantId = :restaurantId", {restaurantId: restaurantId})
       .getMany();
+
+     for(let i=0; i<comments.length; i++){
+      result.push(comments[i].comment)
+     }
+
+      return result
 
   };

@@ -3,6 +3,7 @@ import * as userController from "../../controllers/user.controller";
 import * as restaurantController from "../../controllers/restaurant.controller";
 import * as categoryController from "../../controllers/category.controller";
 import * as mealController from "../../controllers/meal.controller";
+import * as starsController from "../../controllers/stars.controller";
 import { authenticated, authenticatedClient, authenticatedPartner } from '../middleware/auth';
 
 class Routes {
@@ -32,10 +33,9 @@ class Routes {
             .delete("/restaurants/:restaurantId", authenticatedPartner, restaurantController.deleteRest)
 
 
-            //.put("/restaurants/:restaurantId/favorites", authenticatedClient, restaurantController.editFavorite)
-            //.get("/restaurants/favorites", authenticatedClient, restaurantController.getFavorites)
-            //.post("/restaurants/:restaurantId/stars", authenticatedClient, starsController.add)
-            //.get("/restaurants/:restaurantId/comments", authenticated, starsController.comments)
+            .put("/restaurants/:restaurantId/favorites", authenticatedClient, restaurantController.editFavorite)
+            .post("/restaurants/:restaurantId/stars", authenticatedClient, starsController.add)
+            .get("/restaurants/:restaurantId/comments", authenticated, starsController.comments)
             //.get("/restaurants/near", authenticated, restaurantController.near)
         
             .get("/restaurants/:restaurantId/categories", authenticated, categoryController.getAll)

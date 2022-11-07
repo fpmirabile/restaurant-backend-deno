@@ -1,6 +1,6 @@
 import express from 'express'
 import { errorGenerated } from '../api/middleware/errorHandler';
-import { addRestaurant, deleteRestaurant, editRestaurant, getAllRestaurants, getOneRestaurant } from "../service/restaurant/restaurant.service";
+import { addFavorite, addRestaurant, deleteRestaurant, editRestaurant, getAllRestaurants, getOneRestaurant } from "../service/restaurant/restaurant.service";
 import { setResponse } from './response.controller';
 
 export const addNewRest = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -53,6 +53,17 @@ export const deleteRest = async (req: express.Request, res: express.Response, ne
     try {
         const restaurant = await getOneRestaurant(parseInt(req.params.restaurantId), (req as any).user.id)
         setResponse(res, 200, restaurant)
+      } catch (e) {
+        errorGenerated(e, res)
+      }
+      next()
+  };
+
+  export const editFavorite = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        const user = (req as any).user.id
+        await addFavorite(parseInt(req.params.restaurantId), user)
+        setResponse(res, 200, {})
       } catch (e) {
         errorGenerated(e, res)
       }
