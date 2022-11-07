@@ -62,16 +62,6 @@ export class Restaurant {
   lon: string;
 
   @Column({
-    name: "openTime",
-  })
-  openTime: string;
-
-  @Column({
-    name: "closeTime",
-  })
-  closeTime: string;
-
-  @Column({
     name: "status",
   })
   status: string;

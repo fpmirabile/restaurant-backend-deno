@@ -3,7 +3,7 @@ import * as userController from "../../controllers/user.controller";
 import * as restaurantController from "../../controllers/restaurant.controller";
 import * as categoryController from "../../controllers/category.controller";
 import * as mealController from "../../controllers/meal.controller";
-import { authenticated, authenticatedPartner } from '../middleware/auth';
+import { authenticated, authenticatedClient, authenticatedPartner } from '../middleware/auth';
 
 class Routes {
 
@@ -24,18 +24,19 @@ class Routes {
             //.put("/user", authenticated, sesionController.loginUser)
         
             .get("/me", authenticated, userController.getLoggedUser)
-            //.get("/likes", authenticated, sesionController.loginUser)
-            //.post("/likes", authenticated, sesionController.loginUser)
-            //.delete("/likes/:likeId", authenticated, sesionController.loginUser)
         
             .get("/restaurants", authenticated, restaurantController.getAll)
             .post("/restaurants", authenticatedPartner, restaurantController.addNewRest)
-            .get("/restaurants/:restaurantId", authenticatedPartner, restaurantController.getOne)
+            .get("/restaurants/:restaurantId", authenticated, restaurantController.getOne)
             .put("/restaurants/:restaurantId", authenticatedPartner, restaurantController.editRest)
             .delete("/restaurants/:restaurantId", authenticatedPartner, restaurantController.deleteRest)
-            //.get("/restaurants/near", authenticated, sesionController.loginUser)
-        
-            //.post("/restaurants/score", authenticatedClient, sesionController.loginUser)
+
+
+            //.put("/restaurants/:restaurantId/favorites", authenticatedClient, restaurantController.editFavorite)
+            //.get("/restaurants/favorites", authenticatedClient, restaurantController.getFavorites)
+            //.post("/restaurants/:restaurantId/stars", authenticatedClient, starsController.add)
+            //.get("/restaurants/:restaurantId/comments", authenticated, starsController.comments)
+            //.get("/restaurants/near", authenticated, restaurantController.near)
         
             .get("/restaurants/:restaurantId/categories", authenticated, categoryController.getAll)
             .post("/restaurants/:restaurantId/categories", authenticatedPartner, categoryController.add)

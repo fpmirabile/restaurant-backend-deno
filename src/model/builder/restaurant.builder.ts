@@ -30,8 +30,6 @@ export class RestaurantBuilder {
     restaurant.state = this.state;
     restaurant.lat = this.lat;
     restaurant.lon = this.lon;
-    restaurant.openTime = this.openTime;
-    restaurant.closeTime = this.closeTime;
     restaurant.status = this.status;
     restaurant.user = this.user;
 
@@ -63,12 +61,6 @@ export class RestaurantBuilder {
     if (newRestaurant.lon) {
       this.lon = newRestaurant.lon;
     }
-    if (newRestaurant.openTime) {
-      this.openTime = newRestaurant.openTime;
-    }
-    if (newRestaurant.closeTime) {
-      this.closeTime = newRestaurant.closeTime;
-    }
 
     return this;
   };
@@ -82,8 +74,6 @@ export class RestaurantBuilder {
     this.state = restaurant.state;
     this.lat = restaurant.lat;
     this.lon = restaurant.lon;
-    this.openTime = restaurant.openTime;
-    this.closeTime = restaurant.closeTime;
     this.restaurantId = restaurant.restaurantId;
     this.user = restaurant.user;
     this.status = restaurant.status;

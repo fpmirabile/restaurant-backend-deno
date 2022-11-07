@@ -8,3 +8,6 @@ export { Ingredient } from "./menu/ingredient";
 export { PhotoRestaurant } from "./restaurant/photoRestaurant";
 export { OpenDay } from "./restaurant/openDay";
 export { Log } from "./log/log";
+export { Stars } from "./restaurant/stars";
+export { Comment } from "./restaurant/comment";
+export { Favorite } from "./restaurant/favorite";

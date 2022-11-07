@@ -51,7 +51,7 @@ export const deleteRest = async (req: express.Request, res: express.Response, ne
 
   export const getOne = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
-        const restaurant = await getOneRestaurant(parseInt(req.params.restaurantId))
+        const restaurant = await getOneRestaurant(parseInt(req.params.restaurantId), (req as any).user.id)
         setResponse(res, 200, restaurant)
       } catch (e) {
         errorGenerated(e, res)

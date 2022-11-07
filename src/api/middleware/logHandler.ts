@@ -33,6 +33,6 @@ export const logHandler = [
 
     logRepository.save(log);
 
-    return next();
+    return res.status(status).send(body) 
   },
 ];

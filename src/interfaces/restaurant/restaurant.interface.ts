@@ -1,3 +1,5 @@
+import { newTime } from "./times.interface"
+
 export interface newRestaurant{
     name:string,
     street:string,
@@ -7,8 +9,6 @@ export interface newRestaurant{
     state:string
     lat:string
     lon:string
-    openDays:string[]
-    openTime:string
-    closeTime:string
+    openDays:newTime[]
     images:string[]
 }
