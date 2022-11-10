@@ -1,7 +1,7 @@
 import { AppDataSource } from "../../config/database";
-import { CommentBuilder } from "../../model/builder/comment.builder";
+import { CommentDTO } from "../../dto/restaurant/comment.dto";
 import { StarsBuilder } from "../../model/builder/stars.builder";
-import { Comment, Stars, User } from "../../model/models";
+import { Stars, User } from "../../model/models";
 import { getRestaurantById } from "./restaurant.service";
 
 export const addStars = async (
@@ -15,20 +15,13 @@ export const addStars = async (
     const restaurant = await getRestaurantById(restaurantId);
 
     let starsRepository = AppDataSource.getRepository(Stars);
-    let commentRepository = AppDataSource.getRepository(Comment);
     const starsBD = new StarsBuilder()
       .withStars(stars)
       .withRestaurant(restaurant)
       .withUser(userBD)
-      .build();
-
-      const commentBD = new CommentBuilder()
       .withComment(comment)
-      .withRestaurant(restaurant)
-      .withUser(userBD)
       .build();
 
-      commentRepository.save(commentBD);
       starsRepository.save(starsBD);
 
   };
@@ -57,19 +50,21 @@ export const addStars = async (
   export const getComments = async (
     restaurantId:number
   ) => {
-    let commentRepository = AppDataSource.getRepository(Comment);
+
+    let starsRepository = AppDataSource.getRepository(Stars);
 
     const result = [] 
 
-    let comments =  await commentRepository.createQueryBuilder("c")
+    let comments =  await starsRepository.createQueryBuilder("c")
       .innerJoinAndSelect("c.restaurant", "r")
+      .innerJoinAndSelect("c.user", "u")
       .where("r.restaurantId = :restaurantId", {restaurantId: restaurantId})
       .getMany();
 
-     for(let i=0; i<comments.length; i++){
-      result.push(comments[i].comment)
-     }
+    for(let i=0; i<comments.length; i++){
+      result.push(new CommentDTO(comments[i]))
+    }
 
-      return result
+    return result
 
   };

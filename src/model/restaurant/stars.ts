@@ -18,6 +18,17 @@ import {
         name: "stars",
       })
     stars: number;
+
+    @Column({
+      name: "comment",
+      nullable:true
+    })
+    comment: string;
+
+    @Column({
+      name: "date",
+    })
+    date: Date;
   
     @ManyToOne(() => User)
     @JoinColumn({ name: "user_id" })
