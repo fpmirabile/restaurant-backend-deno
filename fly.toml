@@ -5,6 +5,7 @@ kill_timeout = 5
 processes = []
 
 [env]
+  LOG_LEVEL="debug"
 
 [build]
   dockerfile = "Dockerfile.prod"
