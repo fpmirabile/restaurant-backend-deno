@@ -32,7 +32,7 @@ export const logHandler = [
     log.date = new Date();
 
     logRepository.save(log);
-
+    next()
     return res.status(status).send(body) 
   },
 ];
