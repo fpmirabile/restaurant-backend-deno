@@ -1052,6 +1052,76 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get provincias",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/provincias",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"provincias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get localidades",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/provincia/1/localidades",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"provincia",
+						"1",
+						"localidades"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
