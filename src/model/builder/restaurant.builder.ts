@@ -18,6 +18,8 @@ export class RestaurantBuilder {
   status: string;
   user: User;
   urlsPhotos: string[];
+  foodType: string;
+  priceRange:string;
 
   build = (): Restaurant => {
     const restaurant = new Restaurant();
@@ -32,6 +34,8 @@ export class RestaurantBuilder {
     restaurant.lon = this.lon;
     restaurant.status = this.status;
     restaurant.user = this.user;
+    restaurant.foodType = this.foodType;
+    restaurant.priceRange = this.priceRange;
 
     return restaurant;
   };
@@ -61,6 +65,12 @@ export class RestaurantBuilder {
     if (newRestaurant.lon) {
       this.lon = newRestaurant.lon;
     }
+    if (newRestaurant.foodType) {
+      this.foodType = newRestaurant.foodType;
+    }
+    if (newRestaurant.priceRange) {
+      this.priceRange = newRestaurant.priceRange;
+    }
 
     return this;
   };
@@ -77,6 +87,8 @@ export class RestaurantBuilder {
     this.restaurantId = restaurant.restaurantId;
     this.user = restaurant.user;
     this.status = restaurant.status;
+    this.foodType = restaurant.foodType;
+    this.priceRange = restaurant.priceRange;
 
     return this;
   };

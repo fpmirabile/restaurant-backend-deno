@@ -30,10 +30,6 @@ export class Restaurant {
     name: "neighborhood",
   })
   neighborhood: string;
-
-  @ManyToOne(() => Speciality)
-  @JoinColumn({ name: "especiality_id" })
-  speciality!: Speciality;
   
   @Column({
     name: "place",
@@ -68,6 +64,18 @@ export class Restaurant {
     name: "status",
   })
   status: string;
+
+  @Column({
+    name: "food_type",
+    nullable:true
+  })
+  foodType: string;
+
+  @Column({
+    name: "price_range",
+    nullable:true
+  })
+  priceRange:string
 
   @ManyToOne(() => User)
   @JoinColumn({ name: "user_id" })

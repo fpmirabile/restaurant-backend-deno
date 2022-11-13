@@ -11,4 +11,6 @@ export interface newRestaurant{
     lon:number
     openDays:newTime[]
     images:string[]
+    foodType:string
+    priceRange:string
 }
