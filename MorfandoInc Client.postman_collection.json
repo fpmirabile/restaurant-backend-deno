@@ -1,0 +1,277 @@
+{
+	"info": {
+		"_postman_id": "998ea5dd-965c-4c36-bf5c-2f1533af0c94",
+		"name": "MorfandoInc Client",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6902289"
+	},
+	"item": [
+		{
+			"name": "loginSSO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 201\"] = responseCode.code === 201;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"JWT\", data.token); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idToken\":\"eyJhbGciOiJSUzI1NiIsImtpZCI6ImY0NTEzNDVmYWQwODEwMWJmYjM0NWNmNjQyYTJkYTkyNjdiOWViZWIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxODg2MzY0OTAxMTUtYWQxN2VrZGhzczJnNjE2NjQxMWkwYjQxOTQ1MDN0MTkuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIxODg2MzY0OTAxMTUtcTE1Nm5ra2g4ZXU0NWI2YWhxcHVlODBwcXFjbXI1cTMuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDEzODIxNTM4MzQyMTA4OTU4ODEiLCJlbWFpbCI6ImZwbWlyYWJpbGVAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJGZXJuYW5kbyBNaXJhYmlsZSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BTG01d3UwdWJ5aUJvaGhXYU8xY3RjbjZuMHZsRXM1d0tBOE50M1NuVVJKYzVRPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IkZlcm5hbmRvIiwiZmFtaWx5X25hbWUiOiJNaXJhYmlsZSIsImxvY2FsZSI6ImVzIiwiaWF0IjoxNjY3Nzg3ODg0LCJleHAiOjE2Njc3OTE0ODR9.cFCMCIARXcNBrU_VIqbqXnu53wkpuQHp1cS6LRV7U6a_BfU2_VcHLkQQGd3WCf5f8tmWHEFOLPwXPIM1hZnOhk-C7756EQsnPekJSqeZV_4lrCUbEwcBt1MVKhjlryM5s_hHtj-Vr20dQjU8apsVXiEU2bsgKcsnV4ru4HxObaOSIwSdPAFl_fRkm_bThbLl_fZg0xXjJz0QQ0VvDOR_LA8hOfKnLB8SLxm194qik8GI-M106C1jkz8cL5JnkKYTYBJ8PuoagBTrX6kPBIpSH1E33Z_0cFX2lXvscBTx64F7JpqFn22PudY1ug3p0HUDjPK17_FZYsnR8XuoI-2Mtw\",\r\n    \"email\":\"fpmirabile@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/login/sso",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"login",
+						"sso"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add favorite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}/favorites",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"{{NEW_RESTAURANT}}",
+						"favorites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EsFavorito",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Es favorito\"] = data.favorite == true"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"{{NEW_RESTAURANT}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit favorite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}/favorites",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"{{NEW_RESTAURANT}}",
+						"favorites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ya no es favorito",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+							"var data = JSON.parse(responseBody);\r",
+							"tests[\"Es favorito\"] = data.favorite == false"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"{{NEW_RESTAURANT}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Calificar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"stars\": 4,\r\n    \"comment\": \"Alto resto papa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}/stars",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"{{NEW_RESTAURANT}}",
+						"stars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Comments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}/comments",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"{{NEW_RESTAURANT}}",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
