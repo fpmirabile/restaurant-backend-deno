@@ -4,6 +4,7 @@ import * as restaurantController from "../../controllers/restaurant.controller";
 import * as categoryController from "../../controllers/category.controller";
 import * as mealController from "../../controllers/meal.controller";
 import * as starsController from "../../controllers/stars.controller";
+import * as provinciaController from "../../controllers/provincia.controller";
 import { authenticated, authenticatedClient, authenticatedPartner } from '../middleware/auth';
 
 class Routes {
@@ -49,6 +50,9 @@ class Routes {
             .get("/restaurant/category/meal/:mealId", authenticated, mealController.getOne)
             .put("/restaurant/category/meal/:mealId", authenticatedPartner, mealController.edit)
             .delete("/restaurant/category/meal/:mealId", authenticatedPartner, mealController.deleteM)
+
+            .get("/provincias", provinciaController.getAllProv)
+            .get("/provincia/:provincia/localidades", provinciaController.getLocalidadesByProv)
     }
 
 }

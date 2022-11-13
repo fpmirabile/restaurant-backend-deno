@@ -10,3 +10,6 @@ export { OpenDay } from "./restaurant/openDay";
 export { Log } from "./log/log";
 export { Stars } from "./restaurant/stars";
 export { Favorite } from "./restaurant/favorite";
+export { Provincia } from "./provincia/provincia";
+export { Localidad } from "./provincia/localidad";
+
