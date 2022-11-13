@@ -7,8 +7,8 @@ export interface newRestaurant{
     neighborhood:string
     place:string
     state:string
-    lat:string
-    lon:string
+    lat:number
+    lon:number
     openDays:newTime[]
     images:string[]
 }

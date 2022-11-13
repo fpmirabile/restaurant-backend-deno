@@ -6,8 +6,8 @@ export class RestaurantDTO {
     name: string;
     address: string;
     ownerId: number;
-    lat: string;
-    lon: string;
+    lat: number;
+    lon: number;
     openDays:OpenDayDTO[] = [];
     photos:string[] = [];
     favorite:boolean;

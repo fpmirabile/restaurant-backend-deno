@@ -53,13 +53,16 @@ export class Restaurant {
   @Column({
     name: "lat",
     nullable: true,
+    type:"float"
   })
-  lat: string;
+  lat: number;
 
   @Column({
     name: "lon",
+    nullable: true,
+    type:"float"
   })
-  lon: string;
+  lon: number;
 
   @Column({
     name: "status",

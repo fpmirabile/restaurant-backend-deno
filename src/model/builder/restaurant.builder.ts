@@ -9,8 +9,8 @@ export class RestaurantBuilder {
   neighborhood: string;
   place: string;
   state: string;
-  lat: string;
-  lon: string;
+  lat: number;
+  lon: number;
   openDays: string[];
   openTime: string;
   closeTime: string;

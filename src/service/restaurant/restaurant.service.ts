@@ -9,6 +9,8 @@ import { Favorite, OpenDay, PhotoRestaurant, Restaurant, User } from "../../mode
 import cloudinaryService from "../cloudinary/CloudinaryService";
 import { getStars } from "./stars.service";
 
+const near = process.env.NEAR || 50
+
 export const addRestaurant = async (
   restaurant: newRestaurant,
   userId: number
@@ -211,4 +213,38 @@ const isFavorite = async (
   }
 
 
+};
+
+export const getNearRestaurants = async (lon:number, lat:number, userId:number) => {
+  const restaurantRepository = AppDataSource.getRepository(Restaurant);
+
+  let distances = await restaurantRepository.query("select * from (SELECT restaurant_id, ( 3959 * acos( cos( radians("+lat+") ) * cos( radians( lat ) ) * cos( radians( lon ) - radians("+lon+") ) + sin( radians("+lat+") ) * sin( radians( lat ) ) ) ) AS distance "
+  + "from public.\"RESTAURANTS\") as t "
+  + "where t.distance <= "+near);
+
+  let ids = []
+  let restaurantsDTO = []
+
+  for(let i=0; i<distances.length; i++){
+    ids[i] = distances[i].restaurant_id
+  }
+
+  let restaurants:Restaurant[] = await restaurantRepository
+    .createQueryBuilder("r")
+    .innerJoinAndSelect("r.user", "u")
+    .leftJoinAndSelect("r.photos", "p")
+    .leftJoinAndSelect("r.openDays", "o")
+    .whereInIds(ids)
+    .getMany();
+
+    if(!restaurants || restaurants.length ==0){
+      throw new RestaurantNotExistsError();
+    }
+    
+    for(let i=0; i<restaurants.length; i++){
+      const stars = await getStars(restaurants[i].restaurantId)
+      restaurantsDTO[i] = new RestaurantDTO(restaurants[i], stars, await isFavorite(restaurants[i].restaurantId, userId))
+    }
+  
+    return restaurantsDTO;
 };

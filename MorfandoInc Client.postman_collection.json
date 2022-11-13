@@ -47,6 +47,43 @@
 			"response": []
 		},
 		{
+			"name": "Get restaurantes cercanos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/near/-34.7969236/-58.3920443",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"near",
+						"-34.7969236",
+						"-58.3920443"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Add favorite",
 			"event": [
 				{
@@ -69,12 +106,12 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}/favorites",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}/favorites",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}",
 						"favorites"
 					]
@@ -107,12 +144,12 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}"
 					]
 				}
@@ -142,12 +179,12 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}/favorites",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}/favorites",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}",
 						"favorites"
 					]
@@ -180,12 +217,12 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}"
 					]
 				}
@@ -224,12 +261,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}/stars",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}/stars",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}",
 						"stars"
 					]
@@ -260,12 +297,12 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}/comments",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}/comments",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}",
 						"comments"
 					]

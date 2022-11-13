@@ -27,28 +27,28 @@ class Routes {
             .get("/me", authenticated, userController.getLoggedUser)
         
             .get("/restaurants", authenticated, restaurantController.getAll)
-            .post("/restaurants", authenticatedPartner, restaurantController.addNewRest)
-            .get("/restaurants/:restaurantId", authenticated, restaurantController.getOne)
-            .put("/restaurants/:restaurantId", authenticatedPartner, restaurantController.editRest)
-            .delete("/restaurants/:restaurantId", authenticatedPartner, restaurantController.deleteRest)
+            .post("/restaurant", authenticatedPartner, restaurantController.addNewRest)
+            .get("/restaurant/:restaurantId", authenticated, restaurantController.getOne)
+            .put("/restaurant/:restaurantId", authenticatedPartner, restaurantController.editRest)
+            .delete("/restaurant/:restaurantId", authenticatedPartner, restaurantController.deleteRest)
 
 
-            .put("/restaurants/:restaurantId/favorites", authenticatedClient, restaurantController.editFavorite)
-            .post("/restaurants/:restaurantId/stars", authenticatedClient, starsController.add)
-            .get("/restaurants/:restaurantId/comments", authenticated, starsController.comments)
-            //.get("/restaurants/near", authenticated, restaurantController.near)
+            .put("/restaurant/:restaurantId/favorites", authenticatedClient, restaurantController.editFavorite)
+            .post("/restaurant/:restaurantId/stars", authenticatedClient, starsController.add)
+            .get("/restaurant/:restaurantId/comments", authenticated, starsController.comments)
+            .get("/restaurants/near/:lat/:lon", authenticated, restaurantController.getNear)
         
-            .get("/restaurants/:restaurantId/categories", authenticated, categoryController.getAll)
-            .post("/restaurants/:restaurantId/categories", authenticatedPartner, categoryController.add)
-            .get("/restaurants/:restaurantId/categories/:categoryId", authenticated, categoryController.getOne)
-            .put("/restaurants/:restaurantId/categories/:categoryId", authenticatedPartner, categoryController.edit)
-            .delete("/restaurants/:restaurantId/categories/:categoryId", authenticatedPartner, categoryController.deleteCat)
+            .get("/restaurant/:restaurantId/categories", authenticated, categoryController.getAll)
+            .post("/restaurant/:restaurantId/category", authenticatedPartner, categoryController.add)
+            .get("/restaurant/:restaurantId/category/:categoryId", authenticated, categoryController.getOne)
+            .put("/restaurant/:restaurantId/category/:categoryId", authenticatedPartner, categoryController.edit)
+            .delete("/restaurant/:restaurantId/category/:categoryId", authenticatedPartner, categoryController.deleteCat)
         
-            .post("/restaurants/categories/:categoryId/meals", authenticatedPartner, mealController.add)
-            .get("/restaurants/categories/:categoryId/meals", authenticated, mealController.getAll)
-            .get("/restaurants/categories/meals/:mealId", authenticated, mealController.getOne)
-            .put("/restaurants/categories/meals/:mealId", authenticatedPartner, mealController.edit)
-            .delete("/restaurants/categories/meals/:mealId", authenticatedPartner, mealController.deleteM)
+            .post("/restaurant/category/:categoryId/meal", authenticatedPartner, mealController.add)
+            .get("/restaurant/category/:categoryId/meals", authenticated, mealController.getAll)
+            .get("/restaurant/category/meal/:mealId", authenticated, mealController.getOne)
+            .put("/restaurant/category/meal/:mealId", authenticatedPartner, mealController.edit)
+            .delete("/restaurant/category/meal/:mealId", authenticatedPartner, mealController.deleteM)
     }
 
 }

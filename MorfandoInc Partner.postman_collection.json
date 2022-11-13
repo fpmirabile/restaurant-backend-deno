@@ -317,12 +317,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL}}/restaurants",
+					"raw": "{{URL}}/restaurant",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants"
+						"restaurant"
 					]
 				}
 			},
@@ -398,12 +398,12 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}"
 					]
 				}
@@ -442,12 +442,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}"
 					]
 				}
@@ -482,12 +482,12 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}"
 					]
 				}
@@ -519,12 +519,12 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/restaurants/0",
+					"raw": "{{URL}}/restaurant/0",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"0"
 					]
 				}
@@ -563,14 +563,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}/categories",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}/category",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}",
-						"categories"
+						"category"
 					]
 				}
 			},
@@ -607,12 +607,12 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}/categories",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}/categories",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}",
 						"categories"
 					]
@@ -652,14 +652,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}/categories/{{NEW_CATEGORY}}",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}/category/{{NEW_CATEGORY}}",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}",
-						"categories",
+						"category",
 						"{{NEW_CATEGORY}}"
 					]
 				}
@@ -692,14 +692,14 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}/categories/{{NEW_CATEGORY}}",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}/category/{{NEW_CATEGORY}}",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}",
-						"categories",
+						"category",
 						"{{NEW_CATEGORY}}"
 					]
 				}
@@ -740,14 +740,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}/categories/0",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}/category/0",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}",
-						"categories",
+						"category",
 						"0"
 					]
 				}
@@ -779,14 +779,14 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/restaurants/{{NEW_RESTAURANT}}/categories/0",
+					"raw": "{{URL}}/restaurant/{{NEW_RESTAURANT}}/category/0",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
+						"restaurant",
 						"{{NEW_RESTAURANT}}",
-						"categories",
+						"category",
 						"0"
 					]
 				}
@@ -825,15 +825,15 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL}}/restaurants/categories/{{NEW_CATEGORY}}/meals",
+					"raw": "{{URL}}/restaurant/category/{{NEW_CATEGORY}}/meal",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
-						"categories",
+						"restaurant",
+						"category",
 						"{{NEW_CATEGORY}}",
-						"meals"
+						"meal"
 					]
 				}
 			},
@@ -870,13 +870,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/restaurants/categories/{{NEW_CATEGORY}}/meals",
+					"raw": "{{URL}}/restaurant/category/{{NEW_CATEGORY}}/meals",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
-						"categories",
+						"restaurant",
+						"category",
 						"{{NEW_CATEGORY}}",
 						"meals"
 					]
@@ -918,15 +918,15 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL}}/restaurants/categories/{{NEW_CATEGORY}}/meals",
+					"raw": "{{URL}}/restaurant/category/{{NEW_CATEGORY}}/meal",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
-						"categories",
+						"restaurant",
+						"category",
 						"{{NEW_CATEGORY}}",
-						"meals"
+						"meal"
 					]
 				}
 			},
@@ -964,14 +964,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL}}/restaurants/categories/meals/{{NEW_MEAL}}",
+					"raw": "{{URL}}/restaurant/category/meal/{{NEW_MEAL}}",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
-						"categories",
-						"meals",
+						"restaurant",
+						"category",
+						"meal",
 						"{{NEW_MEAL}}"
 					]
 				}
@@ -1005,14 +1005,14 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/restaurants/categories/meals/{{NEW_MEAL}}",
+					"raw": "{{URL}}/restaurant/category/meal/{{NEW_MEAL}}",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"restaurants",
-						"categories",
-						"meals",
+						"restaurant",
+						"category",
+						"meal",
 						"{{NEW_MEAL}}"
 					]
 				}
