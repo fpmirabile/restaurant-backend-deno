@@ -14,6 +14,8 @@ export class RestaurantDTO {
     stars:number;
     foodType: string;
     priceRange:string
+    categories:string[]
+    comments:string[]
   
     constructor(
       restaurant:Restaurant,

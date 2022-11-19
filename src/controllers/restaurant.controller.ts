@@ -1,6 +1,6 @@
 import express from 'express'
 import { errorGenerated } from '../api/middleware/errorHandler';
-import { addFavorite, addRestaurant, deleteRestaurant, editRestaurant, getAllRestaurants, getNearRestaurants, getOneRestaurant } from "../service/restaurant/restaurant.service";
+import { addFavorite, addRestaurant, deleteRestaurant, editRestaurant, getAllRestaurants, getFavoritesRestaurants, getNearRestaurants, getOneRestaurant } from "../service/restaurant/restaurant.service";
 import { setResponse } from './response.controller';
 
 export const addNewRest = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -52,7 +52,7 @@ export const deleteRest = async (req: express.Request, res: express.Response, ne
   export const getNear = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const userId = (req as any).user.id
-        const restaurants = await getNearRestaurants(parseInt(req.params.lon), parseInt(req.params.lat), userId);
+        const restaurants = await getNearRestaurants(parseInt(req.params.lon), parseInt(req.params.lat), userId, parseInt(req.params.distance));
         setResponse(res, 200, restaurants)
       } catch (e) {
         errorGenerated(e, res)
@@ -75,6 +75,17 @@ export const deleteRest = async (req: express.Request, res: express.Response, ne
         const user = (req as any).user.id
         await addFavorite(parseInt(req.params.restaurantId), user)
         setResponse(res, 200, {})
+      } catch (e) {
+        errorGenerated(e, res)
+      }
+      next()
+  };
+
+  export const getFavorites = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        const user = (req as any).user.id
+        const restaurants = await getFavoritesRestaurants(user)
+        setResponse(res, 200, restaurants)
       } catch (e) {
         errorGenerated(e, res)
       }

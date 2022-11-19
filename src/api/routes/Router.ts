@@ -18,6 +18,7 @@ class Routes {
     private config(): void {
         this.Router
             .post("/login", userController.loginUser) 
+            .post("/login/refresh",authenticated, userController.refresh) 
             .post("/login/sso", userController.loginUserSSO)
             .post("/register", userController.registerUser)
             .delete("/users", authenticated, userController.deleteUser)
@@ -35,9 +36,10 @@ class Routes {
 
 
             .put("/restaurant/:restaurantId/favorites", authenticatedClient, restaurantController.editFavorite)
+            .get("/restaurants/favorites", authenticatedClient, restaurantController.getFavorites)
             .post("/restaurant/:restaurantId/stars", authenticatedClient, starsController.add)
             .get("/restaurant/:restaurantId/comments", authenticated, starsController.comments)
-            .get("/restaurants/near/:lat/:lon", authenticated, restaurantController.getNear)
+            .get("/restaurants/near/:lat/:lon/:distance", authenticated, restaurantController.getNear)
         
             .get("/restaurant/:restaurantId/categories", authenticated, categoryController.getAll)
             .post("/restaurant/:restaurantId/category", authenticatedPartner, categoryController.add)

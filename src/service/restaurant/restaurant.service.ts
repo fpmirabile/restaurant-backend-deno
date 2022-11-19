@@ -7,9 +7,9 @@ import { FavoriteBuilder } from "../../model/builder/favorite.builder";
 import { RestaurantBuilder } from "../../model/builder/restaurant.builder";
 import { Favorite, OpenDay, PhotoRestaurant, Restaurant, User } from "../../model/models";
 import cloudinaryService from "../cloudinary/CloudinaryService";
-import { getStars } from "./stars.service";
+import { getCategories } from "../menu/category.service";
+import { getComments, getStars } from "./stars.service";
 
-const near = process.env.NEAR || 50
 
 export const addRestaurant = async (
   restaurant: newRestaurant,
@@ -119,7 +119,14 @@ export const getOneRestaurant = async (restaurantId: number, userId:number) => {
   const restaurant = await getRestaurantById(restaurantId);
   const stars = await getStars(restaurant.restaurantId)
 
-  return new RestaurantDTO(restaurant, stars, await isFavorite(restaurant.restaurantId, userId));
+  const categories = await getCategories(restaurantId)
+  const comments = await getComments(restaurantId)
+
+  const restaurantDTO = new RestaurantDTO(restaurant, stars, await isFavorite(restaurant.restaurantId, userId));
+  restaurantDTO.categories = categories
+  restaurantDTO.comments = comments
+
+  return restaurantDTO;
 };
 
 export const getRestaurantById = async (restaurantId: number) => {
@@ -215,7 +222,7 @@ const isFavorite = async (
 
 };
 
-export const getNearRestaurants = async (lon:number, lat:number, userId:number) => {
+export const getNearRestaurants = async (lon:number, lat:number, userId:number, near:number) => {
   const restaurantRepository = AppDataSource.getRepository(Restaurant);
 
   let distances = await restaurantRepository.query("select * from (SELECT restaurant_id, ( 3959 * acos( cos( radians("+lat+") ) * cos( radians( lat ) ) * cos( radians( lon ) - radians("+lon+") ) + sin( radians("+lat+") ) * sin( radians( lat ) ) ) ) AS distance "
@@ -244,6 +251,33 @@ export const getNearRestaurants = async (lon:number, lat:number, userId:number) 
     for(let i=0; i<restaurants.length; i++){
       const stars = await getStars(restaurants[i].restaurantId)
       restaurantsDTO[i] = new RestaurantDTO(restaurants[i], stars, await isFavorite(restaurants[i].restaurantId, userId))
+    }
+  
+    return restaurantsDTO;
+};
+
+export const getFavoritesRestaurants = async (userId:number) => {
+  let favoriteRepository = AppDataSource.getRepository(Favorite);
+
+  let restaurantsDTO = []
+
+  let favorites:Favorite[] = await favoriteRepository
+    .createQueryBuilder("f")
+    .innerJoinAndSelect("f.restaurant", "r")
+    .innerJoinAndSelect("r.user", "u2")
+    .innerJoinAndSelect("f.user", "u")
+    .leftJoinAndSelect("r.photos", "p")
+    .leftJoinAndSelect("r.openDays", "o")
+    .where("u.userId = :userId", {userId: userId})
+    .getMany();
+
+    if(!favorites || favorites.length ==0){
+      throw new RestaurantNotExistsError();
+    }
+    
+    for(let i=0; i<favorites.length; i++){
+      const stars = await getStars(favorites[i].restaurant.restaurantId)
+      restaurantsDTO[i] = new RestaurantDTO(favorites[i].restaurant, stars, true)
     }
   
     return restaurantsDTO;

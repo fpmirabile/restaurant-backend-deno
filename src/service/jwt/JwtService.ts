@@ -32,8 +32,37 @@ class JwtService {
         refreshToken: hash,
       }
     } catch (err) {
+      console.log(err)
       throw new JWTCreateError();
     }
+  }
+
+  async refreshJWT(refreshToken:string, token:string){
+
+    if(!refreshToken){
+      throw new JWTCreateError();
+    }
+
+    let newJwtUnsigned: IJwtUnsigned;
+    
+    await jwt.verify(token, jwtSecret, async (err) => {
+      if (err) {
+        throw new JWTCreateError();
+      }
+
+        const userToken = await jwt.decode(token) as IJwtUnsigned
+        
+        newJwtUnsigned = {
+          userId: userToken.userId,
+          name: userToken.name,
+          status: userToken.status,
+          identifier: userToken.identifier,
+          photo: userToken.photo,
+          role: userToken.role,
+        };
+        
+    })
+    return await this.createJWT(newJwtUnsigned)
   }
 }
 

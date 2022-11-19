@@ -15,7 +15,8 @@
 						"exec": [
 							"tests[\"Status code is 201\"] = responseCode.code === 201;\r",
 							"var data = JSON.parse(responseBody);\r",
-							"postman.setEnvironmentVariable(\"JWT\", data.token); "
+							"postman.setEnvironmentVariable(\"JWT\", data.token); \r",
+							"postman.setEnvironmentVariable(\"REFRESH_JWT\", data.refreshToken); "
 						],
 						"type": "text/javascript"
 					}
@@ -26,7 +27,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"idToken\":\"eyJhbGciOiJSUzI1NiIsImtpZCI6ImY0NTEzNDVmYWQwODEwMWJmYjM0NWNmNjQyYTJkYTkyNjdiOWViZWIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxODg2MzY0OTAxMTUtYWQxN2VrZGhzczJnNjE2NjQxMWkwYjQxOTQ1MDN0MTkuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIxODg2MzY0OTAxMTUtcTE1Nm5ra2g4ZXU0NWI2YWhxcHVlODBwcXFjbXI1cTMuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDEzODIxNTM4MzQyMTA4OTU4ODEiLCJlbWFpbCI6ImZwbWlyYWJpbGVAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJGZXJuYW5kbyBNaXJhYmlsZSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BTG01d3UwdWJ5aUJvaGhXYU8xY3RjbjZuMHZsRXM1d0tBOE50M1NuVVJKYzVRPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IkZlcm5hbmRvIiwiZmFtaWx5X25hbWUiOiJNaXJhYmlsZSIsImxvY2FsZSI6ImVzIiwiaWF0IjoxNjY3Nzg3ODg0LCJleHAiOjE2Njc3OTE0ODR9.cFCMCIARXcNBrU_VIqbqXnu53wkpuQHp1cS6LRV7U6a_BfU2_VcHLkQQGd3WCf5f8tmWHEFOLPwXPIM1hZnOhk-C7756EQsnPekJSqeZV_4lrCUbEwcBt1MVKhjlryM5s_hHtj-Vr20dQjU8apsVXiEU2bsgKcsnV4ru4HxObaOSIwSdPAFl_fRkm_bThbLl_fZg0xXjJz0QQ0VvDOR_LA8hOfKnLB8SLxm194qik8GI-M106C1jkz8cL5JnkKYTYBJ8PuoagBTrX6kPBIpSH1E33Z_0cFX2lXvscBTx64F7JpqFn22PudY1ug3p0HUDjPK17_FZYsnR8XuoI-2Mtw\",\r\n    \"email\":\"fpmirabile@gmail.com\"\r\n}",
+					"raw": "{\r\n    \"idToken\":\"eyJhbGciOiJSUzI1NiIsImtpZCI6IjcxM2ZkNjhjOTY2ZTI5MzgwOTgxZWRjMDE2NGEyZjZjMDZjNTcwMmEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxODg2MzY0OTAxMTUtYWQxN2VrZGhzczJnNjE2NjQxMWkwYjQxOTQ1MDN0MTkuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIxODg2MzY0OTAxMTUtcTE1Nm5ra2g4ZXU0NWI2YWhxcHVlODBwcXFjbXI1cTMuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDA0MjExNTgzNTI2MzUzNjk3MjciLCJlbWFpbCI6Imdhc3RpYXpvcm9uaWNvbGFzQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiTmljb2xhcyBHYXN0aWF6b3JvIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FMbTV3dTBxRWpxc1hodTNrSTJwVE9HZG9sZmdNR3VlUkxzeWZSVlBiNVdYPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6Ik5pY29sYXMiLCJmYW1pbHlfbmFtZSI6Ikdhc3RpYXpvcm8iLCJsb2NhbGUiOiJlcyIsImlhdCI6MTY2ODg5OTIxOCwiZXhwIjoxNjY4OTAyODE4fQ.qB7ldV0F2BCsxK04jaGLgPV45b5VY5icwvfLeS5GcO6wzptmT-__o1Pb7iDxQhTTN6FnOfAcM-2Q3zQ-xQZDDldTNoIwG3bdbaeuP8IpXe8Z7qpjJenWM_ZMgW3Tz-AxWgYA5unNGWvEnCK01yZRSS_fD4fiJDP3_d9N_S-x1llUld-ggXDYbU5J3fqUXgM6SHsIkETupE85rHnJFabj8gFSogzwXmw6l8u1cRO0RV-04lpzWxw5sKvTOxljxYPBQ2UPpNt9IVjAcCt-FCbu0ZLjrEPt_faXDhqMpty2QwGOSazqU66CEHlCHLBBY10Dw7wc60O1qjgEVVG_MVUq6Q\",\r\n    \"email\":\"gastiazoronicolas@gmail.com\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -69,7 +70,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL}}/restaurants/near/-34.7969236/-58.3920443",
+					"raw": "{{URL}}/restaurants/near/-34.7969236/-58.3920443/80",
 					"host": [
 						"{{URL}}"
 					],
@@ -77,7 +78,8 @@
 						"restaurants",
 						"near",
 						"-34.7969236",
-						"-58.3920443"
+						"-58.3920443",
+						"80"
 					]
 				}
 			},
@@ -151,6 +153,41 @@
 					"path": [
 						"restaurant",
 						"{{NEW_RESTAURANT}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get favoritos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{JWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/restaurants/favorites",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"restaurants",
+						"favorites"
 					]
 				}
 			},

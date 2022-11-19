@@ -1,5 +1,6 @@
 import express from "express";
 import { errorGenerated } from "../api/middleware/errorHandler";
+import { jwtService } from "../service/jwt/JwtService";
 import {
   login,
   loginSSO,
@@ -17,6 +18,22 @@ export const loginUser = async (
   try {
     let body = req.body;
     let jwt = await login(body.email, body.password);
+    setResponse(res, 201, jwt);
+  } catch (e) {
+    errorGenerated(e, res);
+  }
+  next();
+};
+
+export const refresh = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  try {
+    let body = req.body;
+    let jwt = await jwtService.refreshJWT(body.refreshToken, req.headers['authorization']);
+    console.log(jwt)
     setResponse(res, 201, jwt);
   } catch (e) {
     errorGenerated(e, res);

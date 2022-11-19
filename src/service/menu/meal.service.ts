@@ -127,13 +127,15 @@ export const getMeal = async (mealId: number) => {
 
 export const getAllMeals = async (categoryId: number) => {
   const mealRepository = AppDataSource.getRepository(Meal);
-  let mealsBD = await mealRepository.find({
-    where: {
-      category: { categoryId: categoryId },
-      status: "OPERATIVO",
-    },
-  });
-
+  const mealsBD = await mealRepository
+    .createQueryBuilder("m")
+    .innerJoinAndSelect("m.category", "c")
+    .innerJoinAndSelect("c.restaurant", "r")
+    .innerJoinAndSelect("r.user", "u")
+    .where("c.categoryId = :categoryId", { categoryId: categoryId })
+    .andWhere("m.status = :status", { status: "OPERATIVO" })
+    .getMany();
+    
   if (!mealsBD) {
     throw new MealNotExistsError();
   }
