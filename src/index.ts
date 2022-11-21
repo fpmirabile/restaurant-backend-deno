@@ -5,24 +5,15 @@ import fs from "fs";
 import https from "https";
 import Router from "./api/routes/Router";
 import { initDatabase } from "./config/database";
-import { logHandler } from "./api/middleware/logHandler";
+import { errorHandler } from "./api/middleware/errorHandler";
 
 const app = express();
 
 app.use(express.json({ limit: '50mb' }));
 app.use(morgan("tiny"));
 app.use(Router);
-app.use(logHandler);
+app.use(errorHandler);
 
-app.use((err, req, res, next) => {
-  console.log(err);
-
-  res.status(500).json({
-    error: {
-      message: err.message,
-    },
-  });
-});
 
 const port = process.env.PORT || 3001;
 

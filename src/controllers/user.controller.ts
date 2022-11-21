@@ -1,5 +1,4 @@
 import express from "express";
-import { errorGenerated } from "../api/middleware/errorHandler";
 import { jwtService } from "../service/jwt/JwtService";
 import {
   login,
@@ -8,7 +7,6 @@ import {
   deleteUser as deleteById,
   getUserById,
 } from "../service/user/user.service";
-import { setResponse } from "./response.controller";
 
 export const loginUser = async (
   req: express.Request,
@@ -18,11 +16,10 @@ export const loginUser = async (
   try {
     let body = req.body;
     let jwt = await login(body.email, body.password);
-    setResponse(res, 201, jwt);
+    return res.status(201).send(jwt); 
   } catch (e) {
-    errorGenerated(e, res);
+    next(e)
   }
-  next();
 };
 
 export const refresh = async (
@@ -34,11 +31,10 @@ export const refresh = async (
     let body = req.body;
     let jwt = await jwtService.refreshJWT(body.refreshToken, req.headers['authorization']);
     console.log(jwt)
-    setResponse(res, 201, jwt);
+    return res.status(201).send(jwt); 
   } catch (e) {
-    errorGenerated(e, res);
+    next(e)
   }
-  next();
 };
 
 export const loginUserSSO = async (
@@ -49,11 +45,10 @@ export const loginUserSSO = async (
   try {
     let body = req.body;
     let { refreshToken, token } = await loginSSO(body.email, body.idToken);
-    setResponse(res, 201, { refreshToken, token });
+    return res.status(201).send({ refreshToken, token }); 
   } catch (e) {
-    errorGenerated(e, res);
+    next(e)
   }
-  next();
 };
 
 export const registerUser = async (
@@ -64,11 +59,10 @@ export const registerUser = async (
   try {
     let body = req.body;
     await register(body);
-    setResponse(res, 200, {});
+    return res.status(200).send(); 
   } catch (e) {
-    errorGenerated(e, res);
+    next(e)
   }
-  next();
 };
 
 export const deleteUser = async (
@@ -79,11 +73,10 @@ export const deleteUser = async (
   try {
     const userId = (req as any).user.id;
     await deleteById(userId);
-    setResponse(res, 200, {});
+    return res.status(200).send(); 
   } catch (e) {
-    errorGenerated(e, res);
+    next(e)
   }
-  next();
 };
 
 export const getLoggedUser = async (
@@ -95,9 +88,8 @@ export const getLoggedUser = async (
     const userId = (req as any).user.id;
     const user = await getUserById(userId);
 
-    setResponse(res, 200, user);
+    return res.status(200).send(user); 
   } catch (e) {
-    errorGenerated(e, res);
+    next(e)
   }
-  next();
 };

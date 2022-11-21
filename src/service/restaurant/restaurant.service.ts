@@ -225,6 +225,11 @@ const isFavorite = async (
 export const getNearRestaurants = async (lon:number, lat:number, userId:number, near:number) => {
   const restaurantRepository = AppDataSource.getRepository(Restaurant);
 
+  if(!near){
+    near = 100
+  }
+  console.log("Distancia filtrada: "+ near)
+
   let distances = await restaurantRepository.query("select * from (SELECT restaurant_id, ( 3959 * acos( cos( radians("+lat+") ) * cos( radians( lat ) ) * cos( radians( lon ) - radians("+lon+") ) + sin( radians("+lat+") ) * sin( radians( lat ) ) ) ) AS distance "
   + "from public.\"RESTAURANTS\") as t "
   + "where t.distance <= "+near);

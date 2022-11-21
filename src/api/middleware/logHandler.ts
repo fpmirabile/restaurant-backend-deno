@@ -9,7 +9,7 @@ export const logHandler = [
     next: express.NextFunction
   ) => {
     let status = 200;
-    let body = {};
+    let body = null;
 
     let logRepository = AppDataSource.getRepository(Log);
     let log = new Log();
