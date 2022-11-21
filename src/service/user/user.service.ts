@@ -53,7 +53,7 @@ export const loginSSO = async (userEmail: string, idToken: string) => {
     throw new InvalidCredentialsError();
   }
   console.log(email, email_verified, sub);
-  const user = await getOrCreateLoggedClient(email, idToken, name, family_name);
+  const user = await getOrCreateLoggedClient(email, idToken, name, "");
 
   const signObject: IJwtUnsigned = {
     userId: user.userId,
