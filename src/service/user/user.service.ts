@@ -17,6 +17,7 @@ export const login = async (email: string, password: string) => {
     where: {
       email: email.toLowerCase(),
       status: "OPERATIVO",
+      role: "PARTNER"
     },
   });
 
@@ -113,8 +114,7 @@ const getOrCreateLoggedClient = async (
   let loggedClient = await userRepository.findOne({
     where: {
       email: email,
-      role: "CLIENT",
-      status: "OPERATIVO",
+      role: "CLIENT"
     },
   });
 

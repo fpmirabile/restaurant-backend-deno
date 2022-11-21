@@ -8,7 +8,6 @@ import {
 @Entity({
   name: "USERS",
 })
-@Unique(["email"])
 export class User {
   @PrimaryGeneratedColumn({ name: "user_id" })
   userId: number;
