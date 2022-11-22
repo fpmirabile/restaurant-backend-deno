@@ -77,6 +77,13 @@ export class Restaurant {
   })
   priceRange:string
 
+  @Column({
+    name: "open",
+    nullable:false,
+    default:true
+  })
+  open:boolean
+
   @ManyToOne(() => User)
   @JoinColumn({ name: "user_id" })
   user: User;

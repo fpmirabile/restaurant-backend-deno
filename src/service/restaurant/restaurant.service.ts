@@ -68,6 +68,28 @@ export const editRestaurant = async (
   }
 };
 
+export const changeOpen = async (
+  restaurantId: number,
+  userId: number
+) => {
+  const restaurantRepository = AppDataSource.getRepository(Restaurant);
+  let restaurantBD = await restaurantRepository.findOne({
+    where: {
+      restaurantId: restaurantId,
+      user: { userId: userId },
+    },
+  });
+
+  if (!restaurantBD) {
+    throw new RestaurantNotExistsError();
+  }
+
+  restaurantBD.open = !restaurantBD.open;
+
+  await restaurantRepository.save(restaurantBD);
+
+};
+
 const savePhotosUrls = async (photos: string[], restaurant: Restaurant) => {
   if (photos) {
     let photoRepository = AppDataSource.getRepository(PhotoRestaurant);

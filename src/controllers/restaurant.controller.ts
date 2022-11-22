@@ -1,5 +1,5 @@
 import express from 'express'
-import { addFavorite, addRestaurant, deleteRestaurant, editRestaurant, getAllRestaurants, getFavoritesRestaurants, getNearRestaurants, getOneRestaurant } from "../service/restaurant/restaurant.service";
+import { addFavorite, addRestaurant, deleteRestaurant, editRestaurant, getAllRestaurants, getFavoritesRestaurants, getNearRestaurants, getOneRestaurant, changeOpen } from "../service/restaurant/restaurant.service";
 
 
 export const addNewRest = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -79,6 +79,16 @@ export const deleteRest = async (req: express.Request, res: express.Response, ne
         const user = (req as any).user.id
         const restaurants = await getFavoritesRestaurants(user)
         return res.status(200).send(restaurants); 
+      } catch (e) {
+        next(e)
+      }
+  };
+
+  export const open = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+        const user = (req as any).user.id
+        await changeOpen(parseInt(req.params.restaurantId), user)
+        return res.status(200).send(); 
       } catch (e) {
         next(e)
       }

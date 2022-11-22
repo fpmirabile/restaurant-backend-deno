@@ -20,6 +20,11 @@ export class RestaurantBuilder {
   urlsPhotos: string[];
   foodType: string;
   priceRange:string;
+  open:boolean;
+
+  constructor(){
+    this.open = true
+  }
 
   build = (): Restaurant => {
     const restaurant = new Restaurant();
@@ -36,6 +41,7 @@ export class RestaurantBuilder {
     restaurant.user = this.user;
     restaurant.foodType = this.foodType;
     restaurant.priceRange = this.priceRange;
+    restaurant.open = this.open;
 
     return restaurant;
   };
@@ -89,6 +95,7 @@ export class RestaurantBuilder {
     this.status = restaurant.status;
     this.foodType = restaurant.foodType;
     this.priceRange = restaurant.priceRange;
+    this.open = restaurant.open;
 
     return this;
   };

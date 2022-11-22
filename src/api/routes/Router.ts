@@ -36,6 +36,7 @@ class Routes {
 
 
             .put("/restaurant/:restaurantId/favorites", authenticatedClient, restaurantController.editFavorite)
+            .put("/restaurant/:restaurantId/open", authenticatedPartner, restaurantController.open)
             .get("/restaurants/favorites", authenticatedClient, restaurantController.getFavorites)
             .post("/restaurant/:restaurantId/stars", authenticatedClient, starsController.add)
             .get("/restaurant/:restaurantId/comments", authenticated, starsController.comments)
