@@ -17,6 +17,9 @@ export class RestaurantDTO {
     categories:string[]
     comments:string[]
     open:boolean
+    neighborhood: string;
+    place: string;
+    state: string;
   
     constructor(
       restaurant:Restaurant,
@@ -34,6 +37,9 @@ export class RestaurantDTO {
       this.foodType = restaurant.foodType;
       this.priceRange = restaurant.priceRange;
       this.open = restaurant.open;
+      this.neighborhood = restaurant.neighborhood;
+      this.place = restaurant.place;
+      this.state = restaurant.state;
       if(restaurant.openDays){
         for(let i=0; i<restaurant.openDays.length; i++){
             this.openDays[i] = new OpenDayDTO(restaurant.openDays[i]);
