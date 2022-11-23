@@ -28,7 +28,7 @@ export class RestaurantDTO {
     ) {
       this.id = restaurant.restaurantId;
       this.name = restaurant.name;
-      this.address = restaurant.street + " " + restaurant.streetNumber+", "+restaurant.neighborhood+", "+restaurant.place+", "+restaurant.state;
+      this.address = restaurant.street + " " + restaurant.streetNumber+", "+restaurant.place+", "+restaurant.state;
       this.ownerId = restaurant.user.userId;
       this.lat = restaurant.lat;
       this.lon = restaurant.lon;
