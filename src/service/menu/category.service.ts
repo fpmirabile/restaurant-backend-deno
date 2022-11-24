@@ -30,7 +30,8 @@ export const addCategory = async (
     .withStatus("OPERATIVO")
     .build();
 
-  await categoryRepository.save(category);
+  const savedCategory = await categoryRepository.save(category);
+  return savedCategory;
 };
 
 export const editCategory = async (

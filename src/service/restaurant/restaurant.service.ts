@@ -29,6 +29,8 @@ export const addRestaurant = async (
 
   savePhotosUrls(restaurant.images, restaurantBD);
   saveOpenDays(restaurant.openDays, restaurantBD);
+
+  return restaurantBD;
 };
 
 export const editRestaurant = async (
