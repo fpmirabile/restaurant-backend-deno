@@ -9,6 +9,7 @@ import {
   getNearRestaurants,
   getOneRestaurant,
   changeOpen,
+  Filter,
 } from "../service/restaurant/restaurant.service";
 
 export const addNewRest = async (
@@ -76,11 +77,18 @@ export const getNear = async (
 ) => {
   try {
     const userId = (req as any).user.id;
+    const filters: Filter = {
+      foodType: req.query.foodType as string | undefined,
+      priceRangeFrom: req.query.priceRangeFrom as string | undefined,
+      priceRangeTo: req.query.priceRangeTo as string | undefined,
+      stars: Number(req.query.stars as string | undefined),
+    };
     const restaurants = await getNearRestaurants(
       parseInt(req.params.lon),
       parseInt(req.params.lat),
       userId,
-      parseInt(req.params.distance)
+      parseInt(req.params.distance),
+      filters,
     );
     return res.status(200).send(restaurants);
   } catch (e) {
