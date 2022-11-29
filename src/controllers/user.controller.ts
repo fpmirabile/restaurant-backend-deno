@@ -6,6 +6,7 @@ import {
   register,
   deleteUser as deleteById,
   getUserById,
+  changePassword,
 } from "../service/user/user.service";
 
 export const loginUser = async (
@@ -100,10 +101,11 @@ export const recoveryPass = async (
   next: express.NextFunction
 ) => {
   try {
-    const userId = (req as any).user.id;
-    const user = await getUserById(userId);
+    
+    let body = req.body;
+    await changePassword(body);
 
-    return res.status(200).send(user); 
+    return res.status(200).send(); 
   } catch (e) {
     next(e)
   }

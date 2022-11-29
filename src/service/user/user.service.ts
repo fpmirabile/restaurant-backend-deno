@@ -160,3 +160,29 @@ export const getUserById = async (userId: number) => {
     user.role
   );
 };
+
+export type newPassword = {
+  email:string,
+  password:string
+}
+export const changePassword = async (newPassword: newPassword) => {
+
+  let userRepository = AppDataSource.getRepository(User);
+  let user = await userRepository.findOne({
+    where: {
+      email: newPassword.email,
+      role: "PARTNER",
+      status: "OPERATIVO"
+    },
+  });
+
+  if(!user){
+    throw new UserExistsError();
+  }
+
+  userRepository.update(
+    { userId: user.userId },
+    { password: bcrypt.hashSync(newPassword.password, 8) }
+  )
+
+};
