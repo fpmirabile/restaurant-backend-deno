@@ -116,7 +116,7 @@ export const getCategories = async (restaurantId: number) => {
     .where("r.restaurantId = :restaurantId", { restaurantId: restaurantId })
     .andWhere("c.status = :status", { status: "OPERATIVO" })
     .getMany();
-    
+
   if (!categoriesBD || categoriesBD.length === 0) {
     //throw new CategoryNotExistsError();
   }

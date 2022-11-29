@@ -49,7 +49,7 @@ export const loginSSO = async (userEmail: string, idToken: string) => {
     audience: process.env.GOOGLE_CLIENT_ID,
   });
 
-  const { email, email_verified, sub, name, family_name } = ticket.getPayload();
+  const { email, email_verified, sub, name } = ticket.getPayload();
   if (!sub || !email || !email_verified || userEmail !== email) {
     throw new InvalidCredentialsError();
   }
