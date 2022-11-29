@@ -296,26 +296,7 @@ export const getNearRestaurants = async (
     ids[i] = distances[i].restaurant_id;
   }
 
-  if (!filters) {
-    restaurants = await restaurantRepository
-      .createQueryBuilder("r")
-      .innerJoinAndSelect("r.user", "u")
-      .leftJoinAndSelect("r.photos", "p")
-      .leftJoinAndSelect("r.openDays", "o")
-      .whereInIds(ids)
-      .getMany();
-
-      for (let i = 0; i < restaurants.length; i++) {
-        const stars = await getStars(restaurants[i].restaurantId);
-        restaurantsDTO[i] = new RestaurantDTO(
-          restaurants[i],
-          stars,
-          await isFavorite(restaurants[i].restaurantId, userId)
-        );
-      }
-  } else {
-    console.log(filters);
-    let query = restaurantRepository
+  let query = restaurantRepository
     .createQueryBuilder("r")
     .innerJoinAndSelect("r.user", "u")
     .leftJoinAndSelect("r.photos", "p")
@@ -331,25 +312,33 @@ export const getNearRestaurants = async (
 
     restaurants = await query.getMany();
 
-    if(filters.stars){
-      let flag = 0;
-      for (let i = 0; i < restaurants.length; i++) {
-        const stars = await getStars(restaurants[i].restaurantId);
-        if(stars === filters.stars){
-          restaurantsDTO[flag] = new RestaurantDTO(
-            restaurants[i],
-            stars,
-            await isFavorite(restaurants[i].restaurantId, userId)
-          );
-
-          flag++;
-        } 
-      }
-    }
-  }
-
   if (!restaurants || restaurants.length == 0) {
     return [];
+  }
+
+  if(filters.stars){
+    let flag = 0;
+    for (let i = 0; i < restaurants.length; i++) {
+      const stars = await getStars(restaurants[i].restaurantId);
+      if(stars === filters.stars){
+        restaurantsDTO[flag] = new RestaurantDTO(
+          restaurants[i],
+          stars,
+          await isFavorite(restaurants[i].restaurantId, userId)
+        );
+
+        flag++;
+      } 
+    }
+  }else{
+    for (let i = 0; i < restaurants.length; i++) {
+      const stars = await getStars(restaurants[i].restaurantId);
+      restaurantsDTO[i] = new RestaurantDTO(
+        restaurants[i],
+        stars,
+        await isFavorite(restaurants[i].restaurantId, userId)
+      );
+    }
   }
   
   return restaurantsDTO;
