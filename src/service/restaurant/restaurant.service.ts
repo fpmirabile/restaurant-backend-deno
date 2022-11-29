@@ -278,7 +278,7 @@ export const getNearRestaurants = async (
   console.log("Distancia filtrada: " + near);
 
   let distances = await restaurantRepository.query(
-    "select * from (SELECT restaurant_id, ( 3959 * acos( cos( radians(" +
+    "select * from (SELECT restaurant_id, ( 6371 * acos( cos( radians(" +
       lat +
       ") ) * cos( radians( lat ) ) * cos( radians( lon ) - radians(" +
       lon +

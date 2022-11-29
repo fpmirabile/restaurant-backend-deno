@@ -93,3 +93,18 @@ export const getLoggedUser = async (
     next(e)
   }
 };
+
+export const recoveryPass = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  try {
+    const userId = (req as any).user.id;
+    const user = await getUserById(userId);
+
+    return res.status(200).send(user); 
+  } catch (e) {
+    next(e)
+  }
+};

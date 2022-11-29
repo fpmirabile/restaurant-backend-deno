@@ -23,7 +23,7 @@ class Routes {
             .post("/register", userController.registerUser)
             .delete("/users", authenticated, userController.deleteUser)
             //.post("/user/recovery", sesionController.loginUser)
-            //.put("/user/password", sesionController.loginUser)
+            .put("/user/password", userController.recoveryPass)
             //.put("/user", authenticated, sesionController.loginUser)
         
             .get("/me", authenticated, userController.getLoggedUser)
