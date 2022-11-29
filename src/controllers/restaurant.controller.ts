@@ -79,8 +79,7 @@ export const getNear = async (
     const userId = (req as any).user.id;
     const filters: Filter = {
       foodType: req.query.foodType as string | undefined,
-      priceRangeFrom: req.query.priceRangeFrom as string | undefined,
-      priceRangeTo: req.query.priceRangeTo as string | undefined,
+      priceRange: req.query.priceRange as string | undefined,
       stars: Number(req.query.stars as string | undefined),
     };
     const restaurants = await getNearRestaurants(

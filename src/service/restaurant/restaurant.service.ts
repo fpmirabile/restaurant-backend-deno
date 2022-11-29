@@ -260,8 +260,7 @@ const isFavorite = async (restaurantId: number, userId: number) => {
 export type Filter = {
   foodType?: string;
   stars?: number;
-  priceRangeFrom?: string;
-  priceRangeTo?: string;
+  priceRange?: string;
 };
 export const getNearRestaurants = async (
   lon: number,
@@ -286,8 +285,7 @@ export const getNearRestaurants = async (
       lat +
       ") ) * sin( radians( lat ) ) ) ) AS distance " +
       'from public."RESTAURANTS") as t ' +
-      "where t.distance <= " +
-      near
+      "where t.distance <= " + near 
   );
 
   let ids = [];
@@ -306,57 +304,54 @@ export const getNearRestaurants = async (
       .leftJoinAndSelect("r.openDays", "o")
       .whereInIds(ids)
       .getMany();
+
+      for (let i = 0; i < restaurants.length; i++) {
+        const stars = await getStars(restaurants[i].restaurantId);
+        restaurantsDTO[i] = new RestaurantDTO(
+          restaurants[i],
+          stars,
+          await isFavorite(restaurants[i].restaurantId, userId)
+        );
+      }
   } else {
     console.log(filters);
-    restaurants = await restaurantRepository
-      .createQueryBuilder("r")
-      .innerJoinAndSelect("r.user", "u")
-      .leftJoinAndSelect("r.photos", "p")
-      .leftJoinAndSelect("r.openDays", "o")
-      .whereInIds(ids)
-      .andWhere(
-        new Brackets((qb) => {
-          let hasWhere = false;
-          if (filters.foodType) {
-            (!hasWhere ? qb.where : qb.andWhere)("r.foodType = :foodType", { foodType: filters.foodType });
-          }
-          if (filters.priceRangeFrom || filters.priceRangeTo) {
-            const inPrices = [];
-            (!hasWhere ? qb.where : qb.andWhere)("r.priceRange IN(:...priceRanges)", { priceRanges: inPrices  });
-          }
-          // if (filters.stars) {
-          //  if (!isNaN(filters.stars)) {
-          //     (!hasWhere ? qb.where : qb.andWhere)("r.foodType = :foodType", { foodType: filters.foodType });
-          //   }
-          // }
-          // Object.entries(filters).map((entry, index) => {
-          //   const [fieldName, fieldValue] = entry;
+    let query = restaurantRepository
+    .createQueryBuilder("r")
+    .innerJoinAndSelect("r.user", "u")
+    .leftJoinAndSelect("r.photos", "p")
+    .leftJoinAndSelect("r.openDays", "o")
+    .whereInIds(ids);
 
-            
-          //   (index === 0 ? qb.where : qb.andWhere)(
-          //     `r.${fieldName} = :${fieldName}`,
-          //     { [fieldName]: fieldValue }
-          //   );
-          // });
-        })
-      )
-      .getMany();
+    if(filters.foodType){
+      query = query.andWhere("r.foodType = :foodType", {foodType: filters.foodType})
+    }
+    if(filters.priceRange){
+      query = query.andWhere("r.priceRange = :priceRange", {priceRange: filters.priceRange})
+    }
+
+    restaurants = await query.getMany();
+
+    if(filters.stars){
+      let flag = 0;
+      for (let i = 0; i < restaurants.length; i++) {
+        const stars = await getStars(restaurants[i].restaurantId);
+        if(stars === filters.stars){
+          restaurantsDTO[flag] = new RestaurantDTO(
+            restaurants[i],
+            stars,
+            await isFavorite(restaurants[i].restaurantId, userId)
+          );
+
+          flag++;
+        } 
+      }
+    }
   }
 
   if (!restaurants || restaurants.length == 0) {
-    // throw new RestaurantNotExistsError(); para mi esto esta mal, si no hay... no hay
     return [];
   }
-
-  for (let i = 0; i < restaurants.length; i++) {
-    const stars = await getStars(restaurants[i].restaurantId);
-    restaurantsDTO[i] = new RestaurantDTO(
-      restaurants[i],
-      stars,
-      await isFavorite(restaurants[i].restaurantId, userId)
-    );
-  }
-
+  
   return restaurantsDTO;
 };
 
