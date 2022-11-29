@@ -83,8 +83,8 @@ export const getNear = async (
       stars: Number(req.query.stars as string | undefined),
     };
     const restaurants = await getNearRestaurants(
-      parseInt(req.params.lon),
-      parseInt(req.params.lat),
+      parseFloat(req.params.lon),
+      parseFloat(req.params.lat),
       userId,
       parseInt(req.params.distance),
       filters,
