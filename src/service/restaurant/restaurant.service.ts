@@ -362,7 +362,7 @@ export const getFavoritesRestaurants = async (userId: number) => {
     .getMany();
 
   if (!favorites || favorites.length == 0) {
-    throw new RestaurantNotExistsError();
+    return []
   }
 
   for (let i = 0; i < favorites.length; i++) {
