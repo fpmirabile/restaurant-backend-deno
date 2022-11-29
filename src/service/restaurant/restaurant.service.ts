@@ -28,6 +28,7 @@ export const addRestaurant = async (
   const newRestaurant = new RestaurantBuilder()
     .withNewRestaurant(restaurant)
     .withStatus("OPERATIVO")
+    .withTemporaryOpen(true)
     .withUser(userBD)
     .build();
 
@@ -137,7 +138,7 @@ export const getAllRestaurants = async (userId: number) => {
     .getMany();
 
   if (!restaurants || restaurants.length == 0) {
-    throw new RestaurantNotExistsError();
+    return [];
   }
 
   for (let i = 0; i < restaurants.length; i++) {

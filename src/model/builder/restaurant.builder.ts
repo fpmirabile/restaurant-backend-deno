@@ -105,6 +105,11 @@ export class RestaurantBuilder {
     return this;
   };
 
+  withTemporaryOpen = (open: boolean) => {
+    this.open = open;
+    return this;
+  }
+
   withUser = (user: User) => {
     this.user = user;
     return this;
