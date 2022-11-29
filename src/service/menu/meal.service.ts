@@ -152,13 +152,15 @@ export const getAllMeals = async (categoryId: number) => {
 
 export const deleteMeal = async (mealId: number, userId: number) => {
   const mealRepository = AppDataSource.getRepository(Meal);
-  let mealBD = await mealRepository.findOne({
-    where: {
-      mealId: mealId,
-      status: "OPERATIVO",
-      category: { restaurant: { user: { userId: userId } } },
-    },
-  });
+  let mealBD = await mealRepository
+    .createQueryBuilder("m")
+    .innerJoinAndSelect("m.category", "c")
+    .innerJoinAndSelect("c.restaurant", "r")
+    .innerJoinAndSelect("r.user", "u")
+    .andWhere("m.status = :status", { status: "OPERATIVO" })
+    .andWhere("u.userId = :userId", { userId: userId })
+    .andWhere("m.mealId = :mealId", { mealId: mealId })
+    .getOne();
 
   if (!mealBD) {
     throw new MealNotExistsError();
