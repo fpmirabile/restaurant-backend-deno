@@ -94,6 +94,7 @@ export const getCategory = async (restaurantId: number, categoryId: number) => {
     .where("r.restaurantId = :restaurantId", { restaurantId: restaurantId })
     .andWhere("c.categoryId = :categoryId", { categoryId: categoryId })
     .andWhere("c.status = :status", { status: "OPERATIVO" })
+    .andWhere("m.status = :status", { status: "OPERATIVO" })
     .getOne();
 
   if (!categoryBD) {
