@@ -43,7 +43,7 @@ export const addStars = async (
       sumatoria = sumatoria+stars[i].stars;
     }
 
-    return sumatoria/stars.length
+    return parseInt((sumatoria/stars.length).toString())
 
   };
 
