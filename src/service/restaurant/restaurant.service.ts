@@ -289,16 +289,6 @@ export const getNearRestaurants = async (
       "where t.distance <= " + near 
   );
 
-  console.log("Query: "+"select * from (SELECT restaurant_id, ( 6371 * acos( cos( radians(" +
-  lat +
-  ") ) * cos( radians( lat ) ) * cos( radians( lon ) - radians(" +
-  lon +
-  ") ) + sin( radians(" +
-  lat +
-  ") ) * sin( radians( lat ) ) ) ) AS distance " +
-  'from public."RESTAURANTS") as t ' +
-  "where t.distance <= " + near )
-
   let ids = [];
   let restaurantsDTO = [];
   let restaurants: Restaurant[];
@@ -306,8 +296,6 @@ export const getNearRestaurants = async (
   for (let i = 0; i < distances.length; i++) {
     ids[i] = distances[i].restaurant_id;
   }
-
-  console.log("Ids filtrados: "+ids);
 
   let query = restaurantRepository
     .createQueryBuilder("r")
