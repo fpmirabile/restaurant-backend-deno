@@ -109,6 +109,7 @@ export const getCategories = async (restaurantId: number) => {
   const categoriesBD = await categoryRepository
     .createQueryBuilder("c")
     .leftJoinAndSelect("c.meals", "m")
+    .leftJoinAndSelect("m.images", "im")
     .leftJoinAndSelect("m.ingredients", "i")
     .innerJoinAndSelect("c.restaurant", "r")
     .where("r.restaurantId = :restaurantId", { restaurantId: restaurantId })

@@ -132,6 +132,7 @@ export const getAllMeals = async (categoryId: number) => {
     .innerJoinAndSelect("m.category", "c")
     .innerJoinAndSelect("c.restaurant", "r")
     .innerJoinAndSelect("r.user", "u")
+    .innerJoinAndSelect("m.images", "i")
     .where("c.categoryId = :categoryId", { categoryId: categoryId })
     .andWhere("m.status = :status", { status: "OPERATIVO" })
     .getMany();
