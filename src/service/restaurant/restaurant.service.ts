@@ -357,6 +357,7 @@ export const getFavoritesRestaurants = async (userId: number) => {
     .leftJoinAndSelect("r.photos", "p")
     .leftJoinAndSelect("r.openDays", "o")
     .where("u.userId = :userId", { userId: userId })
+    .andWhere("f.favorite = :favorite", {favorite: true})
     .getMany();
 
   if (!favorites || favorites.length == 0) {
